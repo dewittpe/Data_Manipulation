@@ -8,6 +8,8 @@
 
 library(microbenchmark)
 library(profmem)
+library(readr)
+library(data.table)
 
 baseR <- expression({
   recs_2009 <- read.csv("./000_data_sets/recs2009_public.csv")
@@ -16,15 +18,15 @@ baseR <- expression({
 })
 
 tidyverse <- expression({
-  recs_2009 <- readr::read_csv("./000_data_sets/recs2009_public.csv")
-  recs_2015 <- readr::read_csv("./000_data_sets/recs2015_public_v4.csv")
-  recs_2020 <- readr::read_csv("./000_data_sets/recs2020_public_v1.csv")
+  recs_2009 <- read_csv("./000_data_sets/recs2009_public.csv",    show_col_types = FALSE)
+  recs_2015 <- read_csv("./000_data_sets/recs2015_public_v4.csv", show_col_types = FALSE)
+  recs_2020 <- read_csv("./000_data_sets/recs2020_public_v1.csv", show_col_types = FALSE)
 })
 
 data.table <- expression({
-  recs_2009 <- data.table::fread("./000_data_sets/recs2009_public.csv")
-  recs_2015 <- data.table::fread("./000_data_sets/recs2015_public_v4.csv")
-  recs_2020 <- data.table::fread("./000_data_sets/recs2020_public_v1.csv")
+  recs_2009 <- fread("./000_data_sets/recs2009_public.csv")
+  recs_2015 <- fread("./000_data_sets/recs2015_public_v4.csv")
+  recs_2020 <- fread("./000_data_sets/recs2020_public_v1.csv")
 })
 
 # timeing
