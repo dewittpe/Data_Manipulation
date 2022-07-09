@@ -12,25 +12,25 @@ library(readr)
 library(data.table)
 
 baseR <- expression({
-  recs_2009 <- read.csv("./000_data_sets/recs2009_public.csv")
-  recs_2015 <- read.csv("./000_data_sets/recs2015_public_v4.csv")
-  recs_2020 <- read.csv("./000_data_sets/recs2020_public_v1.csv")
+  recs_2009 <- read.csv("./000_data_sets/RECS/2009/recs2009_public.csv")
+  recs_2015 <- read.csv("./000_data_sets/RECS/2015/recs2015_public_v4.csv")
+  recs_2020 <- read.csv("./000_data_sets/RECS/2020/recs2020_public_v1.csv")
 })
 
 tidyverse <- expression({
-  recs_2009 <- read_csv("./000_data_sets/recs2009_public.csv",    show_col_types = FALSE)
-  recs_2015 <- read_csv("./000_data_sets/recs2015_public_v4.csv", show_col_types = FALSE)
-  recs_2020 <- read_csv("./000_data_sets/recs2020_public_v1.csv", show_col_types = FALSE)
+  recs_2009 <- read_csv("./000_data_sets/RECS/2009/recs2009_public.csv",    show_col_types = FALSE)
+  recs_2015 <- read_csv("./000_data_sets/RECS/2015/recs2015_public_v4.csv", show_col_types = FALSE)
+  recs_2020 <- read_csv("./000_data_sets/RECS/2020/recs2020_public_v1.csv", show_col_types = FALSE)
 })
 
 data.table <- expression({
-  recs_2009 <- fread("./000_data_sets/recs2009_public.csv")
-  recs_2015 <- fread("./000_data_sets/recs2015_public_v4.csv")
-  recs_2020 <- fread("./000_data_sets/recs2020_public_v1.csv")
+  recs_2009 <- fread("./000_data_sets/RECS/2009/recs2009_public.csv")
+  recs_2015 <- fread("./000_data_sets/RECS/2015/recs2015_public_v4.csv")
+  recs_2020 <- fread("./000_data_sets/RECS/2020/recs2020_public_v1.csv")
 })
 
-# timeing
-microbenchmark(eval(baseR), eval(tidyverse), eval(data.table))
+# benchmark
+microbenchmark(eval(baseR), eval(tidyverse), eval(data.table), times = 5)
 
 # memory use
 mem <-
