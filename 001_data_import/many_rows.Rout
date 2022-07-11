@@ -17,58 +17,40 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> # Reading in "wide" data.
+> # Reading in "long" data.
 > #
 > # The three data sets
-> #                                             Rows  Columms
-> # ./000_data_sets/recs2009_public.csv       12,083      940
-> # ./000_data_sets/recs2015_public_v4.csv     5,686      759
-> # ./000_data_sets/recs2020_public_v1.csv    18,496      601
+> #                                       Rows  Columms
+> # ./000_data_sets/psps_2019.csv   14,174,975       18 
 > 
 > library(microbenchmark)
 > library(profmem)
 > library(readr)
 > library(data.table)
 > 
-> recs_2009_path <- 
-+   file.path(".", "000_data_sets", "RECS", "2009", "recs2009_public.csv")
-> recs_2015_path <- 
-+   file.path(".", "000_data_sets", "RECS", "2015", "recs2015_public_v4.csv")
-> recs_2020_path <- 
-+   file.path(".", "000_data_sets", "RECS", "2020", "recs2020_public_v1.csv")
+> psps_2019_path <- 
++   file.path(".", "000_data_sets", "PSPS", "psps_2019.csv")
 > 
 > baseR <- expression({
-+   recs_2009 <- read.csv(recs_2009_path)
-+   recs_2015 <- read.csv(recs_2015_path)
-+   recs_2020 <- read.csv(recs_2020_path)
++   psps_2019 <- read.csv(psps_2019_path)
 + })
 > 
 > tidyverse <- expression({
-+   recs_2009 <- read_csv(recs_2009_path, show_col_types = FALSE)
-+   recs_2015 <- read_csv(recs_2015_path, show_col_types = FALSE)
-+   recs_2020 <- read_csv(recs_2020_path, show_col_types = FALSE)
++   psps_2019 <- read_csv(psps_2019_path, show_col_types = FALSE)
 + })
 > 
 > data.table <- expression({
-+   recs_2009 <- fread(recs_2009_path)
-+   recs_2015 <- fread(recs_2015_path)
-+   recs_2020 <- fread(recs_2020_path)
++   psps_2019 <- fread(psps_2019_path)
 + })
 > 
 > # benchmark
 > mb <- microbenchmark(eval(baseR), eval(tidyverse), eval(data.table), times = 5)
-Warning messages:
-1: One or more parsing issues, see `problems()` for details 
-2: One or more parsing issues, see `problems()` for details 
-3: One or more parsing issues, see `problems()` for details 
-4: One or more parsing issues, see `problems()` for details 
-5: One or more parsing issues, see `problems()` for details 
 > mb
-Unit: milliseconds
-             expr       min       lq      mean    median        uq      max
-      eval(baseR) 8425.8904 8552.175 8849.5214 8894.3145 9137.7132 9237.513
-  eval(tidyverse) 3468.7658 3726.126 3746.5214 3791.2160 3845.0494 3901.450
- eval(data.table)  193.6413  327.616  336.2699  370.1006  381.9027  408.089
+Unit: seconds
+             expr      min        lq      mean    median        uq       max
+      eval(baseR) 60.56805 61.730021 63.950482 62.492499 62.862215 72.099621
+  eval(tidyverse) 14.70616 16.875664 20.926681 19.234300 26.468762 27.348525
+ eval(data.table)  4.49068  4.507105  4.879099  4.571249  5.043278  5.783181
  neval
      5
      5
@@ -81,14 +63,13 @@ Unit: milliseconds
 +        tidyverse  = profmem::profmem(eval(tidyverse)),
 +        data.table = profmem::profmem(eval(data.table))
 +        )
-Warning message:
-One or more parsing issues, see `problems()` for details 
 > 
 > # total number of bytes allocated
+> # format via floats to avoid integer overflow
 > sapply(mem, profmem::total) |>
-+   sapply(formatC, format = "d", big.mark = ",")
-        baseR     tidyverse    data.table 
-"964,865,080" "233,546,536" "181,720,264" 
++   sapply(formatC, format = "f", big.mark = ",", digits = 0)
+          baseR       tidyverse      data.table 
+"9,197,805,952" "2,041,346,152" "2,755,239,112" 
 > 
 > sessionInfo()
 R version 4.2.1 (2022-06-23)
@@ -120,4 +101,4 @@ loaded via a namespace (and not attached):
 > 
 > proc.time()
    user  system elapsed 
-107.906  15.930  79.648 
+701.261  87.246 538.415 

@@ -11,26 +11,34 @@ library(profmem)
 library(readr)
 library(data.table)
 
+recs_2009_path <- 
+  file.path(".", "000_data_sets", "RECS", "2009", "recs2009_public.csv")
+recs_2015_path <- 
+  file.path(".", "000_data_sets", "RECS", "2015", "recs2015_public_v4.csv")
+recs_2020_path <- 
+  file.path(".", "000_data_sets", "RECS", "2020", "recs2020_public_v1.csv")
+
 baseR <- expression({
-  recs_2009 <- read.csv("./000_data_sets/RECS/2009/recs2009_public.csv")
-  recs_2015 <- read.csv("./000_data_sets/RECS/2015/recs2015_public_v4.csv")
-  recs_2020 <- read.csv("./000_data_sets/RECS/2020/recs2020_public_v1.csv")
+  recs_2009 <- read.csv(recs_2009_path)
+  recs_2015 <- read.csv(recs_2015_path)
+  recs_2020 <- read.csv(recs_2020_path)
 })
 
 tidyverse <- expression({
-  recs_2009 <- read_csv("./000_data_sets/RECS/2009/recs2009_public.csv",    show_col_types = FALSE)
-  recs_2015 <- read_csv("./000_data_sets/RECS/2015/recs2015_public_v4.csv", show_col_types = FALSE)
-  recs_2020 <- read_csv("./000_data_sets/RECS/2020/recs2020_public_v1.csv", show_col_types = FALSE)
+  recs_2009 <- read_csv(recs_2009_path, show_col_types = FALSE)
+  recs_2015 <- read_csv(recs_2015_path, show_col_types = FALSE)
+  recs_2020 <- read_csv(recs_2020_path, show_col_types = FALSE)
 })
 
 data.table <- expression({
-  recs_2009 <- fread("./000_data_sets/RECS/2009/recs2009_public.csv")
-  recs_2015 <- fread("./000_data_sets/RECS/2015/recs2015_public_v4.csv")
-  recs_2020 <- fread("./000_data_sets/RECS/2020/recs2020_public_v1.csv")
+  recs_2009 <- fread(recs_2009_path)
+  recs_2015 <- fread(recs_2015_path)
+  recs_2020 <- fread(recs_2020_path)
 })
 
 # benchmark
-microbenchmark(eval(baseR), eval(tidyverse), eval(data.table), times = 5)
+mb <- microbenchmark(eval(baseR), eval(tidyverse), eval(data.table), times = 5)
+mb
 
 # memory use
 mem <-
@@ -40,7 +48,9 @@ mem <-
        data.table = profmem::profmem(eval(data.table))
        )
 
-sapply(mem, profmem::total) |> sapply(formatC, format = "d", big.mark = ",")
+# total number of bytes allocated
+sapply(mem, profmem::total) |>
+  sapply(formatC, format = "d", big.mark = ",")
 
 sessionInfo()
 
