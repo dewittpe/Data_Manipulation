@@ -31,26 +31,104 @@ Type 'q()' to quit R.
 > psps_2019_path <- 
 +   file.path(".", "000_data_sets", "PSPS", "psps_2019.csv")
 > 
+> base <- read.csv(psps_2019_path)
+> tidy <- read_csv(psps_2019_path)
+Rows: 14174975 Columns: 18
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (10): HCPCS_CD, HCPCS_INITIAL_MODIFIER_CD, PROVIDER_SPEC_CD, CARRIER_NUM...
+dbl  (8): SUBMITTED_SERVICE_CNT, SUBMITTED_CHARGE_AMT, ALLOWED_CHARGE_AMT, D...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+> DT   <- fread(psps_2019_path)
+> 
+> # DEFAULT BEHAVIOR IS DIFFERENT!!!!
+> 
+> # base and data.table have the same column class, tidy does not
+> sapply(base, class) == sapply(DT, class)
+                 HCPCS_CD HCPCS_INITIAL_MODIFIER_CD          PROVIDER_SPEC_CD 
+                     TRUE                      TRUE                      TRUE 
+              CARRIER_NUM       PRICING_LOCALITY_CD        TYPE_OF_SERVICE_CD 
+                     TRUE                      TRUE                      TRUE 
+      PLACE_OF_SERVICE_CD  HCPCS_SECOND_MODIFIER_CD     SUBMITTED_SERVICE_CNT 
+                     TRUE                      TRUE                      TRUE 
+     SUBMITTED_CHARGE_AMT        ALLOWED_CHARGE_AMT       DENIED_SERVICES_CNT 
+                     TRUE                      TRUE                      TRUE 
+        DENIED_CHARGE_AMT     ASSIGNED_SERVICES_CNT           NCH_PAYMENT_AMT 
+                     TRUE                      TRUE                      TRUE 
+         HCPCS_ASC_IND_CD              ERROR_IND_CD                  BETOS_CD 
+                     TRUE                      TRUE                      TRUE 
+> sapply(base, class) == sapply(tidy, class)
+                 HCPCS_CD HCPCS_INITIAL_MODIFIER_CD          PROVIDER_SPEC_CD 
+                     TRUE                      TRUE                      TRUE 
+              CARRIER_NUM       PRICING_LOCALITY_CD        TYPE_OF_SERVICE_CD 
+                    FALSE                      TRUE                      TRUE 
+      PLACE_OF_SERVICE_CD  HCPCS_SECOND_MODIFIER_CD     SUBMITTED_SERVICE_CNT 
+                    FALSE                      TRUE                      TRUE 
+     SUBMITTED_CHARGE_AMT        ALLOWED_CHARGE_AMT       DENIED_SERVICES_CNT 
+                     TRUE                      TRUE                      TRUE 
+        DENIED_CHARGE_AMT     ASSIGNED_SERVICES_CNT           NCH_PAYMENT_AMT 
+                     TRUE                      TRUE                      TRUE 
+         HCPCS_ASC_IND_CD              ERROR_IND_CD                  BETOS_CD 
+                     TRUE                     FALSE                      TRUE 
+> 
+> # look for leading zeros and integer vs numeric
+> str(base[c("CARRIER_NUM", "PLACE_OF_SERVICE_CD", "ERROR_IND_CD")])
+'data.frame':	14174975 obs. of  3 variables:
+ $ CARRIER_NUM        : int  3102 19003 4112 5302 13292 882 12502 882 9102 19003 ...
+ $ PLACE_OF_SERVICE_CD: int  22 12 24 24 11 31 11 11 11 12 ...
+ $ ERROR_IND_CD       : int  0 0 0 0 0 0 0 0 0 0 ...
+> str(tidy[c("CARRIER_NUM", "PLACE_OF_SERVICE_CD", "ERROR_IND_CD")])
+tibble [14,174,975 × 3] (S3: tbl_df/tbl/data.frame)
+ $ CARRIER_NUM        : chr [1:14174975] "03102" "19003" "04112" "05302" ...
+ $ PLACE_OF_SERVICE_CD: chr [1:14174975] "22" "12" "24" "24" ...
+ $ ERROR_IND_CD       : num [1:14174975] 0 0 0 0 0 0 0 0 0 0 ...
+> 
+> column_classes <-
++   c(
++   "HCPCS_CD"                  = "character",
++   "HCPCS_INITIAL_MODIFIER_CD" = "character",
++   "PROVIDER_SPEC_CD"          = "character",
++   "CARRIER_NUM"               = "integer",
++   "PRICING_LOCALITY_CD"       = "character",
++   "TYPE_OF_SERVICE_CD"        = "character",
++   "PLACE_OF_SERVICE_CD"       = "integer",
++   "HCPCS_SECOND_MODIFIER_CD"  = "character",
++   "SUBMITTED_SERVICE_CNT"     = "numeric",
++   "SUBMITTED_CHARGE_AMT"      = "numeric",
++   "ALLOWED_CHARGE_AMT"        = "numeric",
++   "DENIED_SERVICES_CNT"       = "numeric",
++   "DENIED_CHARGE_AMT"         = "numeric",
++   "ASSIGNED_SERVICES_CNT"     = "numeric",
++   "NCH_PAYMENT_AMT"           = "numeric",
++   "HCPCS_ASC_IND_CD"          = "character",
++   "ERROR_IND_CD"              = "integer",
++   "BETOS_CD"                  = "character")
+> 
+> 
+> 
+> # read in the data 
 > baseR <- expression({
-+   psps_2019 <- read.csv(psps_2019_path)
++   psps_2019 <- read.csv(psps_2019_path, colClasses = column_classes)
 + })
 > 
 > tidyverse <- expression({
-+   psps_2019 <- read_csv(psps_2019_path, show_col_types = FALSE)
++   psps_2019 <- read_csv(psps_2019_path, col_type = column_classes)
 + })
 > 
 > data.table <- expression({
-+   psps_2019 <- fread(psps_2019_path)
++   psps_2019 <- fread(psps_2019_path, colClasses = column_classes)
 + })
 > 
 > # benchmark
 > mb <- microbenchmark(eval(baseR), eval(tidyverse), eval(data.table), times = 5)
 > mb
 Unit: seconds
-             expr      min        lq      mean    median        uq       max
-      eval(baseR) 60.56805 61.730021 63.950482 62.492499 62.862215 72.099621
-  eval(tidyverse) 14.70616 16.875664 20.926681 19.234300 26.468762 27.348525
- eval(data.table)  4.49068  4.507105  4.879099  4.571249  5.043278  5.783181
+             expr       min        lq     mean    median        uq       max
+      eval(baseR) 26.221589 30.335491 30.27599 30.732792 31.965892 32.124164
+  eval(tidyverse) 13.771681 16.146173 17.88251 17.549127 19.726282 22.219291
+ eval(data.table)  3.350896  4.413143  4.81410  4.428739  5.140259  6.737461
  neval
      5
      5
@@ -69,7 +147,7 @@ Unit: seconds
 > sapply(mem, profmem::total) |>
 +   sapply(formatC, format = "f", big.mark = ",", digits = 0)
           baseR       tidyverse      data.table 
-"9,197,805,952" "2,041,346,152" "2,755,239,112" 
+"6,196,407,960" "1,871,105,064" "2,170,782,384" 
 > 
 > sessionInfo()
 R version 4.2.1 (2022-06-23)
@@ -91,14 +169,14 @@ other attached packages:
 [4] microbenchmark_1.4.9
 
 loaded via a namespace (and not attached):
- [1] fansi_1.0.3      tzdb_0.3.0       utf8_1.2.2       crayon_1.5.1    
- [5] R6_2.5.1         lifecycle_1.0.1  magrittr_2.0.3   pillar_1.7.0    
- [9] vroom_1.5.7      rlang_1.0.3      cli_3.3.0        vctrs_0.4.1     
+ [1] fansi_1.0.3      crayon_1.5.1     tzdb_0.3.0       utf8_1.2.2      
+ [5] R6_2.5.1         lifecycle_1.0.1  magrittr_2.0.3   pillar_1.8.0    
+ [9] vroom_1.5.7      rlang_1.0.4      cli_3.3.0        vctrs_0.4.1     
 [13] ellipsis_0.3.2   tools_4.2.1      bit64_4.0.5      glue_1.6.2      
 [17] purrr_0.3.4      bit_4.0.4        hms_1.1.1        parallel_4.2.1  
-[21] compiler_4.2.1   pkgconfig_2.0.3  tidyselect_1.1.2 tibble_3.1.7    
+[21] compiler_4.2.1   pkgconfig_2.0.3  tidyselect_1.1.2 tibble_3.1.8    
 > 
 > 
 > proc.time()
    user  system elapsed 
-701.261  87.246 538.415 
+632.565  83.211 424.188 

@@ -1,0 +1,282 @@
+
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # multiple conditions for data manipulation
+> 
+> library(microbenchmark)
+> library(profmem)
+> library(readr)
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(data.table)
+
+Attaching package: ‘data.table’
+
+The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+> 
+> psps_2019_path <- file.path(".", "000_data_sets", "PSPS", "psps_2019.csv")
+> 
+> column_classes <-
++   c(
++   "HCPCS_CD"                  = "character",
++   "HCPCS_INITIAL_MODIFIER_CD" = "character",
++   "PROVIDER_SPEC_CD"          = "character",
++   "CARRIER_NUM"               = "integer",
++   "PRICING_LOCALITY_CD"       = "character",
++   "TYPE_OF_SERVICE_CD"        = "character",
++   "PLACE_OF_SERVICE_CD"       = "integer",
++   "HCPCS_SECOND_MODIFIER_CD"  = "character",
++   "SUBMITTED_SERVICE_CNT"     = "numeric",
++   "SUBMITTED_CHARGE_AMT"      = "numeric",
++   "ALLOWED_CHARGE_AMT"        = "numeric",
++   "DENIED_SERVICES_CNT"       = "numeric",
++   "DENIED_CHARGE_AMT"         = "numeric",
++   "ASSIGNED_SERVICES_CNT"     = "numeric",
++   "NCH_PAYMENT_AMT"           = "numeric",
++   "HCPCS_ASC_IND_CD"          = "character",
++   "ERROR_IND_CD"              = "integer",
++   "BETOS_CD"                  = "character")
+> 
+> # read in the data
+> psps_2019_base <- read.csv(psps_2019_path, colClasses = column_classes)
+> psps_2019_tidy <- read_csv(psps_2019_path, col_type = column_classes)
+> psps_2019_dt   <- fread(psps_2019_path, colClasses = column_classes)
+> 
+> ################################################################################
+> # Create an indicator column for place of service being a hospitial
+> #    Place of Service Code                        Place of Service Name
+> #                      19               Off Campus-Outpatient Hospital
+> #                      21                           Inpatient Hospital
+> #                      22                On Campus-Outpatient Hospital
+> #
+> # Build a column with a flag for hospital/non-hospital
+> # Build a column with NA for non-hospital, 1 for inpatient, 0 for outpatient
+> #
+> # *** will use explicit column constructions and merges ***
+> #
+> 
+> ################################################################################
+> # Build a "link table" to map from the codes to the needed flags.  One option is
+> # to use just three rows but you'll have to deal with NA values after a merge
+> # option one
+> map <- data.frame(code      = c(19, 21, 22),
++                   hospital  = c(1L, 1L, 1L),
++                   inpatient = c(0L, 1L, 0L))
+> 
+> # Another map that could be built to cover all the codes in the data set:
+> map_df  <- data.frame(code = unique(psps_2019_base$PLACE_OF_SERVICE_CD))
+> map_tbl <- tibble(code     = unique(psps_2019_base$PLACE_OF_SERVICE_CD))
+> map_dt  <- data.table(code = unique(psps_2019_base$PLACE_OF_SERVICE_CD))
+> 
+> map_df$hospital  <- as.integer(map_df$code %in% c(19, 21, 22))
+> map_tbl$hospital <- as.integer(map_tbl$code %in% c(19, 21, 22))
+> map_dt$hospital  <- as.integer(map_dt$code %in% c(19, 21, 22))
+> 
+> map_df$inpatient <- NA_integer_
+> map_df[map_df$code %in% c(19, 22), "inpatient"] <- 0L
+> map_df[map_df$code %in% c(21),     "inpatient"] <- 1L
+> 
+> map_tbl$inpatient <- NA_integer_
+> map_tbl[map_tbl$code %in% c(19, 22), "inpatient"] <- 0L
+> map_tbl[map_tbl$code %in% c(21),     "inpatient"] <- 1L
+> 
+> map_dt$inpatient <- NA_integer_
+> map_dt[map_dt$code %in% c(19, 22), "inpatient"] <- 0L
+> map_dt[map_dt$code %in% c(21),     "inpatient"] <- 1L
+> 
+> data.table::setkey(map_dt, "code")
+> data.table::setkey(psps_2019_dt, "PLACE_OF_SERVICE_CD")
+> 
+> ################################################################################
+> base_v1 <- expression({
++   psps_2019_base$hospital <- as.integer(psps_2019_base$PLACE_OF_SERVICE_CD %in% c(19, 21, 22))
++ 
++   psps_2019_base$inpatient <- NA_integer_
++   psps_2019_base$inpatient[psps_2019_base$hospital == 1L] <-
++     as.integer(psps_2019_base$PLACE_OF_SERVICE_CD[psps_2019_base$hospital == 1L] == 19)
++ })
+> 
+> base_v2 <- expression({
++   psps_2019_base$hospital <- as.integer(psps_2019_base$PLACE_OF_SERVICE_CD %in% c(19, 21, 22))
++   psps_2019_base$inpatient <-
++     ifelse(psps_2019_base$hospital == 0L, NA_integer_, as.integer(psps_2019_base$PLACE_OF_SERVICE_CD == 19))
++ })
+> 
+> base_merge <- expression({
++   # A left merge
++   base::merge(
++                 x = psps_2019_base
++               , y = map_df
++               , all.x = TRUE
++               , all.y = FALSE
++               , by.x  = "PLACE_OF_SERVICE_CD"
++               , by.y = "code"
++               )
++ })
+> 
+> tidy_v1 <- expression({
++   psps_2019_tidy %>%
++     mutate(hospital = as.integer(.data$PLACE_OF_SERVICE_CD %in% c(19, 21, 22)),
++            inpatient = NA_integer_,
++            inpatient = as.integer(.data$hospital == 1 & .data$PLACE_OF_SERVICE_CD == 19)
++            )
++ })
+> 
+> tidy_v2 <- expression({
++   psps_2019_tidy %>%
++     mutate(hospital = as.integer(.data$PLACE_OF_SERVICE_CD %in% c(19, 21, 22)),
++            inpatient = ifelse(.data$hospital == 0L, NA_integer_, as.integer(.data$PLACE_OF_SERVICE_CD == 19))
++            )
++ })
+> 
+> tidy_merge <- expression({
++   dplyr::left_join(
++                      x = psps_2019_tidy
++                    , y = map_tbl
++                    , by = c("PLACE_OF_SERVICE_CD" = "code")
++   )
++ })
+> 
+> dt_v1 <- expression({
++   psps_2019_dt[, `:=`(hospital = as.integer(PLACE_OF_SERVICE_CD %in% c(19, 21, 22)), inpatient = NA_integer_)]
++   psps_2019_dt[PLACE_OF_SERVICE_CD == 19, inpatient := 1L]
++ })
+> 
+> dt_v2 <- expression({
++   psps_2019_dt[, hospital := as.integer(PLACE_OF_SERVICE_CD %in% c(19, 21, 22))]
++   psps_2019_dt[, inpatient := fifelse(hospital == 0L, NA_integer_, as.integer(PLACE_OF_SERVICE_CD == 19))]
++ })
+> 
+> dt_merge <- expression({
++   # S3 method for data.table
++   # data.table:::merge.data.table
++   merge(
++           x = psps_2019_dt
++         , y = map_dt
++         , by.x = "PLACE_OF_SERVICE_CD"
++         , by.y = "code"
++         , all.x = TRUE
++         , all.y = FALSE
++   )
++ })
+> 
+> 
+> microbenchmark(
++     eval(base_v1)
++   , eval(base_v2)
++   , eval(base_merge)
++   , eval(tidy_v1)
++   , eval(tidy_v2)
++   , eval(tidy_merge)
++   , eval(dt_v1)
++   , eval(dt_v2)
++   , eval(dt_merge)
++   , times = 10
++   )
+Unit: milliseconds
+             expr        min         lq       mean     median         uq
+    eval(base_v1)   482.9804   533.8793   657.5510   631.7405   714.2554
+    eval(base_v2)   714.8173   805.7767  1436.3005  1228.3078  1579.8095
+ eval(base_merge) 34676.8323 37540.4959 40351.8246 40037.4239 40640.9130
+    eval(tidy_v1)   574.7565   835.5441  1549.3845   931.8010  1634.7571
+    eval(tidy_v2)   714.2766   781.5672  1971.1965   910.4999  1312.0902
+ eval(tidy_merge)  1754.4805  2348.8002  5399.0244  5403.4973  6688.9738
+      eval(dt_v1)   173.2383   238.0722   347.0213   249.8408   447.6913
+      eval(dt_v2)   234.9414   283.8749   556.8065   613.6169   676.4480
+   eval(dt_merge)  1328.4547  2325.2729  5798.6738  4965.2519  8838.4542
+        max neval
+   902.5061    10
+  4176.7592    10
+ 47594.9198    10
+  6134.6781    10
+  8077.2350    10
+ 10672.3321    10
+   674.7254    10
+  1068.0724    10
+ 14684.4672    10
+> 
+> # memory use
+> mem <-
++   list(
++            base_v1    = profmem::profmem(eval(base_v1))
++          , base_v2    = profmem::profmem(eval(base_v2))
++          , base_merge = profmem::profmem(eval(base_merge))
++          , tidy_v1    = profmem::profmem(eval(tidy_v1))
++          , tidy_v2    = profmem::profmem(eval(tidy_v2))
++          , tidy_merge = profmem::profmem(eval(tidy_merge))
++          , dt_v1      = profmem::profmem(eval(dt_v1))
++          , dt_v2      = profmem::profmem(eval(dt_v2))
++          , dt_merge   = profmem::profmem(eval(dt_merge))
++        )
+> 
+> # total number of bytes allocated
+> # format via floats to avoid integer overflow
+> sapply(mem, profmem::total) |>
++   sapply(formatC, format = "f", big.mark = ",", digits = 0)
+        base_v1         base_v2      base_merge         tidy_v1         tidy_v2 
+  "743,226,280" "1,020,599,592" "7,104,760,584"   "737,110,824" "1,020,610,680" 
+     tidy_merge           dt_v1           dt_v2        dt_merge 
+"2,438,110,672"   "344,026,568"   "567,068,536" "2,324,814,320" 
+> 
+> 
+> sessionInfo()
+R version 4.2.1 (2022-06-23)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] data.table_1.14.3    dplyr_1.0.9          readr_2.1.2         
+[4] profmem_0.6.0        microbenchmark_1.4.9
+
+loaded via a namespace (and not attached):
+ [1] magrittr_2.0.3   hms_1.1.1        tidyselect_1.1.2 bit_4.0.4       
+ [5] R6_2.5.1         rlang_1.0.4      fansi_1.0.3      tools_4.2.1     
+ [9] parallel_4.2.1   vroom_1.5.7      utf8_1.2.2       cli_3.3.0       
+[13] DBI_1.1.3        ellipsis_0.3.2   bit64_4.0.5      assertthat_0.2.1
+[17] tibble_3.1.8     lifecycle_1.0.1  crayon_1.5.1     purrr_0.3.4     
+[21] tzdb_0.3.0       vctrs_0.4.1      glue_1.6.2       compiler_4.2.1  
+[25] pillar_1.8.0     generics_0.1.3   pkgconfig_2.0.3 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+541.325 191.058 699.474 
