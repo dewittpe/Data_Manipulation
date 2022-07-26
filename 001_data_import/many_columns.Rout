@@ -65,10 +65,10 @@ Warning messages:
 5: One or more parsing issues, see `problems()` for details 
 > mb
 Unit: milliseconds
-             expr       min       lq      mean    median        uq      max
-      eval(baseR) 8425.8904 8552.175 8849.5214 8894.3145 9137.7132 9237.513
-  eval(tidyverse) 3468.7658 3726.126 3746.5214 3791.2160 3845.0494 3901.450
- eval(data.table)  193.6413  327.616  336.2699  370.1006  381.9027  408.089
+             expr       min        lq      mean    median        uq       max
+      eval(baseR) 8424.5588 8595.3837 9079.7463 9268.7211 9416.1171 9693.9506
+  eval(tidyverse) 3279.6944 3330.4268 3524.5869 3590.2694 3698.0891 3724.4548
+ eval(data.table)  168.1676  236.2157  288.2608  274.0433  335.7397  427.1374
  neval
      5
      5
@@ -88,7 +88,7 @@ One or more parsing issues, see `problems()` for details
 > sapply(mem, profmem::total) |>
 +   sapply(formatC, format = "d", big.mark = ",")
         baseR     tidyverse    data.table 
-"964,865,080" "233,546,536" "181,720,264" 
+"964,864,584" "233,546,576" "181,720,264" 
 > 
 > sessionInfo()
 R version 4.2.1 (2022-06-23)
@@ -110,14 +110,14 @@ other attached packages:
 [4] microbenchmark_1.4.9
 
 loaded via a namespace (and not attached):
- [1] fansi_1.0.3      tzdb_0.3.0       utf8_1.2.2       crayon_1.5.1    
- [5] R6_2.5.1         lifecycle_1.0.1  magrittr_2.0.3   pillar_1.7.0    
- [9] vroom_1.5.7      rlang_1.0.3      cli_3.3.0        vctrs_0.4.1     
+ [1] fansi_1.0.3      crayon_1.5.1     tzdb_0.3.0       utf8_1.2.2      
+ [5] R6_2.5.1         lifecycle_1.0.1  magrittr_2.0.3   pillar_1.8.0    
+ [9] vroom_1.5.7      rlang_1.0.4      cli_3.3.0        vctrs_0.4.1     
 [13] ellipsis_0.3.2   tools_4.2.1      bit64_4.0.5      glue_1.6.2      
 [17] purrr_0.3.4      bit_4.0.4        hms_1.1.1        parallel_4.2.1  
-[21] compiler_4.2.1   pkgconfig_2.0.3  tidyselect_1.1.2 tibble_3.1.7    
+[21] compiler_4.2.1   pkgconfig_2.0.3  tidyselect_1.1.2 tibble_3.1.8    
 > 
 > 
 > proc.time()
    user  system elapsed 
-107.906  15.930  79.648 
+107.358  15.174  78.096 

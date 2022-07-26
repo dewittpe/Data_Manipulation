@@ -82,6 +82,13 @@ One or more parsing issues, see `problems()` for details
 +                  , col.names = c("code", "name", "description")
 +                  , colClasses = c("integer", "character", "character"))
 > 
+> str(pos_dt)
+Classes ‘data.table’ and 'data.frame':	99 obs. of  3 variables:
+ $ code       : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ name       : chr  "Pharmacy" "Telehealth" "School" "Homeless Shelter" ...
+ $ description: chr  "A facility or location where drugs and other medically related items and services are sold, dispensed, or other"| __truncated__ "The location where health services and health related services are provided or received, through a telecommunic"| __truncated__ "A facility whose primary purpose is education. (Effective January 1, 2003)" "" ...
+ - attr(*, ".internal.selfref")=<externalptr> 
+> 
 > ################################################################################
 > # set key for the data.table
 > 
@@ -174,9 +181,9 @@ One or more parsing issues, see `problems()` for details
 +                )
 Unit: seconds
        expr       min        lq      mean    median        uq       max neval
-       base 37.681331 41.389529 47.044310 45.097728 51.725799 58.353870     3
-       tidy  3.574642  4.447603  5.009588  5.320565  5.727061  6.133558     3
- data.table  1.550380  2.035801  2.412160  2.521222  2.843050  3.164879     3
+       base 40.283449 41.454032 46.071335 42.624615 48.965278 55.305941     3
+       tidy  4.002408  4.395395  4.670730  4.788382  5.004892  5.221401     3
+ data.table  1.932829  2.394053  4.623311  2.855277  5.968552  9.081828     3
 > 
 > mem <- list(
 +             base       = profmem::profmem(merge(psps_2019_base, pos_df, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code")),
@@ -189,15 +196,15 @@ Unit: seconds
 > sapply(mem, profmem::total) |>
 +   sapply(formatC, format = "f", big.mark = ",", digits = 0)
            base            tidy      data.table 
-"7,501,664,208" "2,721,614,896" "2,324,810,928" 
+"7,501,665,944" "2,721,614,896" "2,324,811,424" 
 > 
 > ################################################################################
-> # Working nested examples.... 
+> # Working nested examples....
 > #
 > # These might be a lot better when a join isn't a viable alternative option.
 > # That said, I think with some planning a good link table can be built.  The
 > # case_when, or nested ifelse is better for when a preference is wanted for
-> # similar 
+> # similar, or when a link table isn't an option.
 > 
 > # use the diamonds data set for the example, set up three (deep) copies for
 > # different paradigms
@@ -205,9 +212,124 @@ Unit: seconds
 > diamonds_df <- data.frame(diamonds)
 > diamonds_dt <- setDT(copy(diamonds_df))
 > 
+> # build price categories:
+> # [0, 1000)
+> # [1000, 2500)
+> # [2500, 5000)
+> # [5000, 10000)
+> # [10000, 15000)
+> # [15000, Inf)
+> base_ifelse <- expression({
++   with(diamonds_df,
++        ifelse(price < 1000, "[$0, $1,000)",
++          ifelse(price < 2500, "[$1,000, $2,500)",
++            ifelse(price < 5000, "[$2,500, $5,000)",
++              ifelse(price < 10000, "[$5,000, $10,000)",
++                ifelse(price < 15000, "[$10,000, $15,000)", "Over $15,000")))))
++        )
++ })
+> 
+> tidy_if_else <- expression({
++   with(diamonds_df,
++        if_else(price < 1000, "[$0, $1,000)",
++          if_else(price < 2500, "[$1,000, $2,500)",
++            if_else(price < 5000, "[$2,500, $5,000)",
++              if_else(price < 10000, "[$5,000, $10,000)",
++                if_else(price < 15000, "[$10,000, $15,000)", "Over $15,000")))))
++        )
++ })
+> 
+> 
+> tidy_case_when <- expression({
++   with(diamonds_df,
++        case_when(price < 1000 ~ "[$0, $1,000)",
++                  price < 2500 ~ "[$1,000, $2,500)",
++                  price < 5000 ~ "[$2,500, $5,000)",
++                  price < 10000 ~ "[$5,000, $10,000)",
++                  price < 15000 ~ "[$10,000, $15,000)",
++                  TRUE ~ "Over $15,000")
++        )
++ })
+> 
+> 
+> dt_fifelse <- expression({
++   with(diamonds_dt,
++        fifelse(price < 1000, "[$0, $1,000)",
++          fifelse(price < 2500, "[$1,000, $2,500)",
++            fifelse(price < 5000, "[$2,500, $5,000)",
++              fifelse(price < 10000, "[$5,000, $10,000)",
++                fifelse(price < 15000, "[$10,000, $15,000)", "Over $15,000")))))
++        )
++ })
+> 
+> dt_fcase <- expression({
++   with(diamonds_dt,
++        fcase(price < 1000, "[$0, $1,000)",
++              price < 2500, "[$1,000, $2,500)",
++              price < 5000, "[$2,500, $5,000)",
++              price < 10000, "[$5,000, $10,000)",
++              price < 15000, "[$10,000, $15,000)",
++              default = "Over $15,000")
++        )
++ })
+> 
+> # use cut in base R
+> base_cut <- expression({
++   cut(diamonds_df$price
++       , breaks = c(0, 1000, 2500, 5000, 10000, 15000, Inf)
++       , right = FALSE
++       , labels = c("[$0, $1,000)",
++                    "[$1,000, $2,500)",
++                    "[$2,500, $5,000)",
++                    "[$5,000, $10,000)",
++                    "[$10,000, $15,000)",
++                    "Over $15,000")
++   )
++ })
+> 
+> 
+> identical(as.character(eval(base_cut)), eval(base_ifelse))
+[1] TRUE
+> identical(as.character(eval(base_cut)), eval(tidy_if_else))
+[1] TRUE
+> identical(as.character(eval(base_cut)), eval(tidy_case_when))
+[1] TRUE
+> identical(as.character(eval(base_cut)), eval(dt_fifelse))
+[1] TRUE
+> identical(as.character(eval(base_cut)), eval(dt_fcase))
+[1] TRUE
+> 
+> microbenchmark(
++     eval(base_cut)
++   , eval(base_ifelse)
++   , eval(tidy_if_else)
++   , eval(tidy_case_when)
++   , eval(dt_fifelse)
++   , eval(dt_fcase)
++   , times = 25
++   )
+Unit: milliseconds
+                 expr       min        lq      mean    median        uq
+       eval(base_cut)  2.339055  2.409693  3.077326  2.804705  3.668962
+    eval(base_ifelse) 30.333679 31.366260 34.321125 32.606475 36.878148
+   eval(tidy_if_else) 12.752285 13.319524 16.256645 15.627525 18.388099
+ eval(tidy_case_when)  8.239960  8.674364 11.645546  9.575177 13.032562
+     eval(dt_fifelse)  2.541810  2.638530  3.437647  3.021161  4.209951
+       eval(dt_fcase)  1.324977  1.348331  1.721183  1.391755  1.613254
+       max neval
+  4.951147    25
+ 41.198676    25
+ 25.958111    25
+ 27.012425    25
+  5.740361    25
+  4.210673    25
+> 
+> 
+> 
+> # Another Example
 > # example of case_when in tidyverse
 > diamonds %>%
-+   mutate(buy_it = 
++   mutate(buy_it =
 +          case_when(
 +                    clarity == "IF" ~ "Yes, it's flawless",
 +                    color %in% c("D", "E", "F") ~ "Yeah, it's colorless",
@@ -254,7 +376,7 @@ Unit: seconds
 > # similar code with nest ifelse
 > 
 > base_nested_ifelse <- expression({
-+   with(diamonds_df,                   
++   with(diamonds_df,
 +        ifelse(clarity == "IF", "Yes, it's flawless",
 +               ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
 +                      ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
@@ -267,7 +389,7 @@ Unit: seconds
 + })
 > 
 > tidy_nested_ifelse <- expression({
-+   with(diamonds,                   
++   with(diamonds,
 +        ifelse(clarity == "IF", "Yes, it's flawless",
 +               ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
 +                      ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
@@ -280,7 +402,7 @@ Unit: seconds
 + })
 > 
 > tidy_nested_if_else <- expression({
-+   with(diamonds,                   
++   with(diamonds,
 +        if_else(clarity == "IF", "Yes, it's flawless",
 +               if_else(color %in% c("D", "E", "F"), "Yeah, it's colorless",
 +                      if_else(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
@@ -294,7 +416,7 @@ Unit: seconds
 > 
 > tidy_case_when <- expression({
 +   diamonds %>%
-+     mutate(buy_it = 
++     mutate(buy_it =
 +            case_when(
 +                      clarity == "IF" ~ "Yes, it's flawless",
 +                      color %in% c("D", "E", "F") ~ "Yeah, it's colorless",
@@ -310,7 +432,7 @@ Unit: seconds
 + })
 > 
 > dt_nested_ifelse <- expression({
-+   with(diamonds_dt,                   
++   with(diamonds_dt,
 +        ifelse(clarity == "IF", "Yes, it's flawless",
 +               ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
 +                      ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
@@ -323,7 +445,7 @@ Unit: seconds
 + })
 > 
 > dt_nested_fifelse <- expression({
-+   with(diamonds_dt,                   
++   with(diamonds_dt,
 +        fifelse(clarity == "IF", "Yes, it's flawless",
 +               fifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
 +                      fifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
@@ -363,21 +485,21 @@ Unit: seconds
 +   , times = 100)
 Unit: milliseconds
                       expr      min       lq     mean   median       uq
-  eval(base_nested_ifelse) 58.89748 60.53832 70.81112 62.96265 69.71244
-  eval(tidy_nested_ifelse) 58.64307 60.57457 68.64659 62.11679 69.15370
- eval(tidy_nested_if_else) 30.59756 31.98547 37.30638 33.96419 42.37306
-      eval(tidy_case_when) 22.96729 24.08457 29.11769 25.22019 30.91943
-    eval(dt_nested_ifelse) 58.81733 60.68301 76.68064 64.63102 71.26808
-   eval(dt_nested_fifelse) 12.49496 13.00417 18.59565 14.05971 16.20441
-            eval(dt_fcase) 10.28382 10.54893 11.61114 10.83457 12.75015
-        max neval
-  548.63954   100
-  450.94328   100
-   67.69899   100
-   99.77023   100
- 1044.75667   100
-  399.67000   100
-   19.46695   100
+  eval(base_nested_ifelse) 58.73733 60.39575 64.83271 61.92320 67.18621
+  eval(tidy_nested_ifelse) 58.41571 60.21852 66.77708 64.09767 71.19263
+ eval(tidy_nested_if_else) 31.20872 32.23882 43.51845 32.79170 37.75251
+      eval(tidy_case_when) 23.53271 24.42706 28.33343 25.31236 32.01989
+    eval(dt_nested_ifelse) 58.83103 60.26603 70.12497 63.16009 69.39339
+   eval(dt_nested_fifelse) 12.86186 13.17925 14.44638 13.56006 14.86485
+            eval(dt_fcase) 10.29517 10.90565 20.72112 11.16446 12.54280
+       max neval
+  88.18834   100
+ 100.10539   100
+ 416.84210   100
+  58.49795   100
+ 513.52285   100
+  23.50324   100
+ 897.03356   100
 > 
 > mem <-
 +   list(
@@ -432,4 +554,4 @@ loaded via a namespace (and not attached):
 > 
 > proc.time()
    user  system elapsed 
-416.893  82.267 460.069 
+424.785  88.769 480.041 

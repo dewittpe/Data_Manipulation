@@ -126,9 +126,9 @@ tibble [14,174,975 × 3] (S3: tbl_df/tbl/data.frame)
 > mb
 Unit: seconds
              expr       min        lq     mean    median        uq       max
-      eval(baseR) 26.221589 30.335491 30.27599 30.732792 31.965892 32.124164
-  eval(tidyverse) 13.771681 16.146173 17.88251 17.549127 19.726282 22.219291
- eval(data.table)  3.350896  4.413143  4.81410  4.428739  5.140259  6.737461
+      eval(baseR) 29.788493 34.496885 35.16815 34.984974 37.783631 38.786775
+  eval(tidyverse) 15.112886 16.230345 17.08170 16.420467 16.963088 20.681733
+ eval(data.table)  4.044297  4.851867  5.34850  5.372515  5.598346  6.875478
  neval
      5
      5
@@ -147,7 +147,7 @@ Unit: seconds
 > sapply(mem, profmem::total) |>
 +   sapply(formatC, format = "f", big.mark = ",", digits = 0)
           baseR       tidyverse      data.table 
-"6,196,407,960" "1,871,105,064" "2,170,782,384" 
+"6,196,407,584" "1,871,104,816" "2,170,782,384" 
 > 
 > sessionInfo()
 R version 4.2.1 (2022-06-23)
@@ -179,4 +179,4 @@ loaded via a namespace (and not attached):
 > 
 > proc.time()
    user  system elapsed 
-632.565  83.211 424.188 
+655.874  88.825 441.421 

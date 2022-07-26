@@ -85,10 +85,10 @@ The following objects are masked from ‘package:dplyr’:
 +           )
 Unit: milliseconds
                expr       min        lq      mean    median        uq      max
-       eval(use_in)  644.6198  677.2081  746.6156  723.5144  729.2502 1127.567
-       eval(use_or) 1021.6564 1060.2601 1252.9971 1171.1177 1471.4169 1723.098
- eval(use_grepl_v1) 3289.6335 3345.3484 3368.8586 3378.3999 3401.1740 3410.538
- eval(use_grepl_v2) 2985.4884 3064.2680 3092.2048 3084.2037 3128.2592 3191.251
+       eval(use_in)  487.7586  516.2487  591.1755  568.2125  576.9207 1001.521
+       eval(use_or)  961.2731  967.1706 1095.6126 1075.8493 1148.2104 1451.666
+ eval(use_grepl_v1) 3028.6158 3041.6450 3146.2779 3073.5254 3243.0740 3535.567
+ eval(use_grepl_v2) 2808.6134 2841.8852 2879.7156 2873.5453 2886.3300 3045.436
  neval
     10
     10
@@ -177,29 +177,29 @@ Unit: milliseconds
 +   )
 Unit: milliseconds
                         expr       min        lq      mean    median        uq
-   eval(base_ifelse_integer)  920.9338  947.0785 1082.2741  993.0132 1276.2148
-    eval(base_ifelse_string) 2418.0816 2473.0520 2699.3797 2601.0953 2931.1903
- eval(base_logical_coercion)  622.6803  687.8243  920.8628  695.5915  877.8997
-      eval(base_row_replace)  865.5442  968.8298 1284.4577 1024.2600 1402.6168
-   eval(tidy_ifelse_integer)  634.1994  769.4890  869.7056  788.3618  967.8314
-    eval(tidy_ifelse_string)  986.4858 1079.5143 1685.4462 1254.9107 1390.3554
- eval(tidy_logical_coercion)  293.5184  338.9207  403.7960  363.5419  435.7025
-     eval(dt_ifelse_integer)  600.7653  611.2557  690.5705  669.7423  722.9508
-      eval(dt_ifelse_string)  721.9746  823.7712  932.3760  846.2225  922.1571
-   eval(dt_logical_coercion)  601.2679  694.3892  782.7345  701.0275  726.6645
-        eval(dt_row_replace)  823.1721  868.1247  924.6815  899.1827  997.3268
+   eval(base_ifelse_integer)  848.8738  894.1633 1166.7680  930.2702 1197.3318
+    eval(base_ifelse_string) 2236.9913 2287.6078 2449.7113 2352.0725 2546.6587
+ eval(base_logical_coercion)  525.9638  588.6413  669.7061  592.9994  799.2829
+      eval(base_row_replace)  766.0518  868.9870  978.9222  981.9446 1113.1223
+   eval(tidy_ifelse_integer)  579.2071  613.2680  811.0766  680.9316  985.4648
+    eval(tidy_ifelse_string)  830.9834  883.9192 1042.2786 1007.5035 1076.1033
+ eval(tidy_logical_coercion)  235.9842  259.6215  311.5066  290.7798  293.7926
+     eval(dt_ifelse_integer)  487.0746  547.6691  624.8665  572.4337  583.6511
+      eval(dt_ifelse_string)  613.0930  622.0810  659.4564  649.9900  676.8346
+   eval(dt_logical_coercion)  513.4620  584.1223  626.6404  593.4600  643.0050
+        eval(dt_row_replace)  738.4290  804.1635  816.4320  815.0461  826.1758
        max neval
- 1424.2978    10
- 3094.9316    10
- 2369.4614    10
- 3089.2849    10
- 1318.8576    10
- 5079.8851    10
-  629.5023    10
-  871.0023    10
- 1469.8242    10
- 1198.1379    10
- 1070.0140    10
+ 2688.5582    10
+ 3000.5247    10
+  966.5236    10
+ 1181.3964    10
+ 1409.9720    10
+ 1502.5091    10
+  605.6488    10
+  955.3715    10
+  760.3277    10
+  828.6215    10
+  871.5070    10
 > 
 > # memory use
 > mem <-
@@ -224,11 +224,11 @@ Unit: milliseconds
   base_ifelse_integer    base_ifelse_string base_logical_coercion 
         "793,799,592"       "1,020,599,176"         "340,199,880" 
      base_row_replace   tidy_ifelse_integer    tidy_ifelse_string 
-        "662,616,096"         "907,209,056"       "1,077,308,744" 
+        "662,616,096"         "907,209,304"       "1,077,308,744" 
 tidy_logical_coercion     dt_ifelse_integer      dt_ifelse_string 
         "283,509,536"         "340,234,224"         "396,934,120" 
   dt_logical_coercion        dt_row_replace 
-        "340,234,224"         "411,964,072" 
+        "340,234,224"         "411,966,304" 
 > 
 > sessionInfo()
 R version 4.2.1 (2022-06-23)
@@ -261,4 +261,4 @@ loaded via a namespace (and not attached):
 > 
 > proc.time()
    user  system elapsed 
-338.667  34.873 334.943 
+312.101  25.614 299.564 

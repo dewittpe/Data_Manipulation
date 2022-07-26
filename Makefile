@@ -20,3 +20,6 @@ slides.html : slides.Rmd style.css
 
 slides.Rmd : slides.R
 	R --quiet --vanilla -e "knitr::spin('$<', knit = FALSE)"
+
+clean : 
+	find . -name "*\.Rout*" -exec /bin/rm {} \;

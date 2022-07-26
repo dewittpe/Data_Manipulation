@@ -130,10 +130,10 @@ if ('onhashchange' in window) {
 <span id="L65" class="LineNr"> 65 </span><span class="routNumber">5</span><span class="routNormal">: One or more parsing issues, see `problems()` for details </span>
 <span id="L66" class="LineNr"> 66 </span><span class="Statement">&gt;</span> mb
 <span id="L67" class="LineNr"> 67 </span><span class="routNormal">Unit: milliseconds</span>
-<span id="L68" class="LineNr"> 68 </span><span class="routNormal">             expr       min       lq      mean    median        uq      max</span>
-<span id="L69" class="LineNr"> 69 </span><span class="routNormal">      eval(baseR) </span><span class="routFloat">8425.8904</span><span class="routNormal"> </span><span class="routFloat">8552.175</span><span class="routNormal"> </span><span class="routFloat">8849.5214</span><span class="routNormal"> </span><span class="routFloat">8894.3145</span><span class="routNormal"> </span><span class="routFloat">9137.7132</span><span class="routNormal"> </span><span class="routFloat">9237.513</span>
-<span id="L70" class="LineNr"> 70 </span><span class="routNormal">  eval(tidyverse) </span><span class="routFloat">3468.7658</span><span class="routNormal"> </span><span class="routFloat">3726.126</span><span class="routNormal"> </span><span class="routFloat">3746.5214</span><span class="routNormal"> </span><span class="routFloat">3791.2160</span><span class="routNormal"> </span><span class="routFloat">3845.0494</span><span class="routNormal"> </span><span class="routFloat">3901.450</span>
-<span id="L71" class="LineNr"> 71 </span><span class="routNormal"> eval(data.table)  </span><span class="routFloat">193.6413</span><span class="routNormal">  </span><span class="routFloat">327.616</span><span class="routNormal">  </span><span class="routFloat">336.2699</span><span class="routNormal">  </span><span class="routFloat">370.1006</span><span class="routNormal">  </span><span class="routFloat">381.9027</span><span class="routNormal">  </span><span class="routFloat">408.089</span>
+<span id="L68" class="LineNr"> 68 </span><span class="routNormal">             expr       min        lq      mean    median        uq       max</span>
+<span id="L69" class="LineNr"> 69 </span><span class="routNormal">      eval(baseR) </span><span class="routFloat">8424.5588</span><span class="routNormal"> </span><span class="routFloat">8595.3837</span><span class="routNormal"> </span><span class="routFloat">9079.7463</span><span class="routNormal"> </span><span class="routFloat">9268.7211</span><span class="routNormal"> </span><span class="routFloat">9416.1171</span><span class="routNormal"> </span><span class="routFloat">9693.9506</span>
+<span id="L70" class="LineNr"> 70 </span><span class="routNormal">  eval(tidyverse) </span><span class="routFloat">3279.6944</span><span class="routNormal"> </span><span class="routFloat">3330.4268</span><span class="routNormal"> </span><span class="routFloat">3524.5869</span><span class="routNormal"> </span><span class="routFloat">3590.2694</span><span class="routNormal"> </span><span class="routFloat">3698.0891</span><span class="routNormal"> </span><span class="routFloat">3724.4548</span>
+<span id="L71" class="LineNr"> 71 </span><span class="routNormal"> eval(data.table)  </span><span class="routFloat">168.1676</span><span class="routNormal">  </span><span class="routFloat">236.2157</span><span class="routNormal">  </span><span class="routFloat">288.2608</span><span class="routNormal">  </span><span class="routFloat">274.0433</span><span class="routNormal">  </span><span class="routFloat">335.7397</span><span class="routNormal">  </span><span class="routFloat">427.1374</span>
 <span id="L72" class="LineNr"> 72 </span><span class="routNormal"> neval</span>
 <span id="L73" class="LineNr"> 73 </span><span class="routNormal">     </span><span class="routNumber">5</span>
 <span id="L74" class="LineNr"> 74 </span><span class="routNormal">     </span><span class="routNumber">5</span>
@@ -153,7 +153,7 @@ if ('onhashchange' in window) {
 <span id="L88" class="LineNr"> 88 </span><span class="Statement">&gt;</span> sapply<span class="Special">(</span>mem<span class="Special">,</span> profmem<span class="Special">::</span>total<span class="Special">)</span> <span class="Statement">|&gt;</span>
 <span id="L89" class="LineNr"> 89 </span><span class="Statement">+</span>   sapply<span class="Special">(</span>formatC<span class="Special">,</span> format <span class="Statement">=</span> <span class="Constant">&quot;d&quot;</span><span class="Special">,</span> big.mark <span class="Statement">=</span> <span class="Constant">&quot;,&quot;</span><span class="Special">)</span>
 <span id="L90" class="LineNr"> 90 </span><span class="routNormal">        baseR     tidyverse    data.table </span>
-<span id="L91" class="LineNr"> 91 </span><span class="routString">&quot;964,865,080&quot;</span><span class="routNormal"> </span><span class="routString">&quot;233,546,536&quot;</span><span class="routNormal"> </span><span class="routString">&quot;181,720,264&quot;</span><span class="routNormal"> </span>
+<span id="L91" class="LineNr"> 91 </span><span class="routString">&quot;964,864,584&quot;</span><span class="routNormal"> </span><span class="routString">&quot;233,546,576&quot;</span><span class="routNormal"> </span><span class="routString">&quot;181,720,264&quot;</span><span class="routNormal"> </span>
 <span id="L92" class="LineNr"> 92 </span><span class="Statement">&gt;</span>
 <span id="L93" class="LineNr"> 93 </span><span class="Statement">&gt;</span> sessionInfo<span class="Special">()</span>
 <span id="L94" class="LineNr"> 94 </span><span class="routNormal">R version </span><span class="routFloat">4.2</span><span class="routNormal">.1 (</span><span class="routDate">2022-06-23</span><span class="routNormal">)</span>
@@ -175,17 +175,17 @@ if ('onhashchange' in window) {
 <span id="L110" class="LineNr">110 </span><span class="routIndex">[4]</span><span class="routNormal"> microbenchmark_1.4.9</span>
 <span id="L111" class="LineNr">111 </span>
 <span id="L112" class="LineNr">112 </span><span class="routNormal">loaded via a namespace (and not attached):</span>
-<span id="L113" class="LineNr">113 </span><span class="routIndex"> [1]</span><span class="routNormal"> fansi_1.0.3      tzdb_0.3.0       utf8_1.2.2       crayon_1.5.1    </span>
-<span id="L114" class="LineNr">114 </span><span class="routIndex"> [5]</span><span class="routNormal"> R6_2.5.1         lifecycle_1.0.1  magrittr_2.0.3   pillar_1.7.0    </span>
-<span id="L115" class="LineNr">115 </span><span class="routIndex"> [9]</span><span class="routNormal"> vroom_1.5.7      rlang_1.0.3      cli_3.3.0        vctrs_0.4.1     </span>
+<span id="L113" class="LineNr">113 </span><span class="routIndex"> [1]</span><span class="routNormal"> fansi_1.0.3      crayon_1.5.1     tzdb_0.3.0       utf8_1.2.2      </span>
+<span id="L114" class="LineNr">114 </span><span class="routIndex"> [5]</span><span class="routNormal"> R6_2.5.1         lifecycle_1.0.1  magrittr_2.0.3   pillar_1.8.0    </span>
+<span id="L115" class="LineNr">115 </span><span class="routIndex"> [9]</span><span class="routNormal"> vroom_1.5.7      rlang_1.0.4      cli_3.3.0        vctrs_0.4.1     </span>
 <span id="L116" class="LineNr">116 </span><span class="routIndex">[13]</span><span class="routNormal"> ellipsis_0.3.2   tools_4.2.1      bit64_4.0.5      glue_1.6.2      </span>
 <span id="L117" class="LineNr">117 </span><span class="routIndex">[17]</span><span class="routNormal"> purrr_0.3.4      bit_4.0.4        hms_1.1.1        parallel_4.2.1  </span>
-<span id="L118" class="LineNr">118 </span><span class="routIndex">[21]</span><span class="routNormal"> compiler_4.2.1   pkgconfig_2.0.3  tidyselect_1.1.2 tibble_3.1.7    </span>
+<span id="L118" class="LineNr">118 </span><span class="routIndex">[21]</span><span class="routNormal"> compiler_4.2.1   pkgconfig_2.0.3  tidyselect_1.1.2 tibble_3.1.8    </span>
 <span id="L119" class="LineNr">119 </span><span class="Statement">&gt;</span>
 <span id="L120" class="LineNr">120 </span><span class="Statement">&gt;</span>
 <span id="L121" class="LineNr">121 </span><span class="Statement">&gt;</span> proc.time<span class="Special">()</span>
 <span id="L122" class="LineNr">122 </span><span class="routNormal">   user  system elapsed </span>
-<span id="L123" class="LineNr">123 </span><span class="routFloat">107.906</span><span class="routNormal">  </span><span class="routFloat">15.930</span><span class="routNormal">  </span><span class="routFloat">79.648</span><span class="routNormal"> </span>
+<span id="L123" class="LineNr">123 </span><span class="routFloat">107.358</span><span class="routNormal">  </span><span class="routFloat">15.174</span><span class="routNormal">  </span><span class="routFloat">78.096</span><span class="routNormal"> </span>
 </pre>
 </body>
 </html>

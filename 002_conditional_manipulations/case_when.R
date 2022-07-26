@@ -43,6 +43,8 @@ pos_dt  <- fread("000_data_sets/cms_place_of_service.cvs"
                  , col.names = c("code", "name", "description")
                  , colClasses = c("integer", "character", "character"))
 
+str(pos_dt)
+
 ################################################################################
 # set key for the data.table
 
@@ -104,12 +106,12 @@ sapply(mem, profmem::total) |>
   sapply(formatC, format = "f", big.mark = ",", digits = 0)
 
 ################################################################################
-# Working nested examples.... 
+# Working nested examples....
 #
 # These might be a lot better when a join isn't a viable alternative option.
 # That said, I think with some planning a good link table can be built.  The
 # case_when, or nested ifelse is better for when a preference is wanted for
-# similar 
+# similar, or when a link table isn't an option.
 
 # use the diamonds data set for the example, set up three (deep) copies for
 # different paradigms
@@ -117,9 +119,104 @@ data(diamonds, package = "ggplot2")
 diamonds_df <- data.frame(diamonds)
 diamonds_dt <- setDT(copy(diamonds_df))
 
+# build price categories:
+# [0, 1000)
+# [1000, 2500)
+# [2500, 5000)
+# [5000, 10000)
+# [10000, 15000)
+# [15000, Inf)
+base_ifelse <- expression({
+  with(diamonds_df,
+       ifelse(price < 1000, "[$0, $1,000)",
+         ifelse(price < 2500, "[$1,000, $2,500)",
+           ifelse(price < 5000, "[$2,500, $5,000)",
+             ifelse(price < 10000, "[$5,000, $10,000)",
+               ifelse(price < 15000, "[$10,000, $15,000)", "Over $15,000")))))
+       )
+})
+
+tidy_if_else <- expression({
+  with(diamonds_df,
+       if_else(price < 1000, "[$0, $1,000)",
+         if_else(price < 2500, "[$1,000, $2,500)",
+           if_else(price < 5000, "[$2,500, $5,000)",
+             if_else(price < 10000, "[$5,000, $10,000)",
+               if_else(price < 15000, "[$10,000, $15,000)", "Over $15,000")))))
+       )
+})
+
+
+tidy_case_when <- expression({
+  with(diamonds_df,
+       case_when(price < 1000 ~ "[$0, $1,000)",
+                 price < 2500 ~ "[$1,000, $2,500)",
+                 price < 5000 ~ "[$2,500, $5,000)",
+                 price < 10000 ~ "[$5,000, $10,000)",
+                 price < 15000 ~ "[$10,000, $15,000)",
+                 TRUE ~ "Over $15,000")
+       )
+})
+
+
+dt_fifelse <- expression({
+  with(diamonds_dt,
+       fifelse(price < 1000, "[$0, $1,000)",
+         fifelse(price < 2500, "[$1,000, $2,500)",
+           fifelse(price < 5000, "[$2,500, $5,000)",
+             fifelse(price < 10000, "[$5,000, $10,000)",
+               fifelse(price < 15000, "[$10,000, $15,000)", "Over $15,000")))))
+       )
+})
+
+dt_fcase <- expression({
+  with(diamonds_dt,
+       fcase(price < 1000, "[$0, $1,000)",
+             price < 2500, "[$1,000, $2,500)",
+             price < 5000, "[$2,500, $5,000)",
+             price < 10000, "[$5,000, $10,000)",
+             price < 15000, "[$10,000, $15,000)",
+             default = "Over $15,000")
+       )
+})
+
+# use cut in base R
+base_cut <- expression({
+  cut(diamonds_df$price
+      , breaks = c(0, 1000, 2500, 5000, 10000, 15000, Inf)
+      , right = FALSE
+      , labels = c("[$0, $1,000)",
+                   "[$1,000, $2,500)",
+                   "[$2,500, $5,000)",
+                   "[$5,000, $10,000)",
+                   "[$10,000, $15,000)",
+                   "Over $15,000")
+  )
+})
+
+
+identical(as.character(eval(base_cut)), eval(base_ifelse))
+identical(as.character(eval(base_cut)), eval(tidy_if_else))
+identical(as.character(eval(base_cut)), eval(tidy_case_when))
+identical(as.character(eval(base_cut)), eval(dt_fifelse))
+identical(as.character(eval(base_cut)), eval(dt_fcase))
+
+microbenchmark(
+    eval(base_cut)
+  , eval(base_ifelse)
+  , eval(tidy_if_else)
+  , eval(tidy_case_when)
+  , eval(dt_fifelse)
+  , eval(dt_fcase)
+  , times = 25
+  )
+
+
+
+# Another Example
 # example of case_when in tidyverse
 diamonds %>%
-  mutate(buy_it = 
+  mutate(buy_it =
          case_when(
                    clarity == "IF" ~ "Yes, it's flawless",
                    color %in% c("D", "E", "F") ~ "Yeah, it's colorless",
@@ -144,7 +241,7 @@ diamonds %>%
 # similar code with nest ifelse
 
 base_nested_ifelse <- expression({
-  with(diamonds_df,                   
+  with(diamonds_df,
        ifelse(clarity == "IF", "Yes, it's flawless",
               ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
                      ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
@@ -157,7 +254,7 @@ base_nested_ifelse <- expression({
 })
 
 tidy_nested_ifelse <- expression({
-  with(diamonds,                   
+  with(diamonds,
        ifelse(clarity == "IF", "Yes, it's flawless",
               ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
                      ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
@@ -170,7 +267,7 @@ tidy_nested_ifelse <- expression({
 })
 
 tidy_nested_if_else <- expression({
-  with(diamonds,                   
+  with(diamonds,
        if_else(clarity == "IF", "Yes, it's flawless",
               if_else(color %in% c("D", "E", "F"), "Yeah, it's colorless",
                      if_else(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
@@ -184,7 +281,7 @@ tidy_nested_if_else <- expression({
 
 tidy_case_when <- expression({
   diamonds %>%
-    mutate(buy_it = 
+    mutate(buy_it =
            case_when(
                      clarity == "IF" ~ "Yes, it's flawless",
                      color %in% c("D", "E", "F") ~ "Yeah, it's colorless",
@@ -200,7 +297,7 @@ tidy_case_when <- expression({
 })
 
 dt_nested_ifelse <- expression({
-  with(diamonds_dt,                   
+  with(diamonds_dt,
        ifelse(clarity == "IF", "Yes, it's flawless",
               ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
                      ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
@@ -213,7 +310,7 @@ dt_nested_ifelse <- expression({
 })
 
 dt_nested_fifelse <- expression({
-  with(diamonds_dt,                   
+  with(diamonds_dt,
        fifelse(clarity == "IF", "Yes, it's flawless",
               fifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
                      fifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
