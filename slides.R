@@ -27,6 +27,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 #'
 #' * Monthly-ish meetups
 #'   - Would like to have about 10 meetups a year
+#'   - Volunteer to give a talk!
 #'
 #' * Format
 #'   - Time to socialize and
@@ -56,7 +57,7 @@ knitr::opts_chunk$set(collapse = TRUE)
 #'   - The plot() S3 generic function is now in package base rather than package graphics
 #'
 #' * Other Notable Changes
-#'   - Functions rbinom(), rgeom(), rhyper(), rpois(), rnbinom(), rsignrank() and rwilcox() which have returned integer since R 3.0.0 and hence NA when the numbers would have been outside the integer range, now return double vectors (without NAs, typically) in these cases. 
+#'   - Functions rbinom(), rgeom(), rhyper(), rpois(), rnbinom(), rsignrank() and rwilcox() which have returned integer since R 3.0.0 and hence NA when the numbers would have been outside the integer range, now return double vectors (without NAs, typically) in these cases.
 #'   - Migration to PCRE2
 #'
 #' ## Highlights of R 4.1.x
@@ -78,7 +79,7 @@ mtcars |> str()
 #'   - 4.2.0
 #'     - Calling && or || with either argument of length greater than one now gives a warning (which it is intended will become an error).
 #'     - Calling if() or while() with a condition of length greater than one gives an error rather than a warning. Consequently, environment variable _R_CHECK_LENGTH_1_CONDITION_ no longer has any effect.
-#'     - In a forward pipe |> expression it is now possible to use a named argument with the placeholder _ in the rhs call to specify where the lhs is to be inserted. The placeholder can only appear once on the rhs. 
+#'     - In a forward pipe |> expression it is now possible to use a named argument with the placeholder _ in the rhs call to specify where the lhs is to be inserted. The placeholder can only appear once on the rhs.
 #'       - example on next slide
 #'     - _and a lot more_
 #'
@@ -132,10 +133,9 @@ mtcars |>
 #'
 #' - Use the same import tools as the rest of your work
 #' - Consider defaults and regions across the world
-args(read.csv)        # you have control over sep = ","
-args(readr::read_csv) # comma separated.  use read_csv2 for ";" sep
-args(data.table::fread)
-
+#' <div class="box">
+#' <iframe src="args_of_read.Rout.html" style="height:400px;"></iframe>
+#' </div>
 #'
 #' ## Conditional Manipulation: ifelse
 #' <div class="box">
@@ -162,6 +162,30 @@ args(data.table::fread)
 #' <iframe src="003_joins/standard_joins.Rout.html" style="height:500px;"></iframe>
 #' </div>
 #'
-#' ## Joins: 
+#' ## Row Bind: (SQL UNION)
+#' <div class="box">
+#' <iframe src="004_rbind/rbind.Rout.html" style="height:500px;"></iframe>
+#' </div>
+#'
+#' ## Reshape: Wide to Long
+#'
+#' ## Reshape: Long to Wide
+#'
+#' ## Aggregation:
+#'
+#' # Final Thoughts
+#'
+#' ## My Preferences
+#'
+#' * Package going to CRAN
+#'   - Use base R
+#'   - Import (depend) on as few other packages as possible
+#'
+#' * Data Analysis
+#'   - data.table
+#'
+#' * Use what is right for the project
+#'   - R for research
+#'   - python for production
 #'
 # /* end of file */
