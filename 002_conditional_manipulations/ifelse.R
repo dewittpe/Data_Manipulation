@@ -78,13 +78,13 @@ base_row_replace <- expression({
 tidy_ifelse_integer <- expression({
   psps_2019_tidy <-
     psps_2019_tidy %>%
-    dplyr::mutate(hospital_integer = ifelse(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L))
+    dplyr::mutate(hospital_integer = if_else(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L))
 })
 
 tidy_ifelse_string <- expression({
   psps_2019_tidy <-
     psps_2019_tidy %>%
-    dplyr::mutate(hospital_string = ifelse(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital"))
+    dplyr::mutate(hospital_string = if_else(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital"))
 })
 
 tidy_logical_coercion <- expression({
@@ -140,8 +140,9 @@ mem <-
        )
 
 # total number of bytes allocated
+# format via floats to avoid integer overflow
 sapply(mem, profmem::total) |>
-  sapply(formatC, format = "d", big.mark = ",")
+  sapply(formatC, format = "f", big.mark = ",", digits = 0)
 
 sessionInfo()
 

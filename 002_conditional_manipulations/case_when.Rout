@@ -1,0 +1,435 @@
+
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(microbenchmark)
+> library(profmem)
+> library(readr)
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(data.table)
+
+Attaching package: ‘data.table’
+
+The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+> 
+> psps_2019_path <- file.path(".", "000_data_sets", "PSPS", "psps_2019.csv")
+> 
+> column_classes <-
++   c(
++   "HCPCS_CD"                  = "character",
++   "HCPCS_INITIAL_MODIFIER_CD" = "character",
++   "PROVIDER_SPEC_CD"          = "character",
++   "CARRIER_NUM"               = "integer",
++   "PRICING_LOCALITY_CD"       = "character",
++   "TYPE_OF_SERVICE_CD"        = "character",
++   "PLACE_OF_SERVICE_CD"       = "integer",
++   "HCPCS_SECOND_MODIFIER_CD"  = "character",
++   "SUBMITTED_SERVICE_CNT"     = "numeric",
++   "SUBMITTED_CHARGE_AMT"      = "numeric",
++   "ALLOWED_CHARGE_AMT"        = "numeric",
++   "DENIED_SERVICES_CNT"       = "numeric",
++   "DENIED_CHARGE_AMT"         = "numeric",
++   "ASSIGNED_SERVICES_CNT"     = "numeric",
++   "NCH_PAYMENT_AMT"           = "numeric",
++   "HCPCS_ASC_IND_CD"          = "character",
++   "ERROR_IND_CD"              = "integer",
++   "BETOS_CD"                  = "character")
+> 
+> # read in the data
+> psps_2019_base <- read.csv(psps_2019_path, colClasses = column_classes)
+> psps_2019_tidy <- read_csv(psps_2019_path, col_type = column_classes)
+> psps_2019_dt   <- fread(psps_2019_path, colClasses = column_classes)
+> 
+> # read in all the place of services
+> pos_df <- read.csv("000_data_sets/cms_place_of_service.cvs"
++                    , col.names = c("code", "name", "description")
++                    , colClasses = c("integer", "character", "character"))
+> pos_tbl <- read_csv("000_data_sets/cms_place_of_service.cvs"
++                     , col_names = c("code", "name", "description")
++                     , col_types = list("integer", "character", "character"))
+Warning message:
+One or more parsing issues, see `problems()` for details 
+> pos_dt  <- fread("000_data_sets/cms_place_of_service.cvs"
++                  , col.names = c("code", "name", "description")
++                  , colClasses = c("integer", "character", "character"))
+> 
+> ################################################################################
+> # set key for the data.table
+> 
+> data.table::setkey(pos_dt, "code")
+> data.table::setkey(psps_2019_dt, "PLACE_OF_SERVICE_CD")
+> 
+> ################################################################################
+> # I want the example here to include a nested ifelse statement.  However, I do
+> # not want to write it explicitly because it is just too long.  So, here is some
+> # R code to generate the needed R code.  This code is evaluated and then copied
+> # into the examples below.
+> 
+> # start with the last entry in the mapping data.frame
+> i <- nrow(pos_df)
+> nested_ifelse <-
++   substitute(ifelse(PLACE_OF_SERVICE_CD == code, nm, x),
++              list(code = pos_df$code[i], nm = pos_df$name[i], x = NA_character_)
++              )
+> 
+> # build the rest of the nested_ifelse
+> for(i in rev(seq.int(nrow(pos_df) - 1L))) {
++   nested_ifelse <-
++     substitute(ifelse(PLACE_OF_SERVICE_CD == code, nm, x),
++                list(code = pos_df$code[i], nm = pos_df$name[i], x = nested_ifelse))
++ }
+> 
+> # transition what happens when we try to evaluate this?
+> psps_2019_base[1:6, "PLACE_OF_SERVICE_CD"]
+[1] 22 12 24 24 11 31
+> with(psps_2019_base[1:6, ], eval(nested_ifelse))
+[1] "On Campus-Outpatient Hospital" "Home"                         
+[3] "Ambulatory Surgical Center"    "Ambulatory Surgical Center"   
+[5] "Office"                        "Skilled Nursing Facility"     
+> tryCatch(with(psps_2019_base, eval(nested_ifelse)), error = function(e) {e})
+<simpleError: vector memory exhausted (limit reached?)>
+> 
+> # what about case_when in dplyr
+> e <- paste("case_when(",
++            paste(paste0("PLACE_OF_SERVICE_CD == ", pos_df$code, " ~ '", pos_df$name, "'"), collapse = ", ")
++            , ")")
+> e <- parse(text = e)
+> 
+> x <- try(psps_2019_tidy %>% mutate(pos = eval(e)), silent = TRUE)
+> str(x)
+ 'try-error' chr "Error in mutate(., pos = eval(e)) : \n  Problem while computing `pos = eval(e)`.\nCaused by error:\n! vector me"| __truncated__
+ - attr(*, "condition")=List of 6
+  ..$ message       : chr "Problem while computing `pos = eval(e)`."
+  ..$ trace         :Classes ‘rlang_trace’, ‘rlib_trace’, ‘tbl’ and 'data.frame':	18 obs. of  6 variables:
+  .. ..$ call       :List of 18
+  .. .. ..$ : language try(psps_2019_tidy %>% mutate(pos = eval(e)), silent = TRUE)
+  .. .. ..$ : language tryCatch(expr, error = function(e) {     call <- conditionCall(e) ...
+  .. .. ..$ : language tryCatchList(expr, classes, parentenv, handlers)
+  .. .. ..$ : language tryCatchOne(expr, names, parentenv, handlers[[1L]])
+  .. .. ..$ : language doTryCatch(return(expr), name, parentenv, handler)
+  .. .. ..$ : language psps_2019_tidy %>% mutate(pos = eval(e))
+  .. .. ..$ : language mutate(., pos = eval(e))
+  .. .. ..$ : language mutate.data.frame(., pos = eval(e))
+  .. .. ..$ : language mutate_cols(.data, dplyr_quosures(...), caller_env = caller_env())
+  .. .. ..$ : language withCallingHandlers({     for (i in seq_along(dots)) { ...
+  .. .. ..$ : language mask$eval_all_mutate(quo)
+  .. .. ..$ : language eval(e)
+  .. .. ..$ : language eval(e)
+  .. .. ..$ : language case_when(PLACE_OF_SERVICE_CD == 1 ~ "Pharmacy", PLACE_OF_SERVICE_CD ==      2 ~ "Telehealth", PLACE_OF_SERVICE_C| __truncated__ ...
+  .. .. ..$ : language replace_with(out, query[[i]] & !replaced, value[[i]], NULL, error_call = error_call)
+  .. .. ..$ : language .handleSimpleError(`<fn>`, "vector memory exhausted (limit reached?)",      base::quote(NULL))
+  .. .. ..$ : language h(simpleError(msg, call))
+  .. .. ..$ : language abort(bullets, class = "dplyr:::mutate_error", parent = skip_internal_condition(e),      bullets = bullets, call = error_call)
+  .. ..$ parent     : int [1:18] 0 1 2 3 4 0 0 0 8 9 ...
+  .. ..$ visible    : logi [1:18] TRUE TRUE TRUE TRUE TRUE TRUE ...
+  .. ..$ namespace  : chr [1:18] "base" "base" "base" "base" ...
+  .. ..$ scope      : chr [1:18] "::" "::" "local" "local" ...
+  .. ..$ error_frame: logi [1:18] FALSE FALSE FALSE FALSE FALSE FALSE ...
+  .. ..- attr(*, "version")= int 2
+  ..$ parent        :List of 2
+  .. ..$ message: chr "vector memory exhausted (limit reached?)"
+  .. ..$ call   : NULL
+  .. ..- attr(*, "class")= chr [1:3] "simpleError" "error" "condition"
+  ..$ bullets       : chr "Problem while computing `pos = eval(e)`."
+  ..$ call          : language mutate(., pos = eval(e))
+  ..$ use_cli_format: logi TRUE
+  ..- attr(*, "class")= chr [1:4] "dplyr:::mutate_error" "rlang_error" "error" "condition"
+> 
+> # All left joins are viable in this case (limited iterations for memory
+> # concerns)
+> microbenchmark(
++                base = merge(psps_2019_base, pos_df, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code"),
++                tidy = left_join(psps_2019_tidy, pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code")),
++                data.table = merge(psps_2019_dt, pos_dt, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code"),
++                times = 3
++                )
+Unit: seconds
+       expr       min        lq      mean    median        uq       max neval
+       base 37.681331 41.389529 47.044310 45.097728 51.725799 58.353870     3
+       tidy  3.574642  4.447603  5.009588  5.320565  5.727061  6.133558     3
+ data.table  1.550380  2.035801  2.412160  2.521222  2.843050  3.164879     3
+> 
+> mem <- list(
++             base       = profmem::profmem(merge(psps_2019_base, pos_df, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code")),
++             tidy       = profmem::profmem(left_join(psps_2019_tidy, pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code"))),
++             data.table = profmem::profmem(merge(psps_2019_dt, pos_dt, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code"))
++                )
+> 
+> # total number of bytes allocated
+> # format via floats to avoid integer overflow
+> sapply(mem, profmem::total) |>
++   sapply(formatC, format = "f", big.mark = ",", digits = 0)
+           base            tidy      data.table 
+"7,501,664,208" "2,721,614,896" "2,324,810,928" 
+> 
+> ################################################################################
+> # Working nested examples.... 
+> #
+> # These might be a lot better when a join isn't a viable alternative option.
+> # That said, I think with some planning a good link table can be built.  The
+> # case_when, or nested ifelse is better for when a preference is wanted for
+> # similar 
+> 
+> # use the diamonds data set for the example, set up three (deep) copies for
+> # different paradigms
+> data(diamonds, package = "ggplot2")
+> diamonds_df <- data.frame(diamonds)
+> diamonds_dt <- setDT(copy(diamonds_df))
+> 
+> # example of case_when in tidyverse
+> diamonds %>%
++   mutate(buy_it = 
++          case_when(
++                    clarity == "IF" ~ "Yes, it's flawless",
++                    color %in% c("D", "E", "F") ~ "Yeah, it's colorless",
++                    clarity == "IF" & color %in% c("G", "H", "I", "J") ~ "Sure, it's flawless, but only nearly colorless",
++                    color %in% c("S", "T", "U", "V", "X", "Y", "Z") ~ "No, light yellow color",
++                    clarity %in% c("VVS1", "VVS2") ~ "Yeah, nearly perfect",
++                    clarity %in% c("VS1", "VS2") ~ "Yeah, you can't see any imprefection without 10k magnification",
++                    clarity %in% c("SI1", "SI2") ~ "Maybe, take a good look",
++                    clarity %in% c("I1", "I2", "I3") ~ "You are going to see the flaws.",
++                    TRUE ~ "maybe?" # default
++                    )
++          ) %>%
++   group_by(buy_it) %>%
++   summarize(n())
+# A tibble: 6 × 2
+  buy_it                                                         `n()`
+  <chr>                                                          <int>
+1 Maybe, take a good look                                        10927
+2 Yeah, it's colorless                                           25498
+3 Yeah, nearly perfect                                            4560
+4 Yeah, you can't see any imprefection without 10k magnification 10711
+5 Yes, it's flawless                                              1790
+6 You are going to see the flaws.                                  454
+> 
+> # Where are the "Sure, it's flawless, but only nearly colorless"? diamonds?
+> diamonds %>%
++   dplyr::filter(clarity == "IF") %>%
++   dplyr::group_by(clarity, color) %>%
++   dplyr::summarize(n())
+`summarise()` has grouped output by 'clarity'. You can override using the
+`.groups` argument.
+# A tibble: 7 × 3
+# Groups:   clarity [1]
+  clarity color `n()`
+  <ord>   <ord> <int>
+1 IF      D        73
+2 IF      E       158
+3 IF      F       385
+4 IF      G       681
+5 IF      H       299
+6 IF      I       143
+7 IF      J        51
+> 
+> # similar code with nest ifelse
+> 
+> base_nested_ifelse <- expression({
++   with(diamonds_df,                   
++        ifelse(clarity == "IF", "Yes, it's flawless",
++               ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                      ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                             ifelse(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                    ifelse(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                           ifelse(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                  ifelse(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                         ifelse(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++        )
++ })
+> 
+> tidy_nested_ifelse <- expression({
++   with(diamonds,                   
++        ifelse(clarity == "IF", "Yes, it's flawless",
++               ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                      ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                             ifelse(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                    ifelse(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                           ifelse(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                  ifelse(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                         ifelse(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++        )
++ })
+> 
+> tidy_nested_if_else <- expression({
++   with(diamonds,                   
++        if_else(clarity == "IF", "Yes, it's flawless",
++               if_else(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                      if_else(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                             if_else(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                    if_else(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                           if_else(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                  if_else(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                         if_else(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++        )
++ })
+> 
+> tidy_case_when <- expression({
++   diamonds %>%
++     mutate(buy_it = 
++            case_when(
++                      clarity == "IF" ~ "Yes, it's flawless",
++                      color %in% c("D", "E", "F") ~ "Yeah, it's colorless",
++                      clarity == "IF" & color %in% c("G", "H", "I", "J") ~ "Sure, it's flawless, but only nearly colorless",
++                      color %in% c("S", "T", "U", "V", "X", "Y", "Z") ~ "No, light yellow color",
++                      clarity %in% c("VVS1", "VVS2") ~ "Yeah, nearly perfect",
++                      clarity %in% c("VS1", "VS2") ~ "Yeah, you can't see any imprefection without 10k magnification",
++                      clarity %in% c("SI1", "SI2") ~ "Maybe, take a good look",
++                      clarity %in% c("I1", "I2", "I3") ~ "You are going to see the flaws.",
++                      TRUE ~ "maybe?" # default
++                      )
++            )
++ })
+> 
+> dt_nested_ifelse <- expression({
++   with(diamonds_dt,                   
++        ifelse(clarity == "IF", "Yes, it's flawless",
++               ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                      ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                             ifelse(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                    ifelse(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                           ifelse(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                  ifelse(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                         ifelse(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++        )
++ })
+> 
+> dt_nested_fifelse <- expression({
++   with(diamonds_dt,                   
++        fifelse(clarity == "IF", "Yes, it's flawless",
++               fifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                      fifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                             fifelse(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                    fifelse(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                           fifelse(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                  fifelse(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                         fifelse(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++        )
++ })
+> 
+> dt_fcase <- expression({
++   with(diamonds_dt,
++            fcase(
++                      clarity == "IF"                                     , "Yes, it's flawless",
++                      color %in% c("D", "E", "F")                         , "Yeah, it's colorless",
++                      clarity == "IF" & color %in% c("G", "H", "I", "J")  , "Sure, it's flawless, but only nearly colorless",
++                      color %in% c("S", "T", "U", "V", "X", "Y", "Z")     , "No, light yellow color",
++                      clarity %in% c("VVS1", "VVS2")                      , "Yeah, nearly perfect",
++                      clarity %in% c("VS1", "VS2")                        , "Yeah, you can't see any imprefection without 10k magnification",
++                      clarity %in% c("SI1", "SI2")                        , "Maybe, take a good look",
++                      clarity %in% c("I1", "I2", "I3")                    , "You are going to see the flaws.",
++                      default =  "maybe?"
++                      )
++            )
++ })
+> 
+> 
+> microbenchmark(
++     eval(base_nested_ifelse)
++   , eval(tidy_nested_ifelse)
++   , eval(tidy_nested_if_else)
++   , eval(tidy_case_when)
++   , eval(dt_nested_ifelse)
++   , eval(dt_nested_fifelse)
++   , eval(dt_fcase)
++   , times = 100)
+Unit: milliseconds
+                      expr      min       lq     mean   median       uq
+  eval(base_nested_ifelse) 58.89748 60.53832 70.81112 62.96265 69.71244
+  eval(tidy_nested_ifelse) 58.64307 60.57457 68.64659 62.11679 69.15370
+ eval(tidy_nested_if_else) 30.59756 31.98547 37.30638 33.96419 42.37306
+      eval(tidy_case_when) 22.96729 24.08457 29.11769 25.22019 30.91943
+    eval(dt_nested_ifelse) 58.81733 60.68301 76.68064 64.63102 71.26808
+   eval(dt_nested_fifelse) 12.49496 13.00417 18.59565 14.05971 16.20441
+            eval(dt_fcase) 10.28382 10.54893 11.61114 10.83457 12.75015
+        max neval
+  548.63954   100
+  450.94328   100
+   67.69899   100
+   99.77023   100
+ 1044.75667   100
+  399.67000   100
+   19.46695   100
+> 
+> mem <-
++   list(
++       base_nested_ifelse  = profmem::profmem(eval(base_nested_ifelse))
++     , tidy_nested_ifelse  = profmem::profmem(eval(tidy_nested_ifelse))
++     , tidy_nested_if_else = profmem::profmem(eval(tidy_nested_if_else))
++     , tidy_case_when      = profmem::profmem(eval(tidy_case_when))
++     , dt_nested_ifelse    = profmem::profmem(eval(dt_nested_ifelse))
++     , dt_nested_fifelse   = profmem::profmem(eval(dt_nested_fifelse))
++     , dt_fcase            = profmem::profmem(eval(dt_fcase))
++   )
+> 
+> # total number of bytes allocated
+> # format via floats to avoid integer overflow
+> sapply(mem, profmem::total) |>
++   sapply(formatC, format = "f", big.mark = ",", digits = 0)
+ base_nested_ifelse  tidy_nested_ifelse tidy_nested_if_else      tidy_case_when 
+       "28,701,472"        "28,701,472"        "37,231,088"        "27,193,504" 
+   dt_nested_ifelse   dt_nested_fifelse            dt_fcase 
+       "28,701,472"        "10,142,256"         "7,337,272" 
+> 
+> ################################################################################
+> 
+> sessionInfo()
+R version 4.2.1 (2022-06-23)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] data.table_1.14.3    dplyr_1.0.9          readr_2.1.2         
+[4] profmem_0.6.0        microbenchmark_1.4.9
+
+loaded via a namespace (and not attached):
+ [1] magrittr_2.0.3   hms_1.1.1        tidyselect_1.1.2 bit_4.0.4       
+ [5] R6_2.5.1         rlang_1.0.4      fansi_1.0.3      tools_4.2.1     
+ [9] parallel_4.2.1   vroom_1.5.7      utf8_1.2.2       cli_3.3.0       
+[13] DBI_1.1.3        ellipsis_0.3.2   bit64_4.0.5      assertthat_0.2.1
+[17] tibble_3.1.8     lifecycle_1.0.1  crayon_1.5.1     purrr_0.3.4     
+[21] tzdb_0.3.0       vctrs_0.4.1      glue_1.6.2       compiler_4.2.1  
+[25] pillar_1.8.0     generics_0.1.3   pkgconfig_2.0.3 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+416.893  82.267 460.069 

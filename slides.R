@@ -137,4 +137,20 @@ args(readr::read_csv) # comma separated.  use read_csv2 for ";" sep
 args(data.table::fread)
 
 #'
+#' ## Conditional Manipulation: ifelse
+#' <div class="box">
+#' <iframe src="002_conditional_manipulations/ifelse.Rout.html" style="height:500px;"></iframe>
+#' </div>
+#'
+#' ## Conditional Manipulation: case_when
+#' <div class="box">
+#' <iframe src="002_conditional_manipulations/case_when.Rout.html" style="height:500px;"></iframe>
+#' </div>
+#'
+#' ## Conditional Manipulation: create multiple columns
+#' <div class="box">
+#' <iframe src="002_conditional_manipulations/create_multiple_columns.Rout.html" style="height:500px;"></iframe>
+#' </div>
+#'
+#'
 # /* end of file */

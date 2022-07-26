@@ -85,10 +85,10 @@ The following objects are masked from ‘package:dplyr’:
 +           )
 Unit: milliseconds
                expr       min        lq      mean    median        uq      max
-       eval(use_in)  609.9949  633.9428  700.9888  672.1352  692.5077 1002.673
-       eval(use_or) 1055.8954 1132.9914 1261.3705 1234.5291 1306.6397 1571.991
- eval(use_grepl_v1) 3279.4737 3441.2620 3550.2436 3537.4061 3663.9627 3883.189
- eval(use_grepl_v2) 2976.1960 3119.1505 3275.2013 3277.4914 3433.9072 3513.482
+       eval(use_in)  644.6198  677.2081  746.6156  723.5144  729.2502 1127.567
+       eval(use_or) 1021.6564 1060.2601 1252.9971 1171.1177 1471.4169 1723.098
+ eval(use_grepl_v1) 3289.6335 3345.3484 3368.8586 3378.3999 3401.1740 3410.538
+ eval(use_grepl_v2) 2985.4884 3064.2680 3092.2048 3084.2037 3128.2592 3191.251
  neval
     10
     10
@@ -131,13 +131,13 @@ Unit: milliseconds
 > tidy_ifelse_integer <- expression({
 +   psps_2019_tidy <-
 +     psps_2019_tidy %>%
-+     dplyr::mutate(hospital_integer = ifelse(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L))
++     dplyr::mutate(hospital_integer = if_else(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L))
 + })
 > 
 > tidy_ifelse_string <- expression({
 +   psps_2019_tidy <-
 +     psps_2019_tidy %>%
-+     dplyr::mutate(hospital_string = ifelse(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital"))
++     dplyr::mutate(hospital_string = if_else(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital"))
 + })
 > 
 > tidy_logical_coercion <- expression({
@@ -177,29 +177,29 @@ Unit: milliseconds
 +   )
 Unit: milliseconds
                         expr       min        lq      mean    median        uq
-   eval(base_ifelse_integer)  946.3290 1092.9424 1200.5626 1122.9828 1234.4928
-    eval(base_ifelse_string) 2629.8803 2712.6778 2818.3552 2805.2388 2909.6508
- eval(base_logical_coercion)  624.3752  694.8022  775.0986  726.9846  760.1654
-      eval(base_row_replace)  960.8483  991.8965 1077.5922 1085.1559 1137.0199
-   eval(tidy_ifelse_integer)  699.7494  721.0794  890.8817  892.6690  999.2198
-    eval(tidy_ifelse_string) 2092.1336 2286.4568 2363.3529 2366.6524 2496.6141
- eval(tidy_logical_coercion)  320.9561  353.2604  412.5046  387.5217  464.9146
-     eval(dt_ifelse_integer)  604.4087  680.5873  700.2539  702.7552  731.4837
-      eval(dt_ifelse_string)  746.1701  819.3558  902.0662  931.4549  974.6949
-   eval(dt_logical_coercion)  611.9369  722.6889  822.5382  772.9460 1002.3136
-        eval(dt_row_replace)  869.1686  926.2662 1023.1413 1002.8533 1096.4877
+   eval(base_ifelse_integer)  920.9338  947.0785 1082.2741  993.0132 1276.2148
+    eval(base_ifelse_string) 2418.0816 2473.0520 2699.3797 2601.0953 2931.1903
+ eval(base_logical_coercion)  622.6803  687.8243  920.8628  695.5915  877.8997
+      eval(base_row_replace)  865.5442  968.8298 1284.4577 1024.2600 1402.6168
+   eval(tidy_ifelse_integer)  634.1994  769.4890  869.7056  788.3618  967.8314
+    eval(tidy_ifelse_string)  986.4858 1079.5143 1685.4462 1254.9107 1390.3554
+ eval(tidy_logical_coercion)  293.5184  338.9207  403.7960  363.5419  435.7025
+     eval(dt_ifelse_integer)  600.7653  611.2557  690.5705  669.7423  722.9508
+      eval(dt_ifelse_string)  721.9746  823.7712  932.3760  846.2225  922.1571
+   eval(dt_logical_coercion)  601.2679  694.3892  782.7345  701.0275  726.6645
+        eval(dt_row_replace)  823.1721  868.1247  924.6815  899.1827  997.3268
        max neval
- 1847.1104    10
- 3104.1512    10
- 1070.0803    10
- 1220.9862    10
- 1110.2391    10
- 2545.9628    10
-  549.1694    10
-  809.1785    10
- 1042.4378    10
- 1072.5815    10
- 1265.7138    10
+ 1424.2978    10
+ 3094.9316    10
+ 2369.4614    10
+ 3089.2849    10
+ 1318.8576    10
+ 5079.8851    10
+  629.5023    10
+  871.0023    10
+ 1469.8242    10
+ 1198.1379    10
+ 1070.0140    10
 > 
 > # memory use
 > mem <-
@@ -218,12 +218,13 @@ Unit: milliseconds
 +        )
 > 
 > # total number of bytes allocated
+> # format via floats to avoid integer overflow
 > sapply(mem, profmem::total) |>
-+   sapply(formatC, format = "d", big.mark = ",")
++   sapply(formatC, format = "f", big.mark = ",", digits = 0)
   base_ifelse_integer    base_ifelse_string base_logical_coercion 
         "793,799,592"       "1,020,599,176"         "340,199,880" 
      base_row_replace   tidy_ifelse_integer    tidy_ifelse_string 
-        "662,616,096"         "737,109,248"         "963,908,832" 
+        "662,616,096"         "907,209,056"       "1,077,308,744" 
 tidy_logical_coercion     dt_ifelse_integer      dt_ifelse_string 
         "283,509,536"         "340,234,224"         "396,934,120" 
   dt_logical_coercion        dt_row_replace 
@@ -260,4 +261,4 @@ loaded via a namespace (and not attached):
 > 
 > proc.time()
    user  system elapsed 
-348.002  24.195 336.189 
+338.667  34.873 334.943 
