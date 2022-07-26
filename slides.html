@@ -3250,6 +3250,7 @@ slide:not(.current) .plotly.html-widget{
 
 <ul>
 <li>Would like to have about 10 meetups a year</li>
+<li>Volunteer to give a talk!</li>
 </ul></li>
 <li>Format
 
@@ -3430,6 +3431,13 @@ slide:not(.current) .plotly.html-widget{
 </ul></li>
 </ul>
 
+</article></slide><slide class=""><hgroup><h2>Utilities: commonly header</h2></hgroup><article  id="utilities-commonly-header">
+
+<div class="box">
+<iframe src="utilities.Rout.html" style="height:500px;">
+
+</iframe></div>
+
 </article></slide><slide class=""><hgroup><h2>Data Import: Reading in a lot of columns</h2></hgroup><article  id="data-import-reading-in-a-lot-of-columns">
 
 <div class="box">
@@ -3448,36 +3456,13 @@ slide:not(.current) .plotly.html-widget{
 
 <ul>
 <li>Use the same import tools as the rest of your work</li>
-<li>Consider defaults and regions across the world</li>
-</ul>
+<li>Consider defaults and regions across the world
 
-<pre class = 'prettyprint lang-r'>args(read.csv)        # you have control over sep = &quot;,&quot;
-## function (file, header = TRUE, sep = &quot;,&quot;, quote = &quot;\&quot;&quot;, dec = &quot;.&quot;, 
-##     fill = TRUE, comment.char = &quot;&quot;, ...) 
-## NULL
-args(readr::read_csv) # comma separated.  use read_csv2 for &quot;;&quot; sep
-## function (file, col_names = TRUE, col_types = NULL, col_select = NULL, 
-##     id = NULL, locale = default_locale(), na = c(&quot;&quot;, &quot;NA&quot;), quoted_na = TRUE, 
-##     quote = &quot;\&quot;&quot;, comment = &quot;&quot;, trim_ws = TRUE, skip = 0, n_max = Inf, 
-##     guess_max = min(1000, n_max), name_repair = &quot;unique&quot;, num_threads = readr_threads(), 
-##     progress = show_progress(), show_col_types = should_show_types(), 
-##     skip_empty_rows = TRUE, lazy = should_read_lazy()) 
-## NULL
-args(data.table::fread)
-## function (input = &quot;&quot;, file = NULL, text = NULL, cmd = NULL, sep = &quot;auto&quot;, 
-##     sep2 = &quot;auto&quot;, dec = &quot;.&quot;, quote = &quot;\&quot;&quot;, nrows = Inf, header = &quot;auto&quot;, 
-##     na.strings = getOption(&quot;datatable.na.strings&quot;, &quot;NA&quot;), stringsAsFactors = FALSE, 
-##     verbose = getOption(&quot;datatable.verbose&quot;, FALSE), skip = &quot;__auto__&quot;, 
-##     select = NULL, drop = NULL, colClasses = NULL, integer64 = getOption(&quot;datatable.integer64&quot;, 
-##         &quot;integer64&quot;), col.names, check.names = FALSE, encoding = &quot;unknown&quot;, 
-##     strip.white = TRUE, fill = FALSE, blank.lines.skip = FALSE, 
-##     key = NULL, index = NULL, showProgress = getOption(&quot;datatable.showProgress&quot;, 
-##         interactive()), data.table = getOption(&quot;datatable.fread.datatable&quot;, 
-##         TRUE), nThread = getDTthreads(verbose), logical01 = getOption(&quot;datatable.logical01&quot;, 
-##         FALSE), keepLeadingZeros = getOption(&quot;datatable.keepLeadingZeros&quot;, 
-##         FALSE), yaml = FALSE, autostart = NA, tmpdir = tempdir(), 
-##     tz = &quot;UTC&quot;) 
-## NULL</pre>
+<div class="box">
+<iframe src="args_of_read.Rout.html" style="height:400px;">
+
+</iframe></div></li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2>Conditional Manipulation: ifelse</h2></hgroup><article  id="conditional-manipulation-ifelse">
 
@@ -3498,7 +3483,58 @@ args(data.table::fread)
 <div class="box">
 <iframe src="002_conditional_manipulations/create_multiple_columns.Rout.html" style="height:500px;">
 
-</iframe></div></article></slide>
+</iframe></div>
+
+</article></slide><slide class=""><hgroup><h2>Joins: Order <em>can</em> matter</h2></hgroup><article  id="joins-order-can-matter">
+
+<div class="box">
+<iframe src="003_joins/order_matters.Rout.html" style="height:500px;">
+
+</iframe></div>
+
+</article></slide><slide class=""><hgroup><h2>Joins: Standard Joins</h2></hgroup><article  id="joins-standard-joins">
+
+<div class="box">
+<iframe src="003_joins/standard_joins.Rout.html" style="height:500px;">
+
+</iframe></div>
+
+</article></slide><slide class=""><hgroup><h2>Row Bind: (SQL UNION)</h2></hgroup><article  id="row-bind-sql-union">
+
+<div class="box">
+<iframe src="004_rbind/rbind.Rout.html" style="height:500px;">
+
+</iframe></div>
+
+</article></slide><slide class=""><hgroup><h2>Reshape: Wide to Long</h2></hgroup><article  id="reshape-wide-to-long">
+
+</article></slide><slide class=""><hgroup><h2>Reshape: Long to Wide</h2></hgroup><article  id="reshape-long-to-wide">
+
+</article></slide><slide class=""><hgroup><h2>Aggregation:</h2></hgroup><article  id="aggregation">
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Final Thoughts</h2></hgroup><article  id="final-thoughts">
+
+</article></slide><slide class=""><hgroup><h2>My Preferences</h2></hgroup><article  id="my-preferences">
+
+<ul>
+<li>Package going to CRAN
+
+<ul>
+<li>Use base R</li>
+<li>Import (depend) on as few other packages as possible</li>
+</ul></li>
+<li>Data Analysis
+
+<ul>
+<li>data.table</li>
+</ul></li>
+<li>Use what is right for the project
+
+<ul>
+<li>R for research</li>
+<li>python for production</li>
+</ul></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>

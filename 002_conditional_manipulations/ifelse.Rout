@@ -18,35 +18,12 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > # ifelse data manipulations.
+> source("utilities.R")
 > 
-> library(microbenchmark)
-> library(profmem)
-> library(readr)
-> library(dplyr)
-
-Attaching package: ‘dplyr’
-
-The following objects are masked from ‘package:stats’:
-
-    filter, lag
-
-The following objects are masked from ‘package:base’:
-
-    intersect, setdiff, setequal, union
-
-> library(data.table)
-
-Attaching package: ‘data.table’
-
-The following objects are masked from ‘package:dplyr’:
-
-    between, first, last
-
 > 
-> psps_2019_path <- file.path(".", "000_data_sets", "PSPS", "psps_2019.csv")
-> psps_2019_base <- read.csv(psps_2019_path)
-> psps_2019_tidy <- read_csv(psps_2019_path, show_col_types = FALSE)
-> psps_2019_dt   <- fread(psps_2019_path)
+> psps_2019_base <- read.csv(psps_2019_path, colClasses = psps_column_classes)
+> psps_2019_tidy <- read_csv(psps_2019_path, col_types = psps_column_classes)
+> psps_2019_dt   <- fread(psps_2019_path, colClasses = psps_column_classes)
 > 
 > ################################################################################
 > # Create an indicator column for place of service being a hospitial 
@@ -57,178 +34,145 @@ The following objects are masked from ‘package:dplyr’:
 > 
 > ################################################################################
 > # First, how to find the affected rows?
-> use_in <- expression({psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22")})
-> use_or <- expression({
-+   psps_2019_base$PLACE_OF_SERVICE_CD == "19" |
-+   psps_2019_base$PLACE_OF_SERVICE_CD == "21" | 
-+   psps_2019_base$PLACE_OF_SERVICE_CD == "22"
-+ })
-> use_grepl_v1 <- expression({
-+   grepl("^(19)|(21)|(22)", psps_2019_base$PLACE_OF_SERVICE_CD)
-+ })
-> use_grepl_v2 <- expression({
-+   grepl("^(19)|(2[1-2])", psps_2019_base$PLACE_OF_SERVICE_CD)
-+ })
+> calls <- alist(
++   use_in = psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22")
++   ,
++   use_or =
++     psps_2019_base$PLACE_OF_SERVICE_CD == "19" |
++     psps_2019_base$PLACE_OF_SERVICE_CD == "21" | 
++     psps_2019_base$PLACE_OF_SERVICE_CD == "22"
++   ,
++   use_grepl_v1 =
++     grepl("^(19)|(21)|(22)", psps_2019_base$PLACE_OF_SERVICE_CD)
++   ,
++   use_grepl_v2 =
++     grepl("^(19)|(2[1-2])", psps_2019_base$PLACE_OF_SERVICE_CD)
++ )
 > 
-> identical(eval(use_in), eval(use_or))
+> with(calls, identical(eval(use_in), eval(use_or)))
 [1] TRUE
-> identical(eval(use_in), eval(use_grepl_v1))
+> with(calls, identical(eval(use_in), eval(use_grepl_v1)))
 [1] TRUE
-> identical(eval(use_in), eval(use_grepl_v2))
+> with(calls, identical(eval(use_in), eval(use_grepl_v2)))
 [1] TRUE
 > 
-> microbenchmark(eval(use_in),
-+                eval(use_or),
-+                eval(use_grepl_v1),
-+                eval(use_grepl_v2),
-+                times = 10
-+           )
+> benchmark(calls)
+$benchmark
 Unit: milliseconds
-               expr       min        lq      mean    median        uq      max
-       eval(use_in)  487.7586  516.2487  591.1755  568.2125  576.9207 1001.521
-       eval(use_or)  961.2731  967.1706 1095.6126 1075.8493 1148.2104 1451.666
- eval(use_grepl_v1) 3028.6158 3041.6450 3146.2779 3073.5254 3243.0740 3535.567
- eval(use_grepl_v2) 2808.6134 2841.8852 2879.7156 2873.5453 2886.3300 3045.436
- neval
-    10
-    10
-    10
-    10
-> 
-> mem <-
-+   list(
-+        use_in       = profmem::profmem(eval(use_in)),
-+        use_or       = profmem::profmem(eval(use_or)),
-+        use_grepl_v1 = profmem::profmem(eval(use_grepl_v1)),
-+        use_grepl_v2 = profmem::profmem(eval(use_grepl_v2))
-+        )
-> 
-> # total number of bytes allocated
-> sapply(mem, profmem::total) |>
-+   sapply(formatC, format = "d", big.mark = ",")
-       use_in        use_or  use_grepl_v1  use_grepl_v2 
-"283,505,784" "623,699,304" "170,099,800" "170,099,800" 
-> 
+         expr       min        lq      mean    median        uq      max neval
+       use_in  641.0353  692.4291  764.8724  728.8832  754.9613 1167.515   100
+       use_or  945.6886 1046.9172 1164.5861 1124.3160 1175.6180 2860.969   100
+ use_grepl_v1 2864.7135 3164.1436 3251.1745 3233.9369 3293.7764 5213.287   100
+ use_grepl_v2 2805.7021 3009.7526 3089.9682 3059.2118 3125.2457 4846.656   100
+
+$profmem
+                   bytes
+use_in       283,505,784
+use_or       623,699,304
+use_grepl_v1 170,099,800
+use_grepl_v2 170,099,800
+
 > 
 > ################################################################################
-> base_ifelse_integer <- expression({
-+   psps_2019_base$hospital_integer <- ifelse(psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L)
-+ })
+> calls <- alist(
++   base_ifelse_integer = {
++     psps_2019_base$hospital_integer <- ifelse(psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L)
++   }
++   ,
++   base_ifelse_string = {
++     psps_2019_base$hospital_string <- ifelse(psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital")
++   }
++   ,
++   base_logical_coercion = {
++     psps_2019_base$hospital_coercion <- as.integer(psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"))
++   }
++   ,
++   base_row_replace = {
++     psps_2019_base$hospital_row_replace <- "Non-Hospital"
++     psps_2019_base[psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "hospital_row_replace"] <- "Hospital"
++   }
++   ,
++   tidy_ifelse_integer = {
++     psps_2019_tidy <-
++       psps_2019_tidy %>%
++       dplyr::mutate(hospital_integer = if_else(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L))
++   }
++   ,
++   tidy_ifelse_string = {
++     psps_2019_tidy <-
++       psps_2019_tidy %>%
++       dplyr::mutate(hospital_string = if_else(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital"))
++   }
++   ,
++   tidy_logical_coercion = {
++     psps_2019_tidy <-
++       psps_2019_tidy %>%
++       dplyr::mutate(hospital_coercion = as.integer(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22")))
++   }
++   ,
++   dt_ifelse_integer = {
++     psps_2019_dt[, hospital_integer := fifelse(PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L)]
++   }
++   ,
++   dt_ifelse_string  = {
++     psps_2019_dt[, hospital_string := fifelse(PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital")]
++   }
++   ,
++   dt_logical_coercion  = {
++     psps_2019_dt[, hospital_coercion := as.integer(PLACE_OF_SERVICE_CD %in% c("19", "21", "22"))]
++   }
++   ,
++   dt_row_replace = {
++     psps_2019_dt[, hospital_row_replace := "Non-Hospital"]
++     psps_2019_dt[PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), hospital_row_replace := "Hospital"]
++   }
++ )
 > 
-> base_ifelse_string <- expression({
-+   psps_2019_base$hospital_string <- ifelse(psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital")
-+ })
 > 
-> base_logical_coercion <- expression({
-+   psps_2019_base$hospital_coercion <- as.integer(psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"))
-+ })
-> 
-> base_row_replace <- expression({
-+   psps_2019_base$hospital_row_replace <- "Non-Hospital"
-+   psps_2019_base[psps_2019_base$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "hospital_row_replace"] <- "Hospital"
-+ })
-> 
-> tidy_ifelse_integer <- expression({
-+   psps_2019_tidy <-
-+     psps_2019_tidy %>%
-+     dplyr::mutate(hospital_integer = if_else(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L))
-+ })
-> 
-> tidy_ifelse_string <- expression({
-+   psps_2019_tidy <-
-+     psps_2019_tidy %>%
-+     dplyr::mutate(hospital_string = if_else(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital"))
-+ })
-> 
-> tidy_logical_coercion <- expression({
-+   psps_2019_tidy <-
-+     psps_2019_tidy %>%
-+     dplyr::mutate(hospital_coercion = as.integer(.data$PLACE_OF_SERVICE_CD %in% c("19", "21", "22")))
-+ })
-> 
-> dt_ifelse_integer <- expression({
-+   psps_2019_dt[, hospital_integer := fifelse(PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), 1L, 0L)]
-+ })
-> dt_ifelse_string  <- expression({
-+   psps_2019_dt[, hospital_string := fifelse(PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), "Hospital", "Non-Hospital")]
-+ })
-> dt_logical_coercion  <- expression({
-+   psps_2019_dt[, hospital_coercion := as.integer(PLACE_OF_SERVICE_CD %in% c("19", "21", "22"))]
-+ })
-> dt_row_replace <- expression({
-+   psps_2019_dt[, hospital_row_replace := "Non-Hospital"]
-+   psps_2019_dt[PLACE_OF_SERVICE_CD %in% c("19", "21", "22"), hospital_row_replace := "Hospital"]
-+ })
-> 
-> 
-> microbenchmark(
-+   eval(base_ifelse_integer),
-+   eval(base_ifelse_string),
-+   eval(base_logical_coercion),
-+   eval(base_row_replace),
-+   eval(tidy_ifelse_integer),
-+   eval(tidy_ifelse_string),
-+   eval(tidy_logical_coercion),
-+   eval(dt_ifelse_integer),
-+   eval(dt_ifelse_string),
-+   eval(dt_logical_coercion),
-+   eval(dt_row_replace),
-+   times = 10
-+   )
+> benchmark(calls, times = 10)
+$benchmark
 Unit: milliseconds
-                        expr       min        lq      mean    median        uq
-   eval(base_ifelse_integer)  848.8738  894.1633 1166.7680  930.2702 1197.3318
-    eval(base_ifelse_string) 2236.9913 2287.6078 2449.7113 2352.0725 2546.6587
- eval(base_logical_coercion)  525.9638  588.6413  669.7061  592.9994  799.2829
-      eval(base_row_replace)  766.0518  868.9870  978.9222  981.9446 1113.1223
-   eval(tidy_ifelse_integer)  579.2071  613.2680  811.0766  680.9316  985.4648
-    eval(tidy_ifelse_string)  830.9834  883.9192 1042.2786 1007.5035 1076.1033
- eval(tidy_logical_coercion)  235.9842  259.6215  311.5066  290.7798  293.7926
-     eval(dt_ifelse_integer)  487.0746  547.6691  624.8665  572.4337  583.6511
-      eval(dt_ifelse_string)  613.0930  622.0810  659.4564  649.9900  676.8346
-   eval(dt_logical_coercion)  513.4620  584.1223  626.6404  593.4600  643.0050
-        eval(dt_row_replace)  738.4290  804.1635  816.4320  815.0461  826.1758
+                  expr       min        lq      mean    median        uq
+   base_ifelse_integer  920.2391 1044.1675 1388.7618 1104.7974 1582.6453
+    base_ifelse_string 2532.4356 2589.7335 3049.5839 2952.8000 3284.4705
+ base_logical_coercion  624.0456  724.8303  876.9904  914.9027 1033.7383
+      base_row_replace  940.8592 1032.6386 1208.9901 1127.3293 1332.1778
+   tidy_ifelse_integer 1081.2904 1099.5389 1295.2538 1273.4616 1390.4231
+    tidy_ifelse_string 1283.6506 1467.1937 1761.6731 1673.6558 1979.9030
+ tidy_logical_coercion  718.5133  734.3173  905.6773  785.1088 1104.9832
+     dt_ifelse_integer  644.3323  699.6672  735.9172  716.5165  723.6563
+      dt_ifelse_string  743.6361  820.5017  989.3509  865.1384 1261.9962
+   dt_logical_coercion  621.1446  697.6063  708.6410  718.5204  723.9002
+        dt_row_replace  836.5724  878.0109 1103.2356  939.5510 1338.0294
        max neval
- 2688.5582    10
- 3000.5247    10
-  966.5236    10
- 1181.3964    10
- 1409.9720    10
- 1502.5091    10
-  605.6488    10
-  955.3715    10
-  760.3277    10
-  828.6215    10
-  871.5070    10
+ 2412.6976    10
+ 3881.5679    10
+ 1114.6488    10
+ 1627.3765    10
+ 1791.1872    10
+ 2407.6070    10
+ 1198.2163    10
+ 1040.7469    10
+ 1422.8653    10
+  807.2276    10
+ 1943.8861    10
+
+$profmem
+                              bytes
+base_ifelse_integer     793,800,152
+base_ifelse_string    1,020,599,584
+base_logical_coercion   340,200,312
+base_row_replace        662,616,552
+tidy_ifelse_integer     963,912,784
+tidy_ifelse_string    1,134,012,312
+tidy_logical_coercion   340,213,384
+dt_ifelse_integer       340,234,224
+dt_ifelse_string        396,934,120
+dt_logical_coercion     340,234,224
+dt_row_replace          411,966,056
+
 > 
-> # memory use
-> mem <-
-+   list(
-+        base_ifelse_integer   = profmem::profmem(eval(base_ifelse_integer)),
-+        base_ifelse_string    = profmem::profmem(eval(base_ifelse_string)),
-+        base_logical_coercion = profmem::profmem(eval(base_logical_coercion)),
-+        base_row_replace      = profmem::profmem(eval(base_row_replace)),
-+        tidy_ifelse_integer   = profmem::profmem(eval(tidy_ifelse_integer)),
-+        tidy_ifelse_string    = profmem::profmem(eval(tidy_ifelse_string)),
-+        tidy_logical_coercion = profmem::profmem(eval(tidy_logical_coercion)),
-+        dt_ifelse_integer     = profmem::profmem(eval(dt_ifelse_integer)),
-+        dt_ifelse_string      = profmem::profmem(eval(dt_ifelse_string)),
-+        dt_logical_coercion   = profmem::profmem(eval(dt_logical_coercion)),
-+        dt_row_replace        = profmem::profmem(eval(dt_row_replace))
-+        )
 > 
-> # total number of bytes allocated
-> # format via floats to avoid integer overflow
-> sapply(mem, profmem::total) |>
-+   sapply(formatC, format = "f", big.mark = ",", digits = 0)
-  base_ifelse_integer    base_ifelse_string base_logical_coercion 
-        "793,799,592"       "1,020,599,176"         "340,199,880" 
-     base_row_replace   tidy_ifelse_integer    tidy_ifelse_string 
-        "662,616,096"         "907,209,304"       "1,077,308,744" 
-tidy_logical_coercion     dt_ifelse_integer      dt_ifelse_string 
-        "283,509,536"         "340,234,224"         "396,934,120" 
-  dt_logical_coercion        dt_row_replace 
-        "340,234,224"         "411,966,304" 
 > 
 > sessionInfo()
 R version 4.2.1 (2022-06-23)
@@ -246,19 +190,30 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] data.table_1.14.3    dplyr_1.0.9          readr_2.1.2         
-[4] profmem_0.6.0        microbenchmark_1.4.9
+ [1] data.table_1.14.3 forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
+ [5] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.8     
+ [9] ggplot2_3.3.6     tidyverse_1.3.2  
 
 loaded via a namespace (and not attached):
- [1] magrittr_2.0.3   hms_1.1.1        tidyselect_1.1.2 bit_4.0.4       
- [5] R6_2.5.1         rlang_1.0.4      fansi_1.0.3      tools_4.2.1     
- [9] parallel_4.2.1   vroom_1.5.7      utf8_1.2.2       cli_3.3.0       
-[13] DBI_1.1.3        ellipsis_0.3.2   bit64_4.0.5      assertthat_0.2.1
-[17] tibble_3.1.8     lifecycle_1.0.1  crayon_1.5.1     purrr_0.3.4     
-[21] tzdb_0.3.0       vctrs_0.4.1      glue_1.6.2       compiler_4.2.1  
-[25] pillar_1.8.0     generics_0.1.3   pkgconfig_2.0.3 
+ [1] pillar_1.8.0         compiler_4.2.1       cellranger_1.1.0    
+ [4] dbplyr_2.2.1         tools_4.2.1          bit_4.0.4           
+ [7] lubridate_1.8.0      googledrive_2.0.0    jsonlite_1.8.0      
+[10] lifecycle_1.0.1      gargle_1.2.0         gtable_0.3.0        
+[13] pkgconfig_2.0.3      rlang_1.0.4          reprex_2.0.1        
+[16] DBI_1.1.3            cli_3.3.0            microbenchmark_1.4.9
+[19] parallel_4.2.1       haven_2.5.0          xml2_1.3.3          
+[22] withr_2.5.0          httr_1.4.3           generics_0.1.3      
+[25] vctrs_0.4.1          fs_1.5.2             hms_1.1.1           
+[28] bit64_4.0.5          googlesheets4_1.0.0  grid_4.2.1          
+[31] tidyselect_1.1.2     glue_1.6.2           R6_2.5.1            
+[34] fansi_1.0.3          readxl_1.4.0         profmem_0.6.0       
+[37] vroom_1.5.7          tzdb_0.3.0           modelr_0.1.8        
+[40] magrittr_2.0.3       backports_1.4.1      scales_1.2.0        
+[43] ellipsis_0.3.2       rvest_1.0.2          assertthat_0.2.1    
+[46] colorspace_2.0-3     utf8_1.2.2           stringi_1.7.8       
+[49] munsell_0.5.0        broom_1.0.0          crayon_1.5.1        
 > 
 > 
 > proc.time()
-   user  system elapsed 
-312.101  25.614 299.564 
+    user   system  elapsed 
+1030.143   55.756 1048.270 

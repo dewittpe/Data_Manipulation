@@ -1,0 +1,50 @@
+
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> args(read.csv)        # you have control over sep = ","
+function (file, header = TRUE, sep = ",", quote = "\"", dec = ".", 
+    fill = TRUE, comment.char = "", ...) 
+NULL
+> args(readr::read_csv) # comma separated.  use read_csv2 for ";" sep
+function (file, col_names = TRUE, col_types = NULL, col_select = NULL, 
+    id = NULL, locale = default_locale(), na = c("", "NA"), quoted_na = TRUE, 
+    quote = "\"", comment = "", trim_ws = TRUE, skip = 0, n_max = Inf, 
+    guess_max = min(1000, n_max), name_repair = "unique", num_threads = readr_threads(), 
+    progress = show_progress(), show_col_types = should_show_types(), 
+    skip_empty_rows = TRUE, lazy = should_read_lazy()) 
+NULL
+> args(data.table::fread)
+function (input = "", file = NULL, text = NULL, cmd = NULL, sep = "auto", 
+    sep2 = "auto", dec = ".", quote = "\"", nrows = Inf, header = "auto", 
+    na.strings = getOption("datatable.na.strings", "NA"), stringsAsFactors = FALSE, 
+    verbose = getOption("datatable.verbose", FALSE), skip = "__auto__", 
+    select = NULL, drop = NULL, colClasses = NULL, integer64 = getOption("datatable.integer64", 
+        "integer64"), col.names, check.names = FALSE, encoding = "unknown", 
+    strip.white = TRUE, fill = FALSE, blank.lines.skip = FALSE, 
+    key = NULL, index = NULL, showProgress = getOption("datatable.showProgress", 
+        interactive()), data.table = getOption("datatable.fread.datatable", 
+        TRUE), nThread = getDTthreads(verbose), logical01 = getOption("datatable.logical01", 
+        FALSE), keepLeadingZeros = getOption("datatable.keepLeadingZeros", 
+        FALSE), yaml = FALSE, autostart = NA, tmpdir = tempdir(), 
+    tz = "UTC") 
+NULL
+> 
+> proc.time()
+   user  system elapsed 
+  0.494   0.051   0.534 

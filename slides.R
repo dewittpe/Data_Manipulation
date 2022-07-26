@@ -119,6 +119,11 @@ mtcars |>
 #'   - My github: https://github.com/dewittpe/Data_Manipulation
 #'   - Denver R User Group: https://github.com/DenverRUG/2022-07-27-Data-Manipulation
 #'
+#' ## Utilities: commonly header
+#' <div class="box">
+#' <iframe src="utilities.Rout.html" style="height:500px;"></iframe>
+#' </div>
+#'
 #' ## Data Import: Reading in a lot of columns
 #' <div class="box">
 #' <iframe src="001_data_import/many_columns.Rout.html" style="height:500px;"></iframe>
@@ -168,8 +173,14 @@ mtcars |>
 #' </div>
 #'
 #' ## Reshape: Wide to Long
+#' <div class="box">
+#' <iframe src="005_reshape/wide_to_long.Rout.html" style="height:500px;"></iframe>
+#' </div>
 #'
 #' ## Reshape: Long to Wide
+#' <div class="box">
+#' <iframe src="005_reshape/long_to_wide.Rout.html" style="height:500px;"></iframe>
+#' </div>
 #'
 #' ## Aggregation:
 #'

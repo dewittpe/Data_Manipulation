@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>~/DRUG/Data_Manipulation/args_of_read.Rout.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim8.1_v2">
+<meta name="syntax" content="rout">
+<meta name="settings" content="number_lines,use_css,no_foldcolumn,expand_tabs,line_ids,prevent_copy=,use_input_for_pc=fallback">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.routInf { color: #00afff; }
+.Special { color: #ffd7d7; }
+.routNormal { color: #00d700; }
+.routString { color: #5fffaf; }
+.routNumber { color: #ffaf00; }
+.routTrue { color: #5fd787; }
+.LineNr { color: #ffff00; }
+.routConst { color: #00af5f; }
+.routDate { color: #d7af5f; }
+.routFloat { color: #ffaf00; }
+.routFalse { color: #ff5f5f; }
+.Comment { color: #00ffff; }
+.Statement { color: #ffff00; }
+-->
+</style>
+
+<script>
+<!--
+
+/* function to open any folds containing a jumped-to line before jumping to it */
+function JumpToLine()
+{
+  var lineNum;
+  lineNum = window.location.hash;
+  lineNum = lineNum.substr(1); /* strip off '#' */
+
+  if (lineNum.indexOf('L') == -1) {
+    lineNum = 'L'+lineNum;
+  }
+  var lineElem = document.getElementById(lineNum);
+  /* Always jump to new location even if the line was hidden inside a fold, or
+   * we corrected the raw number to a line ID.
+   */
+  if (lineElem) {
+    lineElem.scrollIntoView(true);
+  }
+  return true;
+}
+if ('onhashchange' in window) {
+  window.onhashchange = JumpToLine;
+}
+
+-->
+</script>
+</head>
+<body onload='JumpToLine();'>
+<pre id='vimCodeElement'>
+<span id="L1" class="LineNr"> 1 </span>
+<span id="L2" class="LineNr"> 2 </span><span class="routNormal">R version </span><span class="routFloat">4.2</span><span class="routNormal">.1 (</span><span class="routDate">2022-06-23</span><span class="routNormal">) -- </span><span class="routString">&quot;Funny-Looking Kid&quot;</span>
+<span id="L3" class="LineNr"> 3 </span><span class="routNormal">Copyright (C) </span><span class="routNumber">2022</span><span class="routNormal"> The R Foundation for Statistical Computing</span>
+<span id="L4" class="LineNr"> 4 </span><span class="routNormal">Platform: x86_64-apple-darwin17.0 (</span><span class="routNumber">64</span><span class="routNormal">-bit)</span>
+<span id="L5" class="LineNr"> 5 </span>
+<span id="L6" class="LineNr"> 6 </span><span class="routNormal">R is free software and comes with ABSOLUTELY NO WARRANTY.</span>
+<span id="L7" class="LineNr"> 7 </span><span class="routNormal">You are welcome to redistribute it under certain conditions.</span>
+<span id="L8" class="LineNr"> 8 </span><span class="routNormal">Type 'license()' or 'licence()' for distribution details.</span>
+<span id="L9" class="LineNr"> 9 </span>
+<span id="L10" class="LineNr">10 </span><span class="routNormal">  Natural language support but running in an English locale</span>
+<span id="L11" class="LineNr">11 </span>
+<span id="L12" class="LineNr">12 </span><span class="routNormal">R is a collaborative project with many contributors.</span>
+<span id="L13" class="LineNr">13 </span><span class="routNormal">Type 'contributors()' for more information and</span>
+<span id="L14" class="LineNr">14 </span><span class="routNormal">'citation()' on how to cite R or R packages in publications.</span>
+<span id="L15" class="LineNr">15 </span>
+<span id="L16" class="LineNr">16 </span><span class="routNormal">Type 'demo()' for some demos, 'help()' for on-line help, or</span>
+<span id="L17" class="LineNr">17 </span><span class="routNormal">'help.start()' for an HTML browser interface to help.</span>
+<span id="L18" class="LineNr">18 </span><span class="routNormal">Type 'q()' to quit R.</span>
+<span id="L19" class="LineNr">19 </span>
+<span id="L20" class="LineNr">20 </span><span class="Statement">&gt;</span> args<span class="Special">(</span>read.csv<span class="Special">)</span>        <span class="Comment"># you have control over sep = &quot;,&quot;</span>
+<span id="L21" class="LineNr">21 </span><span class="routNormal">function (file, header = </span><span class="routTrue">TRUE</span><span class="routNormal">, sep = </span><span class="routString">&quot;,&quot;</span><span class="routNormal">, quote = </span><span class="routString">&quot;\&quot;&quot;</span><span class="routNormal">, dec = </span><span class="routString">&quot;.&quot;</span><span class="routNormal">, </span>
+<span id="L22" class="LineNr">22 </span><span class="routNormal">    fill = </span><span class="routTrue">TRUE</span><span class="routNormal">, comment.char = </span><span class="routString">&quot;&quot;</span><span class="routNormal">, ...) </span>
+<span id="L23" class="LineNr">23 </span><span class="routConst">NULL</span>
+<span id="L24" class="LineNr">24 </span><span class="Statement">&gt;</span> args<span class="Special">(</span>readr<span class="Special">::</span>read_csv<span class="Special">)</span> <span class="Comment"># comma separated.  use read_csv2 for &quot;;&quot; sep</span>
+<span id="L25" class="LineNr">25 </span><span class="routNormal">function (file, col_names = </span><span class="routTrue">TRUE</span><span class="routNormal">, col_types = </span><span class="routConst">NULL</span><span class="routNormal">, col_select = </span><span class="routConst">NULL</span><span class="routNormal">, </span>
+<span id="L26" class="LineNr">26 </span><span class="routNormal">    id = </span><span class="routConst">NULL</span><span class="routNormal">, locale = default_locale(), na = c(</span><span class="routString">&quot;&quot;</span><span class="routNormal">, </span><span class="routString">&quot;NA&quot;</span><span class="routNormal">), quoted_na = </span><span class="routTrue">TRUE</span><span class="routNormal">, </span>
+<span id="L27" class="LineNr">27 </span><span class="routNormal">    quote = </span><span class="routString">&quot;\&quot;&quot;</span><span class="routNormal">, comment = </span><span class="routString">&quot;&quot;</span><span class="routNormal">, trim_ws = </span><span class="routTrue">TRUE</span><span class="routNormal">, skip = </span><span class="routNumber">0</span><span class="routNormal">, n_max = </span><span class="routInf">Inf</span><span class="routNormal">, </span>
+<span id="L28" class="LineNr">28 </span><span class="routNormal">    guess_max = min(</span><span class="routNumber">1000</span><span class="routNormal">, n_max), name_repair = </span><span class="routString">&quot;unique&quot;</span><span class="routNormal">, num_threads = readr_threads(), </span>
+<span id="L29" class="LineNr">29 </span><span class="routNormal">    progress = show_progress(), show_col_types = should_show_types(), </span>
+<span id="L30" class="LineNr">30 </span><span class="routNormal">    skip_empty_rows = </span><span class="routTrue">TRUE</span><span class="routNormal">, lazy = should_read_lazy()) </span>
+<span id="L31" class="LineNr">31 </span><span class="routConst">NULL</span>
+<span id="L32" class="LineNr">32 </span><span class="Statement">&gt;</span> args<span class="Special">(</span>data.table<span class="Special">::</span>fread<span class="Special">)</span>
+<span id="L33" class="LineNr">33 </span><span class="routNormal">function (input = </span><span class="routString">&quot;&quot;</span><span class="routNormal">, file = </span><span class="routConst">NULL</span><span class="routNormal">, text = </span><span class="routConst">NULL</span><span class="routNormal">, cmd = </span><span class="routConst">NULL</span><span class="routNormal">, sep = </span><span class="routString">&quot;auto&quot;</span><span class="routNormal">, </span>
+<span id="L34" class="LineNr">34 </span><span class="routNormal">    sep2 = </span><span class="routString">&quot;auto&quot;</span><span class="routNormal">, dec = </span><span class="routString">&quot;.&quot;</span><span class="routNormal">, quote = </span><span class="routString">&quot;\&quot;&quot;</span><span class="routNormal">, nrows = </span><span class="routInf">Inf</span><span class="routNormal">, header = </span><span class="routString">&quot;auto&quot;</span><span class="routNormal">, </span>
+<span id="L35" class="LineNr">35 </span><span class="routNormal">    na.strings = getOption(</span><span class="routString">&quot;datatable.na.strings&quot;</span><span class="routNormal">, </span><span class="routString">&quot;NA&quot;</span><span class="routNormal">), stringsAsFactors = </span><span class="routFalse">FALSE</span><span class="routNormal">, </span>
+<span id="L36" class="LineNr">36 </span><span class="routNormal">    verbose = getOption(</span><span class="routString">&quot;datatable.verbose&quot;</span><span class="routNormal">, </span><span class="routFalse">FALSE</span><span class="routNormal">), skip = </span><span class="routString">&quot;__auto__&quot;</span><span class="routNormal">, </span>
+<span id="L37" class="LineNr">37 </span><span class="routNormal">    select = </span><span class="routConst">NULL</span><span class="routNormal">, drop = </span><span class="routConst">NULL</span><span class="routNormal">, colClasses = </span><span class="routConst">NULL</span><span class="routNormal">, integer64 = getOption(</span><span class="routString">&quot;datatable.integer64&quot;</span><span class="routNormal">, </span>
+<span id="L38" class="LineNr">38 </span><span class="routNormal">        </span><span class="routString">&quot;integer64&quot;</span><span class="routNormal">), col.names, check.names = </span><span class="routFalse">FALSE</span><span class="routNormal">, encoding = </span><span class="routString">&quot;unknown&quot;</span><span class="routNormal">, </span>
+<span id="L39" class="LineNr">39 </span><span class="routNormal">    strip.white = </span><span class="routTrue">TRUE</span><span class="routNormal">, fill = </span><span class="routFalse">FALSE</span><span class="routNormal">, blank.lines.skip = </span><span class="routFalse">FALSE</span><span class="routNormal">, </span>
+<span id="L40" class="LineNr">40 </span><span class="routNormal">    key = </span><span class="routConst">NULL</span><span class="routNormal">, index = </span><span class="routConst">NULL</span><span class="routNormal">, showProgress = getOption(</span><span class="routString">&quot;datatable.showProgress&quot;</span><span class="routNormal">, </span>
+<span id="L41" class="LineNr">41 </span><span class="routNormal">        interactive()), data.table = getOption(</span><span class="routString">&quot;datatable.fread.datatable&quot;</span><span class="routNormal">, </span>
+<span id="L42" class="LineNr">42 </span><span class="routNormal">        </span><span class="routTrue">TRUE</span><span class="routNormal">), nThread = getDTthreads(verbose), logical01 = getOption(</span><span class="routString">&quot;datatable.logical01&quot;</span><span class="routNormal">, </span>
+<span id="L43" class="LineNr">43 </span><span class="routNormal">        </span><span class="routFalse">FALSE</span><span class="routNormal">), keepLeadingZeros = getOption(</span><span class="routString">&quot;datatable.keepLeadingZeros&quot;</span><span class="routNormal">, </span>
+<span id="L44" class="LineNr">44 </span><span class="routNormal">        </span><span class="routFalse">FALSE</span><span class="routNormal">), yaml = </span><span class="routFalse">FALSE</span><span class="routNormal">, autostart = </span><span class="routConst">NA</span><span class="routNormal">, tmpdir = tempdir(), </span>
+<span id="L45" class="LineNr">45 </span><span class="routNormal">    tz = </span><span class="routString">&quot;UTC&quot;</span><span class="routNormal">) </span>
+<span id="L46" class="LineNr">46 </span><span class="routConst">NULL</span>
+<span id="L47" class="LineNr">47 </span><span class="Statement">&gt;</span>
+<span id="L48" class="LineNr">48 </span><span class="Statement">&gt;</span> proc.time<span class="Special">()</span>
+<span id="L49" class="LineNr">49 </span><span class="routNormal">   user  system elapsed </span>
+<span id="L50" class="LineNr">50 </span><span class="routNormal">  </span><span class="routFloat">0.494</span><span class="routNormal">   </span><span class="routFloat">0.051</span><span class="routNormal">   </span><span class="routFloat">0.534</span><span class="routNormal"> </span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

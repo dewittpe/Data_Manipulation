@@ -17,57 +17,12 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library(microbenchmark)
-> library(profmem)
-> library(readr)
-> library(dplyr)
-
-Attaching package: ‘dplyr’
-
-The following objects are masked from ‘package:stats’:
-
-    filter, lag
-
-The following objects are masked from ‘package:base’:
-
-    intersect, setdiff, setequal, union
-
-> library(data.table)
-
-Attaching package: ‘data.table’
-
-The following objects are masked from ‘package:dplyr’:
-
-    between, first, last
-
-> 
-> psps_2019_path <- file.path(".", "000_data_sets", "PSPS", "psps_2019.csv")
-> 
-> column_classes <-
-+   c(
-+   "HCPCS_CD"                  = "character",
-+   "HCPCS_INITIAL_MODIFIER_CD" = "character",
-+   "PROVIDER_SPEC_CD"          = "character",
-+   "CARRIER_NUM"               = "integer",
-+   "PRICING_LOCALITY_CD"       = "character",
-+   "TYPE_OF_SERVICE_CD"        = "character",
-+   "PLACE_OF_SERVICE_CD"       = "integer",
-+   "HCPCS_SECOND_MODIFIER_CD"  = "character",
-+   "SUBMITTED_SERVICE_CNT"     = "numeric",
-+   "SUBMITTED_CHARGE_AMT"      = "numeric",
-+   "ALLOWED_CHARGE_AMT"        = "numeric",
-+   "DENIED_SERVICES_CNT"       = "numeric",
-+   "DENIED_CHARGE_AMT"         = "numeric",
-+   "ASSIGNED_SERVICES_CNT"     = "numeric",
-+   "NCH_PAYMENT_AMT"           = "numeric",
-+   "HCPCS_ASC_IND_CD"          = "character",
-+   "ERROR_IND_CD"              = "integer",
-+   "BETOS_CD"                  = "character")
+> source("utilities.R")
 > 
 > # read in a smaller subset of data
-> psps_2019_df  <- read.csv(psps_2019_path, colClasses = column_classes, nrows = 1000)
-> psps_2019_tbl <- read_csv(psps_2019_path, col_type = column_classes, n_max = 1000)
-> psps_2019_dt  <- fread(psps_2019_path, colClasses = column_classes, nrows = 1000)
+> psps_2019_df  <- read.csv(psps_2019_path, colClasses = psps_column_classes, nrows = 1000)
+> psps_2019_tbl <- read_csv(psps_2019_path, col_types  = psps_column_classes, n_max = 1000)
+> psps_2019_dt  <- fread(psps_2019_path,    colClasses = psps_column_classes, nrows = 1000)
 > 
 > # read in all the place of services
 > pos_df <- read.csv("000_data_sets/cms_place_of_service.cvs"
@@ -96,111 +51,110 @@ Classes ‘data.table’ and 'data.frame':	99 obs. of  3 variables:
 > data.table::setkey(psps_2019_dt, "PLACE_OF_SERVICE_CD")
 > 
 > ################################################################################
-> base_left <- expression({
-+   merge(x = psps_2019_df, y = pos_df, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all.x = TRUE, all.y = FALSE)
-+ })
-> tidy_left <- expression({
-+   left_join(x = psps_2019_tbl, y = pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code"))
-+ })
-> dt_left <- expression({
-+   merge(x = psps_2019_dt, y = pos_dt, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all.x = TRUE, all.y = FALSE)
-+ })
-> dt_left_v2 <- expression({
-+   pos_dt[psps_2019_dt, on = c("code" = "PLACE_OF_SERVICE_CD")]
-+ })
+> # Left Joins
+> calls <- alist(
++   base_left = {
++     merge(x = psps_2019_df, y = pos_df, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all.x = TRUE, all.y = FALSE)
++   },
++   tidy_left = {
++     left_join(x = psps_2019_tbl, y = pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code"))
++   },
++   dt_left = {
++     merge(x = psps_2019_dt, y = pos_dt, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all.x = TRUE, all.y = FALSE)
++   },
++   dt_left_v2 = {
++     pos_dt[psps_2019_dt, on = c("code" = "PLACE_OF_SERVICE_CD")]
++   }
++ )
 > 
-> microbenchmark(eval(base_left), eval(tidy_left), eval(dt_left), eval(dt_left_v2))
+> benchmark(calls)
+$benchmark
 Unit: microseconds
-             expr      min        lq      mean    median        uq      max
-  eval(base_left) 1013.340 1092.6870 1264.9842 1175.2325 1255.4225 5001.354
-  eval(tidy_left) 1343.170 1457.0660 1680.7982 1504.3945 1621.4440 5828.531
-    eval(dt_left)  667.796  715.3695  821.0307  788.6270  829.4130 1884.044
- eval(dt_left_v2)  528.482  565.1725  748.8892  615.7855  659.7805 9272.492
- neval
-   100
-   100
-   100
-   100
+       expr      min        lq      mean    median        uq      max neval
+  base_left 1062.758 1268.4835 1452.9257 1348.1095 1468.0550 6338.470   100
+  tidy_left 1457.802 1689.0790 1913.2607 1811.6175 1944.6835 6178.902   100
+    dt_left  707.387  830.5250  912.3689  897.5505  983.5795 1628.523   100
+ dt_left_v2  555.677  657.0425  875.2051  728.9575  798.9460 9262.234   100
+
+$profmem
+             bytes
+base_left  502,944
+tidy_left  204,488
+dt_left    279,000
+dt_left_v2 275,184
+
 > 
 > # For data.table, why use `[` instead of merge?
 > # Read FAQ 1.11 https://cran.r-project.org/web/packages/data.table/vignettes/datatable-faq.html#MergeDiff
 > #
 > 
 > ################################################################################
-> base_inner <- expression({
-+   merge(x = psps_2019_df, y = pos_df, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all = FALSE)
-+ })
-> tidy_inner <- expression({
-+   inner_join(x = psps_2019_tbl, y = pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code"))
-+ })
-> dt_inner <- expression({
-+   merge(x = psps_2019_dt, y = pos_dt, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all = FALSE)
-+ })
-> dt_inner_v2 <- expression({
-+   psps_2019_dt[pos_dt, on = c("PLACE_OF_SERVICE_CD" = "code"), nomatch = NULL]
-+ })
-> dt_inner_v3 <- expression({
-+   pos_dt[psps_2019_dt, on = c("code" = "PLACE_OF_SERVICE_CD"), nomatch = NULL]
-+ })
+> # Inner Joins
+> calls <- alist(
++   base_inner = {
++     merge(x = psps_2019_df, y = pos_df, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all = FALSE)
++   },
++   tidy_inner = {
++     inner_join(x = psps_2019_tbl, y = pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code"))
++   },
++   dt_inner = {
++     merge(x = psps_2019_dt, y = pos_dt, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all = FALSE)
++   },
++   dt_inner_v2 = {
++     psps_2019_dt[pos_dt, on = c("PLACE_OF_SERVICE_CD" = "code"), nomatch = NULL]
++   },
++   dt_inner_v3 = {
++     pos_dt[psps_2019_dt, on = c("code" = "PLACE_OF_SERVICE_CD"), nomatch = NULL]
++   }
++ )
 > 
-> microbenchmark(eval(base_inner), eval(tidy_inner), eval(dt_inner), eval(dt_inner_v2), eval(dt_inner_v3))
+> benchmark(calls)
+$benchmark
 Unit: microseconds
-              expr      min        lq      mean   median        uq      max
-  eval(base_inner) 1006.779 1050.1090 1212.4082 1126.224 1243.0000 6881.184
-  eval(tidy_inner) 1354.247 1413.2985 1625.8141 1490.983 1608.4325 6170.999
-    eval(dt_inner)  669.923  699.6365  778.9175  751.053  818.7275 1297.221
- eval(dt_inner_v2)  533.023  556.9440  659.4968  610.684  673.2045 3720.768
- eval(dt_inner_v3)  532.445  557.4935  660.2751  594.229  672.6665 4457.687
- neval
-   100
-   100
-   100
-   100
-   100
-> 
-> mem <- list(bi = profmem::profmem(eval(base_inner)),
-+             ti = profmem::profmem(eval(tidy_inner)),
-+             d1 = profmem::profmem(eval(dt_inner)),
-+             d2 = profmem::profmem(eval(dt_inner_v2)),
-+             d3 = profmem::profmem(eval(dt_inner_v3))
-+             )
-> 
-> # total number of bytes allocated
-> # format via floats to avoid integer overflow
-> sapply(mem, profmem::total) |>
-+   sapply(formatC, format = "f", big.mark = ",", digits = 0)
-       bi        ti        d1        d2        d3 
-"502,944" "197,576" "295,200" "269,080" "291,384" 
-> 
+        expr      min       lq      mean    median        uq       max neval
+  base_inner 1173.827 1215.356 1346.5241 1278.9460 1437.8600  2103.061   100
+  tidy_inner 1569.302 1620.972 1818.5103 1709.0785 1933.4520  3667.796   100
+    dt_inner  793.075  818.896 1186.7789  889.9855  985.0685 19439.337   100
+ dt_inner_v2  599.999  632.126  712.3982  695.2340  755.1575  1273.269   100
+ dt_inner_v3  595.117  627.793  808.2290  674.4975  738.9735  6564.835   100
+
+$profmem
+              bytes
+base_inner  496,864
+tidy_inner  204,488
+dt_inner    295,200
+dt_inner_v2 269,080
+dt_inner_v3 291,384
+
 > 
 > ################################################################################
-> base_full <- expression({
-+   merge(x = psps_2019_df, y = pos_df, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all = TRUE)
-+ })
-> tidy_full <- expression({
-+   full_join(x = psps_2019_tbl, y = pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code"))
-+ })
-> dt_full <- expression({
-+   merge(x = psps_2019_dt, y = pos_dt, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all = TRUE)
-+ })
+> # Full Outer Joins
+> calls <- alist(
++   base_full = {
++     merge(x = psps_2019_df, y = pos_df, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all = TRUE)
++   },
++   tidy_full = {
++     full_join(x = psps_2019_tbl, y = pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code"))
++   },
++   dt_full = {
++     merge(x = psps_2019_dt, y = pos_dt, by.x = "PLACE_OF_SERVICE_CD", by.y = "code", all = TRUE)
++   }
++ )
 > 
-> microbenchmark(eval(base_full), eval(tidy_full), eval(dt_full))
+> benchmark(calls)
+$benchmark
 Unit: milliseconds
-            expr      min       lq     mean   median       uq      max neval
- eval(base_full) 2.158893 2.375224 2.597329 2.424678 2.601711 5.519529   100
- eval(tidy_full) 1.814644 1.870405 2.029946 1.916243 2.040390 5.327418   100
-   eval(dt_full) 2.035565 2.546988 2.768330 2.635083 2.744057 7.413158   100
-> 
-> mem <- list(bf = profmem::profmem(eval(base_full)),
-+             tf = profmem::profmem(eval(tidy_full)),
-+             df = profmem::profmem(eval(dt_full)))
-> # total number of bytes allocated
-> # format via floats to avoid integer overflow
-> sapply(mem, profmem::total) |>
-+   sapply(formatC, format = "f", big.mark = ",", digits = 0)
-       bf        tf        df 
-"929,488" "239,504" "592,712" 
-> 
+      expr      min       lq     mean   median       uq       max neval
+ base_full 2.348836 2.459021 2.795149 2.656591 2.767221  7.068793   100
+ tidy_full 1.800069 1.933791 2.322639 2.057812 2.196861 21.803582   100
+   dt_full 2.152890 2.437003 2.691995 2.644312 2.790681  5.152727   100
+
+$profmem
+            bytes
+base_full 929,488
+tidy_full 246,416
+dt_full   592,712
+
 > 
 > ################################################################################
 > 
@@ -220,19 +174,30 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] data.table_1.14.3    dplyr_1.0.9          readr_2.1.2         
-[4] profmem_0.6.0        microbenchmark_1.4.9
+ [1] data.table_1.14.3 forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
+ [5] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.8     
+ [9] ggplot2_3.3.6     tidyverse_1.3.2  
 
 loaded via a namespace (and not attached):
- [1] magrittr_2.0.3   hms_1.1.1        tidyselect_1.1.2 bit_4.0.4       
- [5] R6_2.5.1         rlang_1.0.4      fansi_1.0.3      tools_4.2.1     
- [9] parallel_4.2.1   vroom_1.5.7      utf8_1.2.2       cli_3.3.0       
-[13] DBI_1.1.3        ellipsis_0.3.2   bit64_4.0.5      assertthat_0.2.1
-[17] tibble_3.1.8     lifecycle_1.0.1  crayon_1.5.1     purrr_0.3.4     
-[21] tzdb_0.3.0       vctrs_0.4.1      glue_1.6.2       compiler_4.2.1  
-[25] pillar_1.8.0     generics_0.1.3   pkgconfig_2.0.3 
+ [1] pillar_1.8.0         compiler_4.2.1       cellranger_1.1.0    
+ [4] dbplyr_2.2.1         tools_4.2.1          bit_4.0.4           
+ [7] lubridate_1.8.0      googledrive_2.0.0    jsonlite_1.8.0      
+[10] lifecycle_1.0.1      gargle_1.2.0         gtable_0.3.0        
+[13] pkgconfig_2.0.3      rlang_1.0.4          reprex_2.0.1        
+[16] DBI_1.1.3            cli_3.3.0            microbenchmark_1.4.9
+[19] parallel_4.2.1       haven_2.5.0          xml2_1.3.3          
+[22] withr_2.5.0          httr_1.4.3           generics_0.1.3      
+[25] vctrs_0.4.1          fs_1.5.2             hms_1.1.1           
+[28] bit64_4.0.5          googlesheets4_1.0.0  grid_4.2.1          
+[31] tidyselect_1.1.2     glue_1.6.2           R6_2.5.1            
+[34] fansi_1.0.3          readxl_1.4.0         profmem_0.6.0       
+[37] vroom_1.5.7          tzdb_0.3.0           modelr_0.1.8        
+[40] magrittr_2.0.3       backports_1.4.1      scales_1.2.0        
+[43] ellipsis_0.3.2       rvest_1.0.2          assertthat_0.2.1    
+[46] colorspace_2.0-3     utf8_1.2.2           stringi_1.7.8       
+[49] munsell_0.5.0        broom_1.0.0          crayon_1.5.1        
 > 
 > 
 > proc.time()
    user  system elapsed 
-  2.666   0.194   2.838 
+  3.557   0.241   3.893 
