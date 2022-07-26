@@ -1,8 +1,7 @@
 # Data Manipulation
 A comparison of [Base R](https://www.r-project.org/),
 [Tidyverse](https://www.tidyverse.org),
-[data.table](https://rdatatable.gitlab.io/data.table/),
-and (maybe) python's pandas for data manipulation.
+[data.table](https://rdatatable.gitlab.io/data.table/).
 
 Each directory contains examples for common data manipulation tasks using
 different dialects.
@@ -21,7 +20,7 @@ You will need the following packages to reproduce the examples here:
 Check for, and install if needed, the packages via the following:
 
 ```r
-pkgs <- c("notapkg", "tidyverse", "data.table", "microbenchmark", "profmem")
+pkgs <- c("tidyverse", "data.table", "microbenchmark", "profmem")
 for (p in pkgs[!(pkgs %in% installed.packages())]) {
   install.packages(p)
 }
