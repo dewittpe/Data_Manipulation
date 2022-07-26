@@ -2,15 +2,8 @@
 #
 # The three data sets
 #                                       Rows  Columms
-# ./000_data_sets/psps_2019.csv   14,174,975       18 
-
-library(microbenchmark)
-library(profmem)
-library(readr)
-library(data.table)
-
-psps_2019_path <- 
-  file.path(".", "000_data_sets", "PSPS", "psps_2019.csv")
+# ./000_data_sets/psps_2019.csv   14,174,975       18
+source('utilities.R')
 
 base <- read.csv(psps_2019_path)
 tidy <- read_csv(psps_2019_path)
@@ -48,36 +41,19 @@ column_classes <-
   "BETOS_CD"                  = "character")
 
 
+# calls for reading in the data
+calls <-
+  alist(
+        base = read.csv(psps_2019_path, colClasses = column_classes),
+        tidy = read_csv(psps_2019_path, col_types = column_classes),
+        dt   = fread(psps_2019_path, colClasses = column_classes)
+  )
 
-# read in the data 
-baseR <- expression({
-  psps_2019 <- read.csv(psps_2019_path, colClasses = column_classes)
-})
+all(sapply(eval(calls$base), class) == sapply(eval(calls$dt), class))
+all(sapply(eval(calls$base), class) == sapply(eval(calls$tidy), class))
 
-tidyverse <- expression({
-  psps_2019 <- read_csv(psps_2019_path, col_type = column_classes)
-})
 
-data.table <- expression({
-  psps_2019 <- fread(psps_2019_path, colClasses = column_classes)
-})
-
-# benchmark
-mb <- microbenchmark(eval(baseR), eval(tidyverse), eval(data.table), times = 5)
-mb
-
-# memory use
-mem <-
-  list(
-       baseR      = profmem::profmem(eval(baseR)),
-       tidyverse  = profmem::profmem(eval(tidyverse)),
-       data.table = profmem::profmem(eval(data.table))
-       )
-
-# total number of bytes allocated
-# format via floats to avoid integer overflow
-sapply(mem, profmem::total) |>
-  sapply(formatC, format = "f", big.mark = ",", digits = 0)
+benchmark(calls, times = 5)
 
 sessionInfo()
 

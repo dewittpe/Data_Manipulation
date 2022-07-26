@@ -1,9 +1,10 @@
 ################################################################################
 # Load the needed packages
-library(tidyverse, quietly = TRUE, warn.conflicts = FALSE)
-library(data.table, quietly = TRUE, warn.conflicts = FALSE)
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(data.table))
 
-# Define some useful paths
+################################################################################
+# Define some useful paths and objects
 recs_2009_path <-
   file.path(".", "000_data_sets", "RECS", "2009", "recs2009_public.csv")
 recs_2015_path <-
@@ -13,6 +14,27 @@ recs_2020_path <-
 
 psps_2019_path <-
   file.path(".", "000_data_sets", "PSPS", "psps_2019.csv")
+
+psps_column_classes <-
+  c(
+  "HCPCS_CD"                  = "character",
+  "HCPCS_INITIAL_MODIFIER_CD" = "character",
+  "PROVIDER_SPEC_CD"          = "character",
+  "CARRIER_NUM"               = "integer",
+  "PRICING_LOCALITY_CD"       = "character",
+  "TYPE_OF_SERVICE_CD"        = "character",
+  "PLACE_OF_SERVICE_CD"       = "integer",
+  "HCPCS_SECOND_MODIFIER_CD"  = "character",
+  "SUBMITTED_SERVICE_CNT"     = "numeric",
+  "SUBMITTED_CHARGE_AMT"      = "numeric",
+  "ALLOWED_CHARGE_AMT"        = "numeric",
+  "DENIED_SERVICES_CNT"       = "numeric",
+  "DENIED_CHARGE_AMT"         = "numeric",
+  "ASSIGNED_SERVICES_CNT"     = "numeric",
+  "NCH_PAYMENT_AMT"           = "numeric",
+  "HCPCS_ASC_IND_CD"          = "character",
+  "ERROR_IND_CD"              = "integer",
+  "BETOS_CD"                  = "character")
 
 ################################################################################
 #                               HELPER FUNCTIONS                               #

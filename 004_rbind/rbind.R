@@ -4,18 +4,7 @@
 # ./000_data_sets/recs2015_public_v4.csv     5,686      759
 # ./000_data_sets/recs2020_public_v1.csv    18,496      601
 
-library(microbenchmark)
-library(profmem)
-library(readr)
-library(data.table)
-library(dplyr)
-
-recs_2009_path <-
-  file.path(".", "000_data_sets", "RECS", "2009", "recs2009_public.csv")
-recs_2015_path <-
-  file.path(".", "000_data_sets", "RECS", "2015", "recs2015_public_v4.csv")
-recs_2020_path <-
-  file.path(".", "000_data_sets", "RECS", "2020", "recs2020_public_v1.csv")
+source("utilities.R")
 
 recs_2009_df <- read.csv(recs_2009_path, colClasses = "character")
 recs_2015_df <- read.csv(recs_2015_path, colClasses = "character")
@@ -45,14 +34,9 @@ calls <-
     dt_20   = rbind(recs_2020_dt, recs_2020_dt)
   )
 
-microbenchmark(list = calls[c(1, 4, 7)])
-microbenchmark(list = calls[c(1, 4, 7) + 1])
-microbenchmark(list = calls[c(1, 4, 7) + 2])
-
-calls |>
-lapply(profmem::profmem, substitute = FALSE) |>
-sapply(profmem::total) |>
-sapply(formatC, format = "f", big.mark = ",", digits = 0)
+benchmark(calls[c(1, 4, 7)])
+benchmark(calls[c(1, 4, 7) + 1])
+benchmark(calls[c(1, 4, 7) + 2])
 
 ################################################################################
 # stack up a unknown number of data.frames
@@ -67,13 +51,7 @@ calls <- alist(
                dt   = rbindlist(dts)
                )
 
-microbenchmark(list = calls)
-
-calls |>
-lapply(profmem::profmem, substitute = FALSE) |>
-sapply(profmem::total) |>
-sapply(formatC, format = "f", big.mark = ",", digits = 0)
-
+benchmark(calls)
 
 ################################################################################
 # Stack data.frames with different column names and orders
@@ -97,12 +75,7 @@ calls <- alist(
 
 lapply(calls, eval)
 
-microbenchmark(list = calls)
-
-calls |>
-lapply(profmem::profmem, substitute = FALSE) |>
-sapply(profmem::total) |>
-sapply(formatC, format = "f", big.mark = ",", digits = 0)
+benchmark(calls)
 
 # with a lot of data
 calls <- alist(
@@ -110,10 +83,5 @@ calls <- alist(
   dt   = data.table::rbindlist(list(recs_2009_dt, recs_2015_dt, recs_2020_dt), use.names = TRUE, fill = TRUE, idcol = "set")
   )
 
-microbenchmark(list = calls)
-
-calls |>
-lapply(profmem::profmem, substitute = FALSE) |>
-sapply(profmem::total) |>
-sapply(formatC, format = "f", big.mark = ",", digits = 0)
+benchmark(calls)
 

@@ -152,5 +152,16 @@ args(data.table::fread)
 #' <iframe src="002_conditional_manipulations/create_multiple_columns.Rout.html" style="height:500px;"></iframe>
 #' </div>
 #'
+#' ## Joins: Order _can_ matter
+#' <div class="box">
+#' <iframe src="003_joins/order_matters.Rout.html" style="height:500px;"></iframe>
+#' </div>
+#'
+#' ## Joins: Standard Joins
+#' <div class="box">
+#' <iframe src="003_joins/standard_joins.Rout.html" style="height:500px;"></iframe>
+#' </div>
+#'
+#' ## Joins: 
 #'
 # /* end of file */
