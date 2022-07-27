@@ -21,6 +21,16 @@ Type 'q()' to quit R.
 function (file, header = TRUE, sep = ",", quote = "\"", dec = ".", 
     fill = TRUE, comment.char = "", ...) 
 NULL
+> args(read.table)
+function (file, header = FALSE, sep = "", quote = "\"'", dec = ".", 
+    numerals = c("allow.loss", "warn.loss", "no.loss"), row.names, 
+    col.names, as.is = !stringsAsFactors, na.strings = "NA", 
+    colClasses = NA, nrows = -1, skip = 0, check.names = TRUE, 
+    fill = !blank.lines.skip, strip.white = FALSE, blank.lines.skip = TRUE, 
+    comment.char = "#", allowEscapes = FALSE, flush = FALSE, 
+    stringsAsFactors = FALSE, fileEncoding = "", encoding = "unknown", 
+    text, skipNul = FALSE) 
+NULL
 > args(readr::read_csv) # comma separated.  use read_csv2 for ";" sep
 function (file, col_names = TRUE, col_types = NULL, col_select = NULL, 
     id = NULL, locale = default_locale(), na = c("", "NA"), quoted_na = TRUE, 
@@ -47,4 +57,4 @@ NULL
 > 
 > proc.time()
    user  system elapsed 
-  0.494   0.051   0.534 
+  0.452   0.046   0.487 

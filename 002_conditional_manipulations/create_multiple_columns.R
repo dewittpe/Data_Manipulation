@@ -90,7 +90,7 @@ calls <- alist(
   tidy_v2 = {
     psps_2019_tidy %>%
       mutate(hospital = as.integer(.data$PLACE_OF_SERVICE_CD %in% c(19, 21, 22)),
-             inpatient = ifelse(.data$hospital == 0L, NA_integer_, as.integer(.data$PLACE_OF_SERVICE_CD == 19))
+             inpatient = if_else(.data$hospital == 0L, NA_integer_, as.integer(.data$PLACE_OF_SERVICE_CD == 19))
              )
   }
   ,

@@ -62,9 +62,9 @@ str(x)
 # concerns)
 
 calls <- alist(
-  base = merge(psps_2019_base, pos_df, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code"),
-  tidy = left_join(psps_2019_tidy, pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code")),
-  dt   = merge(psps_2019_dt, pos_dt, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code"),
+    base = merge(psps_2019_base, pos_df, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code")
+  , tidy = left_join(psps_2019_tidy, pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code"))
+  , dt   = merge(psps_2019_dt, pos_dt, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code")
                )
 
 benchmark(calls, times = 3L)
@@ -278,7 +278,7 @@ calls <- alist(
                        default =  "maybe?"
                        )
              )
-})
+)
 
 
 benchmark(calls, times = 50)

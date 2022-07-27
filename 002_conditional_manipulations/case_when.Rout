@@ -130,13 +130,364 @@ Classes ‘data.table’ and 'data.frame':	99 obs. of  3 variables:
 > # concerns)
 > 
 > calls <- alist(
-+   base = merge(psps_2019_base, pos_df, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code"),
-+   tidy = left_join(psps_2019_tidy, pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code")),
-+   dt   = merge(psps_2019_dt, pos_dt, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code"),
++     base = merge(psps_2019_base, pos_df, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code")
++   , tidy = left_join(psps_2019_tidy, pos_tbl, by = c("PLACE_OF_SERVICE_CD" = "code"))
++   , dt   = merge(psps_2019_dt, pos_dt, all.x = TRUE, all.y = FALSE, by.x = "PLACE_OF_SERVICE_CD", by.y = "code")
 +                )
 > 
 > benchmark(calls, times = 3L)
-Error in benchmark(calls, times = 3L) : 
-  sapply(x, typeof) == "language" are not all TRUE
-Calls: benchmark -> stopifnot
-Execution halted
+$benchmark
+Unit: seconds
+ expr       min        lq      mean    median        uq       max neval
+ base 44.435402 44.930711 45.633389 45.426020 46.232382 47.038744     3
+ tidy  2.842919  3.697732  5.713768  4.552544  7.149192  9.745841     3
+   dt  2.618981  2.747998  3.319297  2.877016  3.669456  4.461895     3
+
+$profmem
+             bytes
+base 7,501,664,208
+tidy 2,721,621,808
+dt   2,324,810,928
+
+> 
+> ################################################################################
+> # Working nested examples....
+> #
+> # These might be a lot better when a join isn't a viable alternative option.
+> # That said, I think with some planning a good link table can be built.  The
+> # case_when, or nested ifelse is better for when a preference is wanted for
+> # similar, or when a link table isn't an option.
+> 
+> # use the diamonds data set for the example, set up three (deep) copies for
+> # different paradigms
+> data(diamonds, package = "ggplot2")
+> diamonds_df <- data.frame(diamonds)
+> diamonds_dt <- setDT(copy(diamonds_df))
+> 
+> # build price categories:
+> # [0, 1000)
+> # [1000, 2500)
+> # [2500, 5000)
+> # [5000, 10000)
+> # [10000, 15000)
+> # [15000, Inf)
+> 
+> calls <- alist(
++   base_ifelse = 
++     with(diamonds_df,
++          ifelse(price < 1000, "[$0, $1,000)",
++            ifelse(price < 2500, "[$1,000, $2,500)",
++              ifelse(price < 5000, "[$2,500, $5,000)",
++                ifelse(price < 10000, "[$5,000, $10,000)",
++                  ifelse(price < 15000, "[$10,000, $15,000)", "Over $15,000")))))
++          )
++   ,
++   tidy_if_else =
++     with(diamonds,
++          if_else(price < 1000, "[$0, $1,000)",
++            if_else(price < 2500, "[$1,000, $2,500)",
++              if_else(price < 5000, "[$2,500, $5,000)",
++                if_else(price < 10000, "[$5,000, $10,000)",
++                  if_else(price < 15000, "[$10,000, $15,000)", "Over $15,000")))))
++          )
++   ,
++   tidy_case_when =
++     with(diamonds,
++          case_when(price < 1000 ~ "[$0, $1,000)",
++                    price < 2500 ~ "[$1,000, $2,500)",
++                    price < 5000 ~ "[$2,500, $5,000)",
++                    price < 10000 ~ "[$5,000, $10,000)",
++                    price < 15000 ~ "[$10,000, $15,000)",
++                    TRUE ~ "Over $15,000")
++          )
++   ,
++   dt_fifelse =
++     with(diamonds_dt,
++          fifelse(price < 1000, "[$0, $1,000)",
++            fifelse(price < 2500, "[$1,000, $2,500)",
++              fifelse(price < 5000, "[$2,500, $5,000)",
++                fifelse(price < 10000, "[$5,000, $10,000)",
++                  fifelse(price < 15000, "[$10,000, $15,000)", "Over $15,000")))))
++          )
++   ,
++   dt_fcase =
++     with(diamonds_dt,
++          fcase(price < 1000, "[$0, $1,000)",
++                price < 2500, "[$1,000, $2,500)",
++                price < 5000, "[$2,500, $5,000)",
++                price < 10000, "[$5,000, $10,000)",
++                price < 15000, "[$10,000, $15,000)",
++                default = "Over $15,000")
++          )
++   ,
++   base_cut =
++     cut(diamonds_df$price
++         , breaks = c(0, 1000, 2500, 5000, 10000, 15000, Inf)
++         , right = FALSE
++         , labels = c("[$0, $1,000)",
++                      "[$1,000, $2,500)",
++                      "[$2,500, $5,000)",
++                      "[$5,000, $10,000)",
++                      "[$10,000, $15,000)",
++                      "Over $15,000")
++     )
++ )
+> 
+> 
+> with(calls, identical(as.character(eval(base_cut)), eval(base_ifelse)))
+[1] TRUE
+> with(calls, identical(as.character(eval(base_cut)), eval(tidy_if_else)))
+[1] TRUE
+> with(calls, identical(as.character(eval(base_cut)), eval(tidy_case_when)))
+[1] TRUE
+> with(calls, identical(as.character(eval(base_cut)), eval(dt_fifelse)))
+[1] TRUE
+> with(calls, identical(as.character(eval(base_cut)), eval(dt_fcase)))
+[1] TRUE
+> 
+> benchmark(calls, times = 25)
+$benchmark
+Unit: milliseconds
+           expr       min        lq      mean    median        uq       max
+    base_ifelse 33.014977 33.814291 34.547075 34.099298 35.234670 38.477716
+   tidy_if_else 13.468643 13.756618 14.283249 14.057310 14.635841 15.853541
+ tidy_case_when  8.708877  9.121305  9.488973  9.398186  9.620283 11.371030
+     dt_fifelse  2.629722  2.745479  2.953053  2.894065  3.040514  3.557473
+       dt_fcase  1.369575  1.404056  1.524144  1.524642  1.597587  1.851866
+       base_cut  2.582604  2.650774  2.785755  2.690760  2.818522  3.909550
+ neval
+    25
+    25
+    25
+    25
+    25
+    25
+
+$profmem
+                    bytes
+base_ifelse    15,106,184
+tidy_if_else   19,157,496
+tidy_case_when 15,754,000
+dt_fifelse      3,236,880
+dt_fcase        1,726,416
+base_cut        1,942,128
+
+> 
+> # Another Example
+> # example of case_when in tidyverse
+> diamonds %>%
++   mutate(buy_it =
++          case_when(
++                    clarity == "IF" ~ "Yes, it's flawless",
++                    color %in% c("D", "E", "F") ~ "Yeah, it's colorless",
++                    clarity == "IF" & color %in% c("G", "H", "I", "J") ~ "Sure, it's flawless, but only nearly colorless",
++                    color %in% c("S", "T", "U", "V", "X", "Y", "Z") ~ "No, light yellow color",
++                    clarity %in% c("VVS1", "VVS2") ~ "Yeah, nearly perfect",
++                    clarity %in% c("VS1", "VS2") ~ "Yeah, you can't see any imprefection without 10k magnification",
++                    clarity %in% c("SI1", "SI2") ~ "Maybe, take a good look",
++                    clarity %in% c("I1", "I2", "I3") ~ "You are going to see the flaws.",
++                    TRUE ~ "maybe?" # default
++                    )
++          ) %>%
++   group_by(buy_it) %>%
++   summarize(n())
+# A tibble: 6 × 2
+  buy_it                                                         `n()`
+  <chr>                                                          <int>
+1 Maybe, take a good look                                        10927
+2 Yeah, it's colorless                                           25498
+3 Yeah, nearly perfect                                            4560
+4 Yeah, you can't see any imprefection without 10k magnification 10711
+5 Yes, it's flawless                                              1790
+6 You are going to see the flaws.                                  454
+> 
+> # Where are the "Sure, it's flawless, but only nearly colorless"? diamonds?
+> diamonds %>%
++   dplyr::filter(clarity == "IF") %>%
++   dplyr::group_by(clarity, color) %>%
++   dplyr::summarize(n())
+`summarise()` has grouped output by 'clarity'. You can override using the
+`.groups` argument.
+# A tibble: 7 × 3
+# Groups:   clarity [1]
+  clarity color `n()`
+  <ord>   <ord> <int>
+1 IF      D        73
+2 IF      E       158
+3 IF      F       385
+4 IF      G       681
+5 IF      H       299
+6 IF      I       143
+7 IF      J        51
+> 
+> # similar code with nest ifelse
+> calls <- alist(
++   base_nested_ifelse = 
++     with(diamonds_df,
++          ifelse(clarity == "IF", "Yes, it's flawless",
++                 ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                        ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                               ifelse(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                      ifelse(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                             ifelse(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                    ifelse(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                           ifelse(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++          )
++   ,
++   tidy_nested_ifelse =
++     with(diamonds,
++          ifelse(clarity == "IF", "Yes, it's flawless",
++                 ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                        ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                               ifelse(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                      ifelse(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                             ifelse(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                    ifelse(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                           ifelse(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++          )
++   ,
++   tidy_nested_if_else =
++     with(diamonds,
++          if_else(clarity == "IF", "Yes, it's flawless",
++                 if_else(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                        if_else(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                               if_else(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                      if_else(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                             if_else(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                    if_else(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                           if_else(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++          )
++   ,
++   tidy_case_when =
++     diamonds %>%
++       mutate(buy_it =
++              case_when(
++                        clarity == "IF" ~ "Yes, it's flawless",
++                        color %in% c("D", "E", "F") ~ "Yeah, it's colorless",
++                        clarity == "IF" & color %in% c("G", "H", "I", "J") ~ "Sure, it's flawless, but only nearly colorless",
++                        color %in% c("S", "T", "U", "V", "X", "Y", "Z") ~ "No, light yellow color",
++                        clarity %in% c("VVS1", "VVS2") ~ "Yeah, nearly perfect",
++                        clarity %in% c("VS1", "VS2") ~ "Yeah, you can't see any imprefection without 10k magnification",
++                        clarity %in% c("SI1", "SI2") ~ "Maybe, take a good look",
++                        clarity %in% c("I1", "I2", "I3") ~ "You are going to see the flaws.",
++                        TRUE ~ "maybe?" # default
++                        )
++              )
++   ,
++   dt_nested_ifelse =
++     with(diamonds_dt,
++          ifelse(clarity == "IF", "Yes, it's flawless",
++                 ifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                        ifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                               ifelse(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                      ifelse(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                             ifelse(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                    ifelse(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                           ifelse(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++          )
++   ,
++   dt_nested_fifelse =
++     with(diamonds_dt,
++          fifelse(clarity == "IF", "Yes, it's flawless",
++                 fifelse(color %in% c("D", "E", "F"), "Yeah, it's colorless",
++                        fifelse(clarity == "IF" & color %in% c("G", "H", "I", "J"), "Sure, it's flawless, but only nearly colorless",
++                               fifelse(color %in% c("S", "T", "U", "V", "X", "Y", "Z"), "No, light yellow color",
++                                      fifelse(clarity %in% c("VVS1", "VVS2"), "Yeah, nearly perfect",
++                                             fifelse(clarity %in% c("VS1", "VS2"), "Yeah, you can't see any imprefection without 10k magnification",
++                                                    fifelse(clarity %in% c("SI1", "SI2"), "Maybe, take a good look",
++                                                           fifelse(clarity %in% c("I1", "I2", "I3") , "You are going to see the flaws.", "maybe?"))))))))
++          )
++   ,
++   dt_fcase =
++     with(diamonds_dt,
++              fcase(
++                        clarity == "IF"                                     , "Yes, it's flawless",
++                        color %in% c("D", "E", "F")                         , "Yeah, it's colorless",
++                        clarity == "IF" & color %in% c("G", "H", "I", "J")  , "Sure, it's flawless, but only nearly colorless",
++                        color %in% c("S", "T", "U", "V", "X", "Y", "Z")     , "No, light yellow color",
++                        clarity %in% c("VVS1", "VVS2")                      , "Yeah, nearly perfect",
++                        clarity %in% c("VS1", "VS2")                        , "Yeah, you can't see any imprefection without 10k magnification",
++                        clarity %in% c("SI1", "SI2")                        , "Maybe, take a good look",
++                        clarity %in% c("I1", "I2", "I3")                    , "You are going to see the flaws.",
++                        default =  "maybe?"
++                        )
++              )
++ )
+> 
+> 
+> benchmark(calls, times = 50)
+$benchmark
+Unit: milliseconds
+                expr      min       lq     mean   median       uq       max
+  base_nested_ifelse 64.63115 66.98390 72.20155 72.27103 74.33139 106.68624
+  tidy_nested_ifelse 64.16375 66.54494 70.46164 69.53110 72.71522 109.00651
+ tidy_nested_if_else 34.45725 36.13462 40.93706 38.09451 44.89937  77.97251
+      tidy_case_when 25.95778 27.16321 31.32886 30.64262 34.46784  50.73430
+    dt_nested_ifelse 64.54076 66.19151 69.27178 67.36574 72.46338  81.28943
+   dt_nested_fifelse 14.30417 14.62946 16.50181 15.27035 17.55549  29.27929
+            dt_fcase 11.56976 12.26359 13.63939 13.37668 14.52368  20.26494
+ neval
+    50
+    50
+    50
+    50
+    50
+    50
+    50
+
+$profmem
+                         bytes
+base_nested_ifelse  28,701,472
+tidy_nested_ifelse  28,701,472
+tidy_nested_if_else 37,231,088
+tidy_case_when      27,196,632
+dt_nested_ifelse    28,701,472
+dt_nested_fifelse   10,142,256
+dt_fcase             7,337,272
+
+> 
+> ################################################################################
+> 
+> sessionInfo()
+R version 4.2.1 (2022-06-23)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] data.table_1.14.3 forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
+ [5] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.8     
+ [9] ggplot2_3.3.6     tidyverse_1.3.2  
+
+loaded via a namespace (and not attached):
+ [1] pillar_1.8.0         compiler_4.2.1       cellranger_1.1.0    
+ [4] dbplyr_2.2.1         tools_4.2.1          bit_4.0.4           
+ [7] lubridate_1.8.0      googledrive_2.0.0    jsonlite_1.8.0      
+[10] lifecycle_1.0.1      gargle_1.2.0         gtable_0.3.0        
+[13] pkgconfig_2.0.3      rlang_1.0.4          reprex_2.0.1        
+[16] DBI_1.1.3            cli_3.3.0            microbenchmark_1.4.9
+[19] parallel_4.2.1       haven_2.5.0          xml2_1.3.3          
+[22] withr_2.5.0          httr_1.4.3           generics_0.1.3      
+[25] vctrs_0.4.1          fs_1.5.2             hms_1.1.1           
+[28] bit64_4.0.5          googlesheets4_1.0.0  grid_4.2.1          
+[31] tidyselect_1.1.2     glue_1.6.2           R6_2.5.1            
+[34] fansi_1.0.3          readxl_1.4.0         profmem_0.6.0       
+[37] vroom_1.5.7          tzdb_0.3.0           modelr_0.1.8        
+[40] magrittr_2.0.3       backports_1.4.1      scales_1.2.0        
+[43] ellipsis_0.3.2       rvest_1.0.2          assertthat_0.2.1    
+[46] colorspace_2.0-3     utf8_1.2.2           stringi_1.7.8       
+[49] munsell_0.5.0        broom_1.0.0          crayon_1.5.1        
+> 
+> 
+> proc.time()
+   user  system elapsed 
+365.845  98.447 423.123 

@@ -36,18 +36,18 @@ knitr::opts_chunk$set(collapse = TRUE)
 #'     - Lighting talks
 #'     - Other formats
 #'
-#' ## New in R
+#' # What's New in R
 #'
-#' * Highlights of new features/tools in R
+#' ## Highlights of new features/tools in R
 #'
-#'   - March 2020 (Last Meetup) version 3.6.3 (2020-02-29)
-#'   - April 2020 4.0.0
-#'   - March 2021 4.0.5
-#'   - May 2021   4.1.0
-#'   - April 2022 4.2.0
-#'   - Current R version 4.2.1 (2022-06-23)
+#' * March 2020 (Last Meetup) version 3.6.3 (2020-02-29)
+#' * April 2020 4.0.0
+#' * March 2021 4.0.5
+#' * May 2021   4.1.0
+#' * April 2022 4.2.0
+#' * Current R version 4.2.1 (2022-06-23)
 #'
-#'   - NEWS:  https://cran.r-project.org/doc/manuals/r-release/NEWS.html
+#' * NEWS:  https://cran.r-project.org/doc/manuals/r-release/NEWS.html
 #'
 #' ## Highlights of new features/tools in R 4.0.x
 #'
@@ -152,7 +152,7 @@ mtcars |>
 #' <iframe src="002_conditional_manipulations/case_when.Rout.html" style="height:500px;"></iframe>
 #' </div>
 #'
-#' ## Conditional Manipulation: create multiple columns
+#' ## Conditional Manipulation: multiple columns
 #' <div class="box">
 #' <iframe src="002_conditional_manipulations/create_multiple_columns.Rout.html" style="height:500px;"></iframe>
 #' </div>
@@ -183,6 +183,9 @@ mtcars |>
 #' </div>
 #'
 #' ## Aggregation:
+#' <div class="box">
+#' <iframe src="006_aggregation/aggregation.Rout.html" style="height:500px;"></iframe>
+#' </div>
 #'
 #' # Final Thoughts
 #'

@@ -1,0 +1,1941 @@
+
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> source("utilities.R")
+> 
+> psps_2019_df  <- read.csv(psps_2019_path, colClasses = psps_column_classes)
+> psps_2019_tbl <- read_csv(psps_2019_path, col_types = psps_column_classes)
+> psps_2019_dt  <- fread(psps_2019_path, colClasses = psps_column_classes)
+> 
+> pos_dt  <- fread("000_data_sets/cms_place_of_service.cvs"
++                  , select = c("Place of Service Code" = "integer",
++                               "Place of Service Name" = "character"))
+> data.table::setnames(pos_dt
++                      , old = c("Place of Service Code", "Place of Service Name")
++                      , new = c("PLACE_OF_SERVICE_CD", "PLACE_OF_SERVICE")
++ )
+> 
+> ################################################################################
+> # Data Set up
+> psps_2019_df <-
++   merge(psps_2019_df
++         , pos_dt
++         , all.x = TRUE
++         , all.y = FALSE
++         , by = "PLACE_OF_SERVICE_CD"
++         )
+> 
+> psps_2019_tbl <-
++   left_join(psps_2019_tbl, pos_dt, by = "PLACE_OF_SERVICE_CD")
+> 
+> psps_2019_dt <-
++   merge(psps_2019_dt
++         , pos_dt
++         , all.x = TRUE
++         , all.y = FALSE
++         , by = "PLACE_OF_SERVICE_CD")
+> 
+> # Let's define a provider group to make the reshaping easier to view
+> psps_2019_df$PROVIDER_GROUP <-
++   with(psps_2019_df,
++        fcase(
++              PROVIDER_SPEC_CD %in% c("30", "36", "94"),                   "Radiology",
++              PROVIDER_SPEC_CD %in% c("06", "11", "21", "76", "C3", "C7"), "Cardiology",
++              PROVIDER_SPEC_CD %in% c("02", "28", "33", "77", "78"),       "Surgery",
++              default = "Other"
++        )
++   )
+> 
+> psps_2019_dt$PROVIDER_GROUP <- psps_2019_df$PROVIDER_GROUP
+> psps_2019_tbl$PROVIDER_GROUP <- psps_2019_df$PROVIDER_GROUP
+> 
+> # mapping to PAD (periferial artery disease) related procedures procedures
+> pad_procedures <-
++   rbind(
++     c(HCPCS_CD = "37220", ANATOMIC_SEGMENT = "Iliac"             , PROCEDURE = "PTA"                         , PLACEMENT = "initial"),
++     c(HCPCS_CD = "0238T", ANATOMIC_SEGMENT = "Iliac"             , PROCEDURE = "atherectomy"                 , PLACEMENT = "each vessel"),
++     c(HCPCS_CD = "37221", ANATOMIC_SEGMENT = "Iliac"             , PROCEDURE = "stent"                       , PLACEMENT = "initial"),
++     c(HCPCS_CD = "37222", ANATOMIC_SEGMENT = "Iliac"             , PROCEDURE = "PTA"                         , PLACEMENT = "each additional"),
++     c(HCPCS_CD = "37223", ANATOMIC_SEGMENT = "Iliac"             , PROCEDURE = "stent"                       , PLACEMENT = "each additional"),
++     c(HCPCS_CD = "37224", ANATOMIC_SEGMENT = "Femoral/Popliteal" , PROCEDURE = "PTA"                         , PLACEMENT = ""),
++     c(HCPCS_CD = "37225", ANATOMIC_SEGMENT = "Femoral/Popliteal" , PROCEDURE = "atherectomy +/- PTA"         , PLACEMENT = ""),
++     c(HCPCS_CD = "37226", ANATOMIC_SEGMENT = "Femoral/Popliteal" , PROCEDURE = "stent"                       , PLACEMENT = ""),
++     c(HCPCS_CD = "37227", ANATOMIC_SEGMENT = "Femoral/Popliteal" , PROCEDURE = "atherectomy w/stent +/- PTA" , PLACEMENT = ""),
++     c(HCPCS_CD = "37228", ANATOMIC_SEGMENT = "Tibial/Peroneal"   , PROCEDURE = "PTA"                         , PLACEMENT = "initial"),
++     c(HCPCS_CD = "37229", ANATOMIC_SEGMENT = "Tibial/Peroneal"   , PROCEDURE = "atherectomy +/- PTA"         , PLACEMENT = "initial"),
++     c(HCPCS_CD = "37230", ANATOMIC_SEGMENT = "Tibial/Peroneal"   , PROCEDURE = "stent"                       , PLACEMENT = "initial"),
++     c(HCPCS_CD = "37231", ANATOMIC_SEGMENT = "Tibial/Peroneal"   , PROCEDURE = "atherectomy w/stent +/- PTA" , PLACEMENT = "initial"),
++     c(HCPCS_CD = "37232", ANATOMIC_SEGMENT = "Tibial/Peroneal"   , PROCEDURE = "PTA"                         , PLACEMENT = "each additional"),
++     c(HCPCS_CD = "37233", ANATOMIC_SEGMENT = "Tibial/Peroneal"   , PROCEDURE = "atherectomy +/- PTA"         , PLACEMENT = "each additional"),
++     c(HCPCS_CD = "37234", ANATOMIC_SEGMENT = "Tibial/Peroneal"   , PROCEDURE = "stent"                       , PLACEMENT = "each additional"),
++     c(HCPCS_CD = "37235", ANATOMIC_SEGMENT = "Tibial/Peroneal"   , PROCEDURE = "atherectomy w/stent +/- PTA" , PLACEMENT = "each additional")
++ )
+> pad_procedures <- as.data.frame(pad_procedures)
+> 
+> # use inner merge to get only the pad procedures
+> pad_2019_df <- merge(psps_2019_df, pad_procedures, all = FALSE, by = "HCPCS_CD")
+> pad_2019_tbl <- inner_join(psps_2019_tbl, pad_procedures, by = "HCPCS_CD")
+> pad_2019_dt <- merge(psps_2019_dt, pad_procedures, all = FALSE, by = "HCPCS_CD")
+> 
+> # We need to get several values for the aggregation, sums for the 
+> # submitted, services and dollar amounts.
+> # 
+> # Aggregations: for the year 2019
+> # by provider
+> # by anatomic segment
+> # by PLACE_OF_SERVICE
+> # all combinations thereof (eight total aggregations)
+> 
+> calls <- alist(
++   base = {
++     list(
++       "overall" =
++         aggregate(cbind(SUBMITTED_SERVICE_CNT, SUBMITTED_CHARGE_AMT) ~ 1, data = pad_2019_df, FUN = sum),
++       "by provider" =
++         aggregate(cbind(SUBMITTED_SERVICE_CNT, SUBMITTED_CHARGE_AMT) ~ PROVIDER_GROUP, data = pad_2019_df, FUN = sum),
++       "by anatomic segment" =
++         aggregate(cbind(SUBMITTED_SERVICE_CNT, SUBMITTED_CHARGE_AMT) ~ ANATOMIC_SEGMENT, data = pad_2019_df, FUN = sum),
++       "by place of service" =
++         aggregate(cbind(SUBMITTED_SERVICE_CNT, SUBMITTED_CHARGE_AMT) ~ PLACE_OF_SERVICE, data = pad_2019_df, FUN = sum),
++       "by provider and anatomic segment" =
++         aggregate(cbind(SUBMITTED_SERVICE_CNT, SUBMITTED_CHARGE_AMT) ~ PROVIDER_GROUP + ANATOMIC_SEGMENT, data = pad_2019_df, FUN = sum),
++       "by provider, place of service" =
++         aggregate(cbind(SUBMITTED_SERVICE_CNT, SUBMITTED_CHARGE_AMT) ~ PROVIDER_GROUP + PLACE_OF_SERVICE, data = pad_2019_df, FUN = sum),
++       "by segment, place of service" =
++         aggregate(cbind(SUBMITTED_SERVICE_CNT, SUBMITTED_CHARGE_AMT) ~ ANATOMIC_SEGMENT + PLACE_OF_SERVICE, data = pad_2019_df, FUN = sum),
++       "by provider, segment, place of service" =
++         aggregate(cbind(SUBMITTED_SERVICE_CNT, SUBMITTED_CHARGE_AMT) ~ PROVIDER_GROUP + ANATOMIC_SEGMENT + PLACE_OF_SERVICE, data = pad_2019_df, FUN = sum)
++     )
++   }
++   ,
++   tidyverse = {
++     list(
++          "overall" = 
++             pad_2019_tbl %>%
++               summarize(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                         SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE)),
++          "by provider" = 
++            pad_2019_tbl %>%
++              group_by(.data$PROVIDER_GROUP) %>%
++              summarize(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                        SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE)),
++          "by segment" = 
++            pad_2019_tbl %>%
++              group_by(.data$ANATOMIC_SEGMENT) %>%
++              summarize(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                        SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE)),
++          "by place of service" = 
++            pad_2019_tbl %>%
++              group_by(.data$PLACE_OF_SERVICE) %>%
++              summarize(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                        SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE)),
++          "by provide, segment" = 
++            pad_2019_tbl %>%
++              group_by(.data$PROVIDER_GROUP, .data$ANATOMIC_SEGMENT) %>%
++              summarize(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                        SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE)),
++          "by provide, place of service" = 
++            pad_2019_tbl %>%
++              group_by(.data$PROVIDER_GROUP, .data$PLACE_OF_SERVICE) %>%
++              summarize(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                        SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE)),
++          "by segment, place of service" = 
++            pad_2019_tbl %>%
++              group_by(.data$ANATOMIC_SEGMENT, .data$PLACE_OF_SERVICE) %>%
++              summarize(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                        SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE)),
++          "by provider, segment, place of service" = 
++            pad_2019_tbl %>%
++              group_by(.data$PROVIDER_GROUP, .data$ANATOMIC_SEGMENT, .data$PLACE_OF_SERVICE) %>%
++              summarize(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                        SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE))
++       )
++   }
++   ,
++   dt_by = {
++     this_summary <- quote(
++                      .(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                        SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE)
++                        )
++                      )
++     list(
++       "overall"                                = pad_2019_dt[, eval(this_summary)],
++       "by provider"                            = pad_2019_dt[, eval(this_summary), by = .(PROVIDER_GROUP)],
++       "by segment"                             = pad_2019_dt[, eval(this_summary), by = .(ANATOMIC_SEGMENT)],
++       "by place of service"                    = pad_2019_dt[, eval(this_summary), by = .(PLACE_OF_SERVICE)],
++       "by provider, segment"                   = pad_2019_dt[, eval(this_summary), by = .(PROVIDER_GROUP, ANATOMIC_SEGMENT)],
++       "by provider, place of service"          = pad_2019_dt[, eval(this_summary), by = .(PROVIDER_GROUP, PLACE_OF_SERVICE)],
++       "by segment, place of service"           = pad_2019_dt[, eval(this_summary), by = .(ANATOMIC_SEGMENT, PLACE_OF_SERVICE)],
++       "by provider, segment, place of service" = pad_2019_dt[, eval(this_summary), by = .(PROVIDER_GROUP, ANATOMIC_SEGMENT, PLACE_OF_SERVICE)]
++       )
++   }
++   ,
++   dt_keyby = {
++     this_summary <- quote(
++                      .(SUBMITTED_SERVICE_CNT = sum(SUBMITTED_SERVICE_CNT, na.rm = TRUE),
++                        SUBMITTED_CHARGE_AMT  = sum(SUBMITTED_CHARGE_AMT, na.rm = TRUE)
++                        )
++                      )
++     list(
++       "overall"                                = pad_2019_dt[, eval(this_summary)],
++       "by provider"                            = pad_2019_dt[, eval(this_summary), keyby = .(PROVIDER_GROUP)],
++       "by segment"                             = pad_2019_dt[, eval(this_summary), keyby = .(ANATOMIC_SEGMENT)],
++       "by place of service"                    = pad_2019_dt[, eval(this_summary), keyby = .(PLACE_OF_SERVICE)],
++       "by provider, segment"                   = pad_2019_dt[, eval(this_summary), keyby = .(PROVIDER_GROUP, ANATOMIC_SEGMENT)],
++       "by provider, place of service"          = pad_2019_dt[, eval(this_summary), keyby = .(PROVIDER_GROUP, PLACE_OF_SERVICE)],
++       "by segment, place of service"           = pad_2019_dt[, eval(this_summary), keyby = .(ANATOMIC_SEGMENT, PLACE_OF_SERVICE)],
++       "by provider, segment, place of service" = pad_2019_dt[, eval(this_summary), keyby = .(PROVIDER_GROUP, ANATOMIC_SEGMENT, PLACE_OF_SERVICE)]
++       )
++   }
++ )
+> 
+> 
+> 
+> eval(calls$base)
+$overall
+  SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+1              171602.2           2565800050
+
+$`by provider`
+  PROVIDER_GROUP SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+1     Cardiology               57765.0            861046492
+2          Other                1642.2             25160364
+3      Radiology               24172.0            491289217
+4        Surgery               88023.0           1188303976
+
+$`by anatomic segment`
+   ANATOMIC_SEGMENT SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+1 Femoral/Popliteal               82956.9           1483511652
+2             Iliac               18304.0            119771327
+3   Tibial/Peroneal               70341.3            962517070
+
+$`by place of service`
+                PLACE_OF_SERVICE SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+1     Ambulatory Surgical Center                 351.0              4442401
+2             Inpatient Hospital               30536.3            163595827
+3 Off Campus-Outpatient Hospital                  14.0                20118
+4                         Office               89357.0           2128234113
+5  On Campus-Outpatient Hospital               51294.9            268954591
+6         Other Place of Service                  49.0               553000
+
+$`by provider and anatomic segment`
+   PROVIDER_GROUP  ANATOMIC_SEGMENT SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+1      Cardiology Femoral/Popliteal               30366.0         519982779.56
+2           Other Femoral/Popliteal                 735.9          12683324.27
+3       Radiology Femoral/Popliteal                8800.0         228230566.55
+4         Surgery Femoral/Popliteal               43055.0         722614981.73
+5      Cardiology             Iliac                5418.0          36861187.06
+6           Other             Iliac                  11.0             45781.12
+7       Radiology             Iliac                 742.0           5247648.46
+8         Surgery             Iliac               12133.0          77616710.71
+9      Cardiology   Tibial/Peroneal               21981.0         304202525.81
+10          Other   Tibial/Peroneal                 895.3          12431258.52
+11      Radiology   Tibial/Peroneal               14630.0         257811001.94
+12        Surgery   Tibial/Peroneal               32835.0         388072283.96
+
+$`by provider, place of service`
+   PROVIDER_GROUP               PLACE_OF_SERVICE SUBMITTED_SERVICE_CNT
+1      Cardiology     Ambulatory Surgical Center                  58.0
+2           Other     Ambulatory Surgical Center                 181.0
+3         Surgery     Ambulatory Surgical Center                 112.0
+4      Cardiology             Inpatient Hospital                6164.0
+5           Other             Inpatient Hospital                  56.3
+6       Radiology             Inpatient Hospital                2177.0
+7         Surgery             Inpatient Hospital               22139.0
+8      Cardiology Off Campus-Outpatient Hospital                  14.0
+9      Cardiology                         Office               28528.0
+10          Other                         Office                1260.0
+11      Radiology                         Office               19700.0
+12        Surgery                         Office               39869.0
+13     Cardiology  On Campus-Outpatient Hospital               22952.0
+14          Other  On Campus-Outpatient Hospital                 144.9
+15      Radiology  On Campus-Outpatient Hospital                2295.0
+16        Surgery  On Campus-Outpatient Hospital               25903.0
+17     Cardiology         Other Place of Service                  49.0
+   SUBMITTED_CHARGE_AMT
+1              148032.0
+2             4070112.6
+3              224256.0
+4            28372825.6
+5               94433.4
+6             9261055.2
+7           125867513.1
+8               20118.0
+9           713818778.9
+10           20842241.6
+11          469534596.1
+12          924038496.5
+13          118133737.9
+14             153576.2
+15           12493565.7
+16          138173710.8
+17             553000.0
+
+$`by segment, place of service`
+    ANATOMIC_SEGMENT               PLACE_OF_SERVICE SUBMITTED_SERVICE_CNT
+1  Femoral/Popliteal     Ambulatory Surgical Center                 210.0
+2    Tibial/Peroneal     Ambulatory Surgical Center                 141.0
+3  Femoral/Popliteal             Inpatient Hospital               12375.0
+4              Iliac             Inpatient Hospital                4379.0
+5    Tibial/Peroneal             Inpatient Hospital               13782.3
+6    Tibial/Peroneal Off Campus-Outpatient Hospital                  14.0
+7  Femoral/Popliteal                         Office               41600.0
+8              Iliac                         Office                5234.0
+9    Tibial/Peroneal                         Office               42523.0
+10 Femoral/Popliteal  On Campus-Outpatient Hospital               28759.9
+11             Iliac  On Campus-Outpatient Hospital                8691.0
+12   Tibial/Peroneal  On Campus-Outpatient Hospital               13844.0
+13 Femoral/Popliteal         Other Place of Service                  12.0
+14   Tibial/Peroneal         Other Place of Service                  37.0
+   SUBMITTED_CHARGE_AMT
+1               2716168
+2               1726233
+3              73931617
+4              21166862
+5              68497348
+6                 20118
+7            1238897080
+8              60336574
+9             829000459
+10            167786787
+11             38267891
+12             62899912
+13               180000
+14               373000
+
+$`by provider, segment, place of service`
+   PROVIDER_GROUP  ANATOMIC_SEGMENT               PLACE_OF_SERVICE
+1      Cardiology Femoral/Popliteal     Ambulatory Surgical Center
+2           Other Femoral/Popliteal     Ambulatory Surgical Center
+3         Surgery Femoral/Popliteal     Ambulatory Surgical Center
+4      Cardiology   Tibial/Peroneal     Ambulatory Surgical Center
+5           Other   Tibial/Peroneal     Ambulatory Surgical Center
+6         Surgery   Tibial/Peroneal     Ambulatory Surgical Center
+7      Cardiology Femoral/Popliteal             Inpatient Hospital
+8           Other Femoral/Popliteal             Inpatient Hospital
+9       Radiology Femoral/Popliteal             Inpatient Hospital
+10        Surgery Femoral/Popliteal             Inpatient Hospital
+11     Cardiology             Iliac             Inpatient Hospital
+12      Radiology             Iliac             Inpatient Hospital
+13        Surgery             Iliac             Inpatient Hospital
+14     Cardiology   Tibial/Peroneal             Inpatient Hospital
+15          Other   Tibial/Peroneal             Inpatient Hospital
+16      Radiology   Tibial/Peroneal             Inpatient Hospital
+17        Surgery   Tibial/Peroneal             Inpatient Hospital
+18     Cardiology   Tibial/Peroneal Off Campus-Outpatient Hospital
+19     Cardiology Femoral/Popliteal                         Office
+20          Other Femoral/Popliteal                         Office
+21      Radiology Femoral/Popliteal                         Office
+22        Surgery Femoral/Popliteal                         Office
+23     Cardiology             Iliac                         Office
+24          Other             Iliac                         Office
+25      Radiology             Iliac                         Office
+26        Surgery             Iliac                         Office
+27     Cardiology   Tibial/Peroneal                         Office
+28          Other   Tibial/Peroneal                         Office
+29      Radiology   Tibial/Peroneal                         Office
+30        Surgery   Tibial/Peroneal                         Office
+31     Cardiology Femoral/Popliteal  On Campus-Outpatient Hospital
+32          Other Femoral/Popliteal  On Campus-Outpatient Hospital
+33      Radiology Femoral/Popliteal  On Campus-Outpatient Hospital
+34        Surgery Femoral/Popliteal  On Campus-Outpatient Hospital
+35     Cardiology             Iliac  On Campus-Outpatient Hospital
+36      Radiology             Iliac  On Campus-Outpatient Hospital
+37        Surgery             Iliac  On Campus-Outpatient Hospital
+38     Cardiology   Tibial/Peroneal  On Campus-Outpatient Hospital
+39          Other   Tibial/Peroneal  On Campus-Outpatient Hospital
+40      Radiology   Tibial/Peroneal  On Campus-Outpatient Hospital
+41        Surgery   Tibial/Peroneal  On Campus-Outpatient Hospital
+42     Cardiology Femoral/Popliteal         Other Place of Service
+43     Cardiology   Tibial/Peroneal         Other Place of Service
+   SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+1                   36.0             89424.00
+2                  110.0           2507319.88
+3                   64.0            119424.00
+4                   22.0             58608.00
+5                   71.0           1562792.74
+6                   48.0            104832.00
+7                 2721.0          14080940.06
+8                   28.0             48104.00
+9                  777.0           3581365.87
+10                8849.0          56221207.22
+11                 423.0           1574995.49
+12                  95.0            377348.50
+13                3861.0          19214518.48
+14                3020.0          12716890.09
+15                  28.3             46329.40
+16                1305.0           5302340.85
+17                9429.0          50431787.44
+18                  14.0             20118.00
+19               13912.0         424879361.81
+20                 466.0           9980174.14
+21                6952.0         218185301.50
+22               20270.0         585852242.18
+23                1469.0          22339401.10
+24                  11.0             45781.12
+25                 255.0           2263997.00
+26                3499.0          35687394.75
+27               13147.0         266600016.01
+28                 783.0          10816286.38
+29               12493.0         249085297.57
+30               16100.0         302498859.52
+31               13685.0          80753053.69
+32                 131.9            147726.25
+33                1071.0           6463899.18
+34               13872.0          80422108.33
+35                3526.0          12946790.47
+36                 392.0           2606302.96
+37                4773.0          22714797.48
+38                5741.0          24433893.71
+39                  13.0              5850.00
+40                 832.0           3423363.52
+41                7258.0          35036805.00
+42                  12.0            180000.00
+43                  37.0            373000.00
+
+> eval(calls$tidyverse)
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+$overall
+# A tibble: 1 × 2
+  SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+                  <dbl>                <dbl>
+1               171602.          2565800050.
+
+$`by provider`
+# A tibble: 4 × 3
+  PROVIDER_GROUP SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+  <chr>                          <dbl>                <dbl>
+1 Cardiology                    15287            234521396.
+2 Other                        127161.          1935364891.
+3 Radiology                     15433            222054074.
+4 Surgery                       13721            173859688.
+
+$`by segment`
+# A tibble: 3 × 3
+  ANATOMIC_SEGMENT  SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+  <chr>                             <dbl>                <dbl>
+1 Femoral/Popliteal                82957.          1483511652.
+2 Iliac                            18304            119771327.
+3 Tibial/Peroneal                  70341.           962517070.
+
+$`by place of service`
+# A tibble: 16 × 3
+   PLACE_OF_SERVICE                                  SUBMITTED_SERVICE…¹ SUBMI…²
+   <chr>                                                           <dbl>   <dbl>
+ 1 ""                                                                 0   0     
+ 2 "Ambulatory Surgical Center"                                     351   4.44e6
+ 3 "Comprehensive Inpatient Rehabilitation Facility"                  0   0     
+ 4 "Home"                                                             0   0     
+ 5 "Independent Clinic"                                               0   0     
+ 6 "Inpatient Hospital"                                           30536.  1.64e8
+ 7 "Mobile Unit"                                                      0   0     
+ 8 "Nursing Facility"                                                 0   0     
+ 9 "Off Campus-Outpatient Hospital"                                  14   2.01e4
+10 "Office"                                                       89357   2.13e9
+11 "On Campus-Outpatient Hospital"                                51295.  2.69e8
+12 "Other Place of Service"                                          49   5.53e5
+13 "Pharmacy"                                                         0   0     
+14 "Skilled Nursing Facility"                                         0   0     
+15 "Telehealth"                                                       0   0     
+16 "Urgent Care Facility"                                             0   0     
+# … with abbreviated variable names ¹​SUBMITTED_SERVICE_CNT,
+#   ²​SUBMITTED_CHARGE_AMT
+
+$`by provide, segment`
+# A tibble: 12 × 4
+# Groups:   PROVIDER_GROUP [4]
+   PROVIDER_GROUP ANATOMIC_SEGMENT  SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+   <chr>          <chr>                             <dbl>                <dbl>
+ 1 Cardiology     Femoral/Popliteal                 6117            119666331.
+ 2 Cardiology     Iliac                             2045             13862408.
+ 3 Cardiology     Tibial/Peroneal                   7125            100992656.
+ 4 Other          Femoral/Popliteal                61998.          1118731335.
+ 5 Other          Iliac                            13046             83900916.
+ 6 Other          Tibial/Peroneal                  52117.           732732641.
+ 7 Radiology      Femoral/Popliteal                 8190            146959009.
+ 8 Radiology      Iliac                             1646             10200004.
+ 9 Radiology      Tibial/Peroneal                   5597             64895061.
+10 Surgery        Femoral/Popliteal                 6652             98154977.
+11 Surgery        Iliac                             1567             11807999.
+12 Surgery        Tibial/Peroneal                   5502             63896712.
+
+$`by provide, place of service`
+# A tibble: 45 × 4
+# Groups:   PROVIDER_GROUP [4]
+   PROVIDER_GROUP PLACE_OF_SERVICE                               SUBMI…¹ SUBMI…²
+   <chr>          <chr>                                            <dbl>   <dbl>
+ 1 Cardiology     ""                                                   0  0     
+ 2 Cardiology     "Ambulatory Surgical Center"                        20  2.58e5
+ 3 Cardiology     "Comprehensive Inpatient Rehabilitation Facil…       0  0     
+ 4 Cardiology     "Home"                                               0  0     
+ 5 Cardiology     "Independent Clinic"                                 0  0     
+ 6 Cardiology     "Inpatient Hospital"                              2753  1.54e7
+ 7 Cardiology     "Mobile Unit"                                        0  0     
+ 8 Cardiology     "Off Campus-Outpatient Hospital"                     0  0     
+ 9 Cardiology     "Office"                                          8397  1.97e8
+10 Cardiology     "On Campus-Outpatient Hospital"                   4106  2.19e7
+# … with 35 more rows, and abbreviated variable names ¹​SUBMITTED_SERVICE_CNT,
+#   ²​SUBMITTED_CHARGE_AMT
+# ℹ Use `print(n = ...)` to see more rows
+
+$`by segment, place of service`
+# A tibble: 41 × 4
+# Groups:   ANATOMIC_SEGMENT [3]
+   ANATOMIC_SEGMENT  PLACE_OF_SERVICE                            SUBMI…¹ SUBMI…²
+   <chr>             <chr>                                         <dbl>   <dbl>
+ 1 Femoral/Popliteal ""                                                0  0     
+ 2 Femoral/Popliteal "Ambulatory Surgical Center"                    210  2.72e6
+ 3 Femoral/Popliteal "Comprehensive Inpatient Rehabilitation Fa…       0  0     
+ 4 Femoral/Popliteal "Home"                                            0  0     
+ 5 Femoral/Popliteal "Independent Clinic"                              0  0     
+ 6 Femoral/Popliteal "Inpatient Hospital"                          12375  7.39e7
+ 7 Femoral/Popliteal "Mobile Unit"                                     0  0     
+ 8 Femoral/Popliteal "Nursing Facility"                                0  0     
+ 9 Femoral/Popliteal "Off Campus-Outpatient Hospital"                  0  0     
+10 Femoral/Popliteal "Office"                                      41600  1.24e9
+# … with 31 more rows, and abbreviated variable names ¹​SUBMITTED_SERVICE_CNT,
+#   ²​SUBMITTED_CHARGE_AMT
+# ℹ Use `print(n = ...)` to see more rows
+
+$`by provider, segment, place of service`
+# A tibble: 111 × 5
+# Groups:   PROVIDER_GROUP, ANATOMIC_SEGMENT [12]
+   PROVIDER_GROUP ANATOMIC_SEGMENT  PLACE_OF_SERVICE             SUBMI…¹ SUBMI…²
+   <chr>          <chr>             <chr>                          <dbl>   <dbl>
+ 1 Cardiology     Femoral/Popliteal ""                                 0  0     
+ 2 Cardiology     Femoral/Popliteal "Ambulatory Surgical Center"      20  2.58e5
+ 3 Cardiology     Femoral/Popliteal "Comprehensive Inpatient Re…       0  0     
+ 4 Cardiology     Femoral/Popliteal "Independent Clinic"               0  0     
+ 5 Cardiology     Femoral/Popliteal "Inpatient Hospital"             969  5.82e6
+ 6 Cardiology     Femoral/Popliteal "Mobile Unit"                      0  0     
+ 7 Cardiology     Femoral/Popliteal "Off Campus-Outpatient Hosp…       0  0     
+ 8 Cardiology     Femoral/Popliteal "Office"                        3052  1.01e8
+ 9 Cardiology     Femoral/Popliteal "On Campus-Outpatient Hospi…    2076  1.29e7
+10 Cardiology     Femoral/Popliteal "Other Place of Service"           0  0     
+# … with 101 more rows, and abbreviated variable names ¹​SUBMITTED_SERVICE_CNT,
+#   ²​SUBMITTED_CHARGE_AMT
+# ℹ Use `print(n = ...)` to see more rows
+
+> eval(calls$dt_by)
+$overall
+   SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+                   <num>                <num>
+1:              171602.2           2565800050
+
+$`by provider`
+   PROVIDER_GROUP SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+           <char>                 <num>                <num>
+1:          Other              120322.0           1969483092
+2:     Cardiology               18075.0            253200360
+3:      Radiology               17272.0            217254121
+4:        Surgery               15933.2            125862477
+
+$`by segment`
+    ANATOMIC_SEGMENT SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+              <char>                 <num>                <num>
+1:             Iliac               18304.0            119771327
+2: Femoral/Popliteal               82956.9           1483511652
+3:   Tibial/Peroneal               70341.3            962517070
+
+$`by place of service`
+                                   PLACE_OF_SERVICE SUBMITTED_SERVICE_CNT
+                                             <char>                 <num>
+ 1:                                          Office               89357.0
+ 2:                                            Home                   0.0
+ 3:                  Off Campus-Outpatient Hospital                  14.0
+ 4:                            Urgent Care Facility                   0.0
+ 5:                              Inpatient Hospital               30536.3
+ 6:                   On Campus-Outpatient Hospital               51294.9
+ 7:                                                                   0.0
+ 8:                      Ambulatory Surgical Center                 351.0
+ 9:                        Skilled Nursing Facility                   0.0
+10:                                     Mobile Unit                   0.0
+11:                              Independent Clinic                   0.0
+12:                          Other Place of Service                  49.0
+13:                                      Telehealth                   0.0
+14:                                Nursing Facility                   0.0
+15: Comprehensive Inpatient Rehabilitation Facility                   0.0
+16:                                        Pharmacy                   0.0
+    SUBMITTED_CHARGE_AMT
+                   <num>
+ 1:           2128234113
+ 2:                    0
+ 3:                20118
+ 4:                    0
+ 5:            163595827
+ 6:            268954591
+ 7:                    0
+ 8:              4442401
+ 9:                    0
+10:                    0
+11:                    0
+12:               553000
+13:                    0
+14:                    0
+15:                    0
+16:                    0
+
+$`by provider, segment`
+    PROVIDER_GROUP  ANATOMIC_SEGMENT SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+            <char>            <char>                 <num>                <num>
+ 1:          Other             Iliac               12519.0             86012915
+ 2:     Cardiology             Iliac                1584.0             10675919
+ 3:      Radiology             Iliac                1858.0             11330365
+ 4:        Surgery             Iliac                2343.0             11752128
+ 5:          Other Femoral/Popliteal               58746.0           1152707911
+ 6:      Radiology Femoral/Popliteal                8577.0            118332281
+ 7:     Cardiology Femoral/Popliteal                8637.0            147030111
+ 8:        Surgery Femoral/Popliteal                6996.9             65441349
+ 9:          Other   Tibial/Peroneal               49057.0            730762266
+10:     Cardiology   Tibial/Peroneal                7854.0             95494331
+11:      Radiology   Tibial/Peroneal                6837.0             87591474
+12:        Surgery   Tibial/Peroneal                6593.3             48668999
+
+$`by provider, place of service`
+    PROVIDER_GROUP                                PLACE_OF_SERVICE
+            <char>                                          <char>
+ 1:          Other                                          Office
+ 2:     Cardiology                                          Office
+ 3:      Radiology                                          Office
+ 4:        Surgery                                          Office
+ 5:          Other                                            Home
+ 6:          Other                  Off Campus-Outpatient Hospital
+ 7:          Other                            Urgent Care Facility
+ 8:      Radiology                              Inpatient Hospital
+ 9:        Surgery                              Inpatient Hospital
+10:     Cardiology                              Inpatient Hospital
+11:          Other                              Inpatient Hospital
+12:        Surgery                   On Campus-Outpatient Hospital
+13:          Other                   On Campus-Outpatient Hospital
+14:     Cardiology                   On Campus-Outpatient Hospital
+15:      Radiology                   On Campus-Outpatient Hospital
+16:     Cardiology                  Off Campus-Outpatient Hospital
+17:        Surgery                  Off Campus-Outpatient Hospital
+18:      Radiology                  Off Campus-Outpatient Hospital
+19:          Other                                                
+20:      Radiology                                                
+21:        Surgery                                                
+22:     Cardiology                                                
+23:          Other                      Ambulatory Surgical Center
+24:        Surgery                      Ambulatory Surgical Center
+25:          Other                        Skilled Nursing Facility
+26:      Radiology                                     Mobile Unit
+27:          Other                                     Mobile Unit
+28:      Radiology                      Ambulatory Surgical Center
+29:          Other                              Independent Clinic
+30:          Other                          Other Place of Service
+31:     Cardiology                      Ambulatory Surgical Center
+32:      Radiology                        Skilled Nursing Facility
+33:      Radiology                              Independent Clinic
+34:          Other                                      Telehealth
+35:          Other                                Nursing Facility
+36:          Other Comprehensive Inpatient Rehabilitation Facility
+37:     Cardiology                          Other Place of Service
+38:          Other                                        Pharmacy
+39:        Surgery                          Other Place of Service
+40:      Radiology                          Other Place of Service
+41:     Cardiology                        Skilled Nursing Facility
+42:     Cardiology                                      Telehealth
+    PROVIDER_GROUP                                PLACE_OF_SERVICE
+    SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+                    <num>                <num>
+ 1:               70935.0           1698134340
+ 2:                9147.0            211248489
+ 3:                6458.0            158793560
+ 4:                2817.0             60057723
+ 5:                   0.0                    0
+ 6:                  14.0                20118
+ 7:                   0.0                    0
+ 8:                4322.0             22847440
+ 9:                6841.3             35331995
+10:                3377.0             16425146
+11:               15996.0             88991246
+12:                6274.9             30472758
+13:               32977.0            177341987
+14:                5551.0             25526725
+15:                6492.0             35613120
+16:                   0.0                    0
+17:                   0.0                    0
+18:                   0.0                    0
+19:                   0.0                    0
+20:                   0.0                    0
+21:                   0.0                    0
+22:                   0.0                    0
+23:                 351.0              4442401
+24:                   0.0                    0
+25:                   0.0                    0
+26:                   0.0                    0
+27:                   0.0                    0
+28:                   0.0                    0
+29:                   0.0                    0
+30:                  49.0               553000
+31:                   0.0                    0
+32:                   0.0                    0
+33:                   0.0                    0
+34:                   0.0                    0
+35:                   0.0                    0
+36:                   0.0                    0
+37:                   0.0                    0
+38:                   0.0                    0
+39:                   0.0                    0
+40:                   0.0                    0
+41:                   0.0                    0
+42:                   0.0                    0
+    SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+
+$`by segment, place of service`
+     ANATOMIC_SEGMENT                                PLACE_OF_SERVICE
+               <char>                                          <char>
+ 1:             Iliac                                          Office
+ 2:             Iliac                                            Home
+ 3:             Iliac                  Off Campus-Outpatient Hospital
+ 4:             Iliac                            Urgent Care Facility
+ 5:             Iliac                              Inpatient Hospital
+ 6:             Iliac                   On Campus-Outpatient Hospital
+ 7:             Iliac                                                
+ 8:             Iliac                      Ambulatory Surgical Center
+ 9:             Iliac                        Skilled Nursing Facility
+10:             Iliac                                     Mobile Unit
+11:             Iliac                              Independent Clinic
+12:             Iliac                          Other Place of Service
+13: Femoral/Popliteal                                          Office
+14: Femoral/Popliteal                                     Mobile Unit
+15: Femoral/Popliteal                  Off Campus-Outpatient Hospital
+16: Femoral/Popliteal                              Inpatient Hospital
+17: Femoral/Popliteal                   On Campus-Outpatient Hospital
+18: Femoral/Popliteal                                                
+19: Femoral/Popliteal                      Ambulatory Surgical Center
+20: Femoral/Popliteal                        Skilled Nursing Facility
+21: Femoral/Popliteal                              Independent Clinic
+22: Femoral/Popliteal                          Other Place of Service
+23: Femoral/Popliteal                                      Telehealth
+24: Femoral/Popliteal                                            Home
+25: Femoral/Popliteal                                Nursing Facility
+26: Femoral/Popliteal Comprehensive Inpatient Rehabilitation Facility
+27: Femoral/Popliteal                                        Pharmacy
+28:   Tibial/Peroneal                                        Pharmacy
+29:   Tibial/Peroneal                                          Office
+30:   Tibial/Peroneal                  Off Campus-Outpatient Hospital
+31:   Tibial/Peroneal                              Inpatient Hospital
+32:   Tibial/Peroneal                   On Campus-Outpatient Hospital
+33:   Tibial/Peroneal                                                
+34:   Tibial/Peroneal                      Ambulatory Surgical Center
+35:   Tibial/Peroneal                        Skilled Nursing Facility
+36:   Tibial/Peroneal                              Independent Clinic
+37:   Tibial/Peroneal                          Other Place of Service
+38:   Tibial/Peroneal                                      Telehealth
+39:   Tibial/Peroneal                                            Home
+40:   Tibial/Peroneal                                     Mobile Unit
+41:   Tibial/Peroneal                                Nursing Facility
+     ANATOMIC_SEGMENT                                PLACE_OF_SERVICE
+    SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+                    <num>                <num>
+ 1:                5234.0             60336574
+ 2:                   0.0                    0
+ 3:                   0.0                    0
+ 4:                   0.0                    0
+ 5:                4379.0             21166862
+ 6:                8691.0             38267891
+ 7:                   0.0                    0
+ 8:                   0.0                    0
+ 9:                   0.0                    0
+10:                   0.0                    0
+11:                   0.0                    0
+12:                   0.0                    0
+13:               41600.0           1238897080
+14:                   0.0                    0
+15:                   0.0                    0
+16:               12375.0             73931617
+17:               28759.9            167786787
+18:                   0.0                    0
+19:                 210.0              2716168
+20:                   0.0                    0
+21:                   0.0                    0
+22:                  12.0               180000
+23:                   0.0                    0
+24:                   0.0                    0
+25:                   0.0                    0
+26:                   0.0                    0
+27:                   0.0                    0
+28:                   0.0                    0
+29:               42523.0            829000459
+30:                  14.0                20118
+31:               13782.3             68497348
+32:               13844.0             62899912
+33:                   0.0                    0
+34:                 141.0              1726233
+35:                   0.0                    0
+36:                   0.0                    0
+37:                  37.0               373000
+38:                   0.0                    0
+39:                   0.0                    0
+40:                   0.0                    0
+41:                   0.0                    0
+    SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+
+$`by provider, segment, place of service`
+     PROVIDER_GROUP ANATOMIC_SEGMENT         PLACE_OF_SERVICE
+             <char>           <char>                   <char>
+  1:          Other            Iliac                   Office
+  2:     Cardiology            Iliac                   Office
+  3:      Radiology            Iliac                   Office
+  4:        Surgery            Iliac                   Office
+  5:          Other            Iliac                     Home
+ ---                                                         
+101:      Radiology  Tibial/Peroneal       Independent Clinic
+102:     Cardiology  Tibial/Peroneal   Other Place of Service
+103:      Radiology  Tibial/Peroneal   Other Place of Service
+104:          Other  Tibial/Peroneal Skilled Nursing Facility
+105:          Other  Tibial/Peroneal               Telehealth
+     SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+                     <num>                <num>
+  1:                  4191             48070961
+  2:                   476              5142040
+  3:                   314              4714837
+  4:                   253              2408735
+  5:                     0                    0
+ ---                                           
+101:                     0                    0
+102:                     0                    0
+103:                     0                    0
+104:                     0                    0
+105:                     0                    0
+
+> eval(calls$dt_keyby)
+$overall
+   SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+                   <num>                <num>
+1:              171602.2           2565800050
+
+$`by provider`
+Key: <PROVIDER_GROUP>
+   PROVIDER_GROUP SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+           <char>                 <num>                <num>
+1:     Cardiology               18075.0            253200360
+2:          Other              120322.0           1969483092
+3:      Radiology               17272.0            217254121
+4:        Surgery               15933.2            125862477
+
+$`by segment`
+Key: <ANATOMIC_SEGMENT>
+    ANATOMIC_SEGMENT SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+              <char>                 <num>                <num>
+1: Femoral/Popliteal               82956.9           1483511652
+2:             Iliac               18304.0            119771327
+3:   Tibial/Peroneal               70341.3            962517070
+
+$`by place of service`
+Key: <PLACE_OF_SERVICE>
+                                   PLACE_OF_SERVICE SUBMITTED_SERVICE_CNT
+                                             <char>                 <num>
+ 1:                                                                   0.0
+ 2:                      Ambulatory Surgical Center                 351.0
+ 3: Comprehensive Inpatient Rehabilitation Facility                   0.0
+ 4:                                            Home                   0.0
+ 5:                              Independent Clinic                   0.0
+ 6:                              Inpatient Hospital               30536.3
+ 7:                                     Mobile Unit                   0.0
+ 8:                                Nursing Facility                   0.0
+ 9:                  Off Campus-Outpatient Hospital                  14.0
+10:                                          Office               89357.0
+11:                   On Campus-Outpatient Hospital               51294.9
+12:                          Other Place of Service                  49.0
+13:                                        Pharmacy                   0.0
+14:                        Skilled Nursing Facility                   0.0
+15:                                      Telehealth                   0.0
+16:                            Urgent Care Facility                   0.0
+    SUBMITTED_CHARGE_AMT
+                   <num>
+ 1:                    0
+ 2:              4442401
+ 3:                    0
+ 4:                    0
+ 5:                    0
+ 6:            163595827
+ 7:                    0
+ 8:                    0
+ 9:                20118
+10:           2128234113
+11:            268954591
+12:               553000
+13:                    0
+14:                    0
+15:                    0
+16:                    0
+
+$`by provider, segment`
+Key: <PROVIDER_GROUP, ANATOMIC_SEGMENT>
+    PROVIDER_GROUP  ANATOMIC_SEGMENT SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+            <char>            <char>                 <num>                <num>
+ 1:     Cardiology Femoral/Popliteal                8637.0            147030111
+ 2:     Cardiology             Iliac                1584.0             10675919
+ 3:     Cardiology   Tibial/Peroneal                7854.0             95494331
+ 4:          Other Femoral/Popliteal               58746.0           1152707911
+ 5:          Other             Iliac               12519.0             86012915
+ 6:          Other   Tibial/Peroneal               49057.0            730762266
+ 7:      Radiology Femoral/Popliteal                8577.0            118332281
+ 8:      Radiology             Iliac                1858.0             11330365
+ 9:      Radiology   Tibial/Peroneal                6837.0             87591474
+10:        Surgery Femoral/Popliteal                6996.9             65441349
+11:        Surgery             Iliac                2343.0             11752128
+12:        Surgery   Tibial/Peroneal                6593.3             48668999
+
+$`by provider, place of service`
+Key: <PROVIDER_GROUP, PLACE_OF_SERVICE>
+    PROVIDER_GROUP                                PLACE_OF_SERVICE
+            <char>                                          <char>
+ 1:     Cardiology                                                
+ 2:     Cardiology                      Ambulatory Surgical Center
+ 3:     Cardiology                              Inpatient Hospital
+ 4:     Cardiology                  Off Campus-Outpatient Hospital
+ 5:     Cardiology                                          Office
+ 6:     Cardiology                   On Campus-Outpatient Hospital
+ 7:     Cardiology                          Other Place of Service
+ 8:     Cardiology                        Skilled Nursing Facility
+ 9:     Cardiology                                      Telehealth
+10:          Other                                                
+11:          Other                      Ambulatory Surgical Center
+12:          Other Comprehensive Inpatient Rehabilitation Facility
+13:          Other                                            Home
+14:          Other                              Independent Clinic
+15:          Other                              Inpatient Hospital
+16:          Other                                     Mobile Unit
+17:          Other                                Nursing Facility
+18:          Other                  Off Campus-Outpatient Hospital
+19:          Other                                          Office
+20:          Other                   On Campus-Outpatient Hospital
+21:          Other                          Other Place of Service
+22:          Other                                        Pharmacy
+23:          Other                        Skilled Nursing Facility
+24:          Other                                      Telehealth
+25:          Other                            Urgent Care Facility
+26:      Radiology                                                
+27:      Radiology                      Ambulatory Surgical Center
+28:      Radiology                              Independent Clinic
+29:      Radiology                              Inpatient Hospital
+30:      Radiology                                     Mobile Unit
+31:      Radiology                  Off Campus-Outpatient Hospital
+32:      Radiology                                          Office
+33:      Radiology                   On Campus-Outpatient Hospital
+34:      Radiology                          Other Place of Service
+35:      Radiology                        Skilled Nursing Facility
+36:        Surgery                                                
+37:        Surgery                      Ambulatory Surgical Center
+38:        Surgery                              Inpatient Hospital
+39:        Surgery                  Off Campus-Outpatient Hospital
+40:        Surgery                                          Office
+41:        Surgery                   On Campus-Outpatient Hospital
+42:        Surgery                          Other Place of Service
+    PROVIDER_GROUP                                PLACE_OF_SERVICE
+    SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+                    <num>                <num>
+ 1:                   0.0                    0
+ 2:                   0.0                    0
+ 3:                3377.0             16425146
+ 4:                   0.0                    0
+ 5:                9147.0            211248489
+ 6:                5551.0             25526725
+ 7:                   0.0                    0
+ 8:                   0.0                    0
+ 9:                   0.0                    0
+10:                   0.0                    0
+11:                 351.0              4442401
+12:                   0.0                    0
+13:                   0.0                    0
+14:                   0.0                    0
+15:               15996.0             88991246
+16:                   0.0                    0
+17:                   0.0                    0
+18:                  14.0                20118
+19:               70935.0           1698134340
+20:               32977.0            177341987
+21:                  49.0               553000
+22:                   0.0                    0
+23:                   0.0                    0
+24:                   0.0                    0
+25:                   0.0                    0
+26:                   0.0                    0
+27:                   0.0                    0
+28:                   0.0                    0
+29:                4322.0             22847440
+30:                   0.0                    0
+31:                   0.0                    0
+32:                6458.0            158793560
+33:                6492.0             35613120
+34:                   0.0                    0
+35:                   0.0                    0
+36:                   0.0                    0
+37:                   0.0                    0
+38:                6841.3             35331995
+39:                   0.0                    0
+40:                2817.0             60057723
+41:                6274.9             30472758
+42:                   0.0                    0
+    SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+
+$`by segment, place of service`
+Key: <ANATOMIC_SEGMENT, PLACE_OF_SERVICE>
+     ANATOMIC_SEGMENT                                PLACE_OF_SERVICE
+               <char>                                          <char>
+ 1: Femoral/Popliteal                                                
+ 2: Femoral/Popliteal                      Ambulatory Surgical Center
+ 3: Femoral/Popliteal Comprehensive Inpatient Rehabilitation Facility
+ 4: Femoral/Popliteal                                            Home
+ 5: Femoral/Popliteal                              Independent Clinic
+ 6: Femoral/Popliteal                              Inpatient Hospital
+ 7: Femoral/Popliteal                                     Mobile Unit
+ 8: Femoral/Popliteal                                Nursing Facility
+ 9: Femoral/Popliteal                  Off Campus-Outpatient Hospital
+10: Femoral/Popliteal                                          Office
+11: Femoral/Popliteal                   On Campus-Outpatient Hospital
+12: Femoral/Popliteal                          Other Place of Service
+13: Femoral/Popliteal                                        Pharmacy
+14: Femoral/Popliteal                        Skilled Nursing Facility
+15: Femoral/Popliteal                                      Telehealth
+16:             Iliac                                                
+17:             Iliac                      Ambulatory Surgical Center
+18:             Iliac                                            Home
+19:             Iliac                              Independent Clinic
+20:             Iliac                              Inpatient Hospital
+21:             Iliac                                     Mobile Unit
+22:             Iliac                  Off Campus-Outpatient Hospital
+23:             Iliac                                          Office
+24:             Iliac                   On Campus-Outpatient Hospital
+25:             Iliac                          Other Place of Service
+26:             Iliac                        Skilled Nursing Facility
+27:             Iliac                            Urgent Care Facility
+28:   Tibial/Peroneal                                                
+29:   Tibial/Peroneal                      Ambulatory Surgical Center
+30:   Tibial/Peroneal                                            Home
+31:   Tibial/Peroneal                              Independent Clinic
+32:   Tibial/Peroneal                              Inpatient Hospital
+33:   Tibial/Peroneal                                     Mobile Unit
+34:   Tibial/Peroneal                                Nursing Facility
+35:   Tibial/Peroneal                  Off Campus-Outpatient Hospital
+36:   Tibial/Peroneal                                          Office
+37:   Tibial/Peroneal                   On Campus-Outpatient Hospital
+38:   Tibial/Peroneal                          Other Place of Service
+39:   Tibial/Peroneal                                        Pharmacy
+40:   Tibial/Peroneal                        Skilled Nursing Facility
+41:   Tibial/Peroneal                                      Telehealth
+     ANATOMIC_SEGMENT                                PLACE_OF_SERVICE
+    SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+                    <num>                <num>
+ 1:                   0.0                    0
+ 2:                 210.0              2716168
+ 3:                   0.0                    0
+ 4:                   0.0                    0
+ 5:                   0.0                    0
+ 6:               12375.0             73931617
+ 7:                   0.0                    0
+ 8:                   0.0                    0
+ 9:                   0.0                    0
+10:               41600.0           1238897080
+11:               28759.9            167786787
+12:                  12.0               180000
+13:                   0.0                    0
+14:                   0.0                    0
+15:                   0.0                    0
+16:                   0.0                    0
+17:                   0.0                    0
+18:                   0.0                    0
+19:                   0.0                    0
+20:                4379.0             21166862
+21:                   0.0                    0
+22:                   0.0                    0
+23:                5234.0             60336574
+24:                8691.0             38267891
+25:                   0.0                    0
+26:                   0.0                    0
+27:                   0.0                    0
+28:                   0.0                    0
+29:                 141.0              1726233
+30:                   0.0                    0
+31:                   0.0                    0
+32:               13782.3             68497348
+33:                   0.0                    0
+34:                   0.0                    0
+35:                  14.0                20118
+36:               42523.0            829000459
+37:               13844.0             62899912
+38:                  37.0               373000
+39:                   0.0                    0
+40:                   0.0                    0
+41:                   0.0                    0
+    SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+
+$`by provider, segment, place of service`
+Key: <PROVIDER_GROUP, ANATOMIC_SEGMENT, PLACE_OF_SERVICE>
+     PROVIDER_GROUP  ANATOMIC_SEGMENT               PLACE_OF_SERVICE
+             <char>            <char>                         <char>
+  1:     Cardiology Femoral/Popliteal                               
+  2:     Cardiology Femoral/Popliteal     Ambulatory Surgical Center
+  3:     Cardiology Femoral/Popliteal             Inpatient Hospital
+  4:     Cardiology Femoral/Popliteal Off Campus-Outpatient Hospital
+  5:     Cardiology Femoral/Popliteal                         Office
+ ---                                                                
+101:        Surgery   Tibial/Peroneal     Ambulatory Surgical Center
+102:        Surgery   Tibial/Peroneal             Inpatient Hospital
+103:        Surgery   Tibial/Peroneal Off Campus-Outpatient Hospital
+104:        Surgery   Tibial/Peroneal                         Office
+105:        Surgery   Tibial/Peroneal  On Campus-Outpatient Hospital
+     SUBMITTED_SERVICE_CNT SUBMITTED_CHARGE_AMT
+                     <num>                <num>
+  1:                   0.0                    0
+  2:                   0.0                    0
+  3:                1164.0              6321925
+  4:                   0.0                    0
+  5:                4276.0            125093159
+ ---                                           
+101:                   0.0                    0
+102:                3272.3             16284839
+103:                   0.0                    0
+104:                1563.0             24471503
+105:                1758.0              7912657
+
+> 
+> benchmark(calls)
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'ANATOMIC_SEGMENT'. You can override using
+the `.groups` argument.
+`summarise()` has grouped output by 'PROVIDER_GROUP', 'ANATOMIC_SEGMENT'. You
+can override using the `.groups` argument.
+$benchmark
+Unit: milliseconds
+      expr       min        lq      mean    median        uq       max neval
+      base  59.33615  62.15286  70.06098  65.39501  74.42581 138.74850   100
+ tidyverse 197.45741 206.92055 237.17980 217.91793 235.52047 701.67420   100
+     dt_by  35.37718  36.14542  37.77049  37.00466  38.57142  50.83562   100
+  dt_keyby  34.56432  36.17745  38.24567  36.89882  38.05081 112.70124   100
+
+$profmem
+               bytes
+base      80,570,552
+tidyverse 17,829,904
+dt_by     17,473,288
+dt_keyby  17,470,104
+
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+179.495  41.513 158.464 

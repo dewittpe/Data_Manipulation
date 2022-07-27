@@ -1,10 +1,8 @@
 source("utilities.R")
 
 psps_2019_df  <- read.csv(psps_2019_path, colClasses = psps_column_classes)
-psps_2019_tbl <- read_csv(psps_2019_path, col_types = psps_column_classes)
-psps_2019_dt  <- fread(psps_2019_path, colClasses = psps_column_classes)
-
-
+psps_2019_tbl <- read_csv(psps_2019_path, col_types  = psps_column_classes)
+psps_2019_dt  <- fread(psps_2019_path,    colClasses = psps_column_classes)
 
 # Let's define a provider group to make the reshaping easier to view
 psps_2019_df$PROVIDER_GROUP <-
@@ -29,12 +27,14 @@ calls <- alist(
     agg <- aggregate(SUBMITTED_SERVICE_CNT ~ HCPCS_CD + PLACE_OF_SERVICE_CD + PROVIDER_GROUP,
                      data = psps_2019_df,
                      FUN = function(x) {sum(x, na.rm = TRUE) })
-    reshape(data = agg,
+    reshape(
+            data = agg,
             direction = "wide",
             idvar = c("HCPCS_CD", "PLACE_OF_SERVICE_CD"),
             timevar = "PROVIDER_GROUP"
             )
-  },
+  }
+  ,
   tidyverse = {
     psps_2019_tbl %>%
       tidyr::pivot_wider(
@@ -43,9 +43,11 @@ calls <- alist(
                          values_from = SUBMITTED_SERVICE_CNT,
                          values_fn = ~ sum(.x, na.rm = TRUE)
       )
-  },
+  }
+  ,
   dt = {
-    data.table::dcast(data          = psps_2019_dt,
+    data.table::dcast(
+                      data          = psps_2019_dt,
                       formula       = HCPCS_CD + PLACE_OF_SERVICE_CD ~ PROVIDER_GROUP,
                       value.var     = "SUBMITTED_SERVICE_CNT",
                       fun.aggregate = function(x) {sum(x, na.rm = TRUE)},

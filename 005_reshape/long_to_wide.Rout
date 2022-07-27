@@ -17,7 +17,133 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
+> source("utilities.R")
+> 
+> psps_2019_df  <- read.csv(psps_2019_path, colClasses = psps_column_classes)
+> psps_2019_tbl <- read_csv(psps_2019_path, col_types  = psps_column_classes)
+> psps_2019_dt  <- fread(psps_2019_path,    colClasses = psps_column_classes)
+> 
+> # Let's define a provider group to make the reshaping easier to view
+> psps_2019_df$PROVIDER_GROUP <-
++   with(psps_2019_df,
++        fcase(
++              PROVIDER_SPEC_CD %in% c("30", "36", "94"),                   "Radiology",
++              PROVIDER_SPEC_CD %in% c("06", "11", "21", "76", "C3", "C7"), "Cardiology",
++              PROVIDER_SPEC_CD %in% c("02", "28", "33", "77", "78"),       "Surgery",
++              default = "Other"
++        )
++   )
+> 
+> psps_2019_dt$PROVIDER_GROUP <- psps_2019_df$PROVIDER_GROUP
+> psps_2019_tbl$PROVIDER_GROUP <- psps_2019_df$PROVIDER_GROUP
+> 
+> 
+> # to the best of my knowlege, aggregation, if needed, needs to be done before
+> # reshaping with stats::reshape.
+> 
+> calls <- alist(
++   base = {
++     agg <- aggregate(SUBMITTED_SERVICE_CNT ~ HCPCS_CD + PLACE_OF_SERVICE_CD + PROVIDER_GROUP,
++                      data = psps_2019_df,
++                      FUN = function(x) {sum(x, na.rm = TRUE) })
++     reshape(
++             data = agg,
++             direction = "wide",
++             idvar = c("HCPCS_CD", "PLACE_OF_SERVICE_CD"),
++             timevar = "PROVIDER_GROUP"
++             )
++   }
++   ,
++   tidyverse = {
++     psps_2019_tbl %>%
++       tidyr::pivot_wider(
++                          id_cols = c(HCPCS_CD, PLACE_OF_SERVICE_CD),
++                          names_from = PROVIDER_GROUP,
++                          values_from = SUBMITTED_SERVICE_CNT,
++                          values_fn = ~ sum(.x, na.rm = TRUE)
++       )
++   }
++   ,
++   dt = {
++     data.table::dcast(
++                       data          = psps_2019_dt,
++                       formula       = HCPCS_CD + PLACE_OF_SERVICE_CD ~ PROVIDER_GROUP,
++                       value.var     = "SUBMITTED_SERVICE_CNT",
++                       fun.aggregate = function(x) {sum(x, na.rm = TRUE)},
++                       )
++   })
+> 
+> eval(calls$base) |> head()
+  HCPCS_CD PLACE_OF_SERVICE_CD SUBMITTED_SERVICE_CNT.Cardiology
+1    3046F                   1                               28
+2    4040F                   1                              101
+3    95004                   1                               72
+4    95165                   1                              156
+5    99222                   1                               11
+6    99232                   1                               33
+  SUBMITTED_SERVICE_CNT.Other SUBMITTED_SERVICE_CNT.Radiology
+1                          NA                              NA
+2                          NA                              NA
+3                          NA                              NA
+4                          NA                              NA
+5                          NA                              NA
+6                          27                              NA
+  SUBMITTED_SERVICE_CNT.Surgery
+1                            NA
+2                            NA
+3                            NA
+4                            NA
+5                            NA
+6                            NA
+> eval(calls$tidyverse)
+# A tibble: 90,202 × 6
+   HCPCS_CD PLACE_OF_SERVICE_CD   Other Cardiology Radiology Surgery
+   <chr>                  <int>   <dbl>      <dbl>     <dbl>   <dbl>
+ 1 76942                     22 253577        1605     77655    1630
+ 2 L3923                     12  12503           0        NA     344
+ 3 25115                     24   1302          NA        NA       0
+ 4 26420                     24      0          NA        NA      NA
+ 5 28270                     11   2673          NA        NA      NA
+ 6 99306                     31 612162.     507616       169    7795
+ 7 36902                     11  41993        4915     26210   24467
+ 8 96137                     11 336004.       1820        NA      NA
+ 9 11606                     11  12787          68        NA    1145
+10 L2200                     12  11214          NA        NA       0
+# … with 90,192 more rows
+# ℹ Use `print(n = ...)` to see more rows
+> eval(calls$dt)
+Key: <HCPCS_CD, PLACE_OF_SERVICE_CD>
+       HCPCS_CD PLACE_OF_SERVICE_CD Cardiology Other Radiology Surgery
+         <char>               <int>      <num> <num>     <num>   <num>
+    1:    0001F                  11       3325  8291         0    1351
+    2:    0001F                  12          0   208         0       0
+    3:    0001F                  13          0     0         0       0
+    4:    0001F                  19          0     0         0       0
+    5:    0001F                  20          0     0         0       0
+   ---                                                                
+90198:    WW100                  12          0   364         0       0
+90199:    WW101                  12          0     0         0       0
+90200:    WW102                  12          0   769         0       0
+90201:    WW103                  12          0    84         0       0
+90202:    WW140                  12          0 24545         0       0
+> 
+> benchmark(calls, times = 25)
+$benchmark
+Unit: seconds
+      expr      min       lq     mean   median       uq      max neval
+      base 4.381729 4.786125 5.044972 5.028581 5.257373 6.224219    25
+ tidyverse 3.860772 4.206948 4.483142 4.398311 4.816121 5.160016    25
+        dt 3.078808 3.221424 3.407424 3.317689 3.526767 4.437212    25
+
+$profmem
+                  bytes
+base      2,598,607,896
+tidyverse 1,184,980,584
+dt           84,337,440
+
+> 
+> 
 > 
 > proc.time()
    user  system elapsed 
-  0.119   0.029   0.135 
+433.845  62.981 421.161 

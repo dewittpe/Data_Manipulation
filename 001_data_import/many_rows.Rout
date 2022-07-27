@@ -117,14 +117,14 @@ tibble [14,174,975 × 3] (S3: tbl_df/tbl/data.frame)
 > benchmark(calls, times = 5)
 $benchmark
 Unit: seconds
- expr       min        lq      mean    median        uq       max neval
- base 24.302933 24.932899 25.705730 25.266437 26.978334 27.048047     5
- tidy 11.577383 12.857421 15.485896 16.000896 18.285766 18.708016     5
-   dt  3.400959  3.788858  3.851234  3.806618  4.078173  4.181563     5
+ expr      min        lq      mean    median        uq       max neval
+ base 27.51801 29.068926 29.839916 29.271374 31.210970 32.130302     5
+ tidy 15.18748 15.325644 16.987551 17.251164 17.258462 19.915001     5
+   dt  3.54041  3.541225  4.335306  3.635085  4.252708  6.707103     5
 
 $profmem
              bytes
-base 6,196,407,584
+base 6,196,407,960
 tidy 1,871,104,816
 dt   1,335,866,664
 
@@ -171,4 +171,4 @@ loaded via a namespace (and not attached):
 > 
 > proc.time()
    user  system elapsed 
-708.627  74.493 443.008 
+725.935 123.972 497.105 

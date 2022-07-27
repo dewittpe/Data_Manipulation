@@ -85,28 +85,28 @@ Classes ‘data.table’ and 'data.frame':	99 obs. of  3 variables:
 $benchmark
 Unit: seconds
                  expr       min        lq      mean    median        uq
- base_small_big_outer 56.051107 56.368552 57.994274 57.028641 59.646224
- base_big_small_outer 59.910579 64.301097 66.619645 66.449842 70.488754
- tidy_small_big_outer  3.806558  4.265108  5.557510  4.739435  6.901934
- tidy_big_small_outer  3.518922  4.916980  6.752516  6.075865  7.819297
-   dt_small_big_outer  6.303994  7.870915 13.015179 13.766160 16.478629
-   dt_big_small_outer  5.261900  9.026056 13.646210 14.656945 16.583784
+ base_small_big_outer 56.308605 56.419113 60.428603 59.135026 64.654037
+ base_big_small_outer 56.722832 59.294088 63.635378 62.786527 64.253241
+ tidy_small_big_outer  3.750651  3.989056  5.059612  5.412229  5.484471
+ tidy_big_small_outer  4.318783  4.717176  7.414844  6.489652 10.762189
+   dt_small_big_outer  5.397617  5.788462 10.647702 11.805196 13.213604
+   dt_big_small_outer  5.397279  8.958324 10.736784 11.047447 13.503650
        max neval
- 60.876843     5
- 71.947951     5
-  8.074517     5
- 11.431515     5
- 20.656199     5
- 22.702367     5
+ 65.626233     5
+ 75.120201     5
+  6.661654     5
+ 10.786422     5
+ 17.033631     5
+ 14.777222     5
 
 $profmem
                               bytes
-base_small_big_outer 11,449,004,152
+base_small_big_outer 11,449,003,408
 base_big_small_outer 12,059,475,544
 tidy_small_big_outer  2,912,556,120
 tidy_big_small_outer  3,082,649,880
 dt_small_big_outer    2,097,967,696
-dt_big_small_outer    2,097,983,624
+dt_big_small_outer    2,097,983,872
 
 > 
 > 
@@ -157,4 +157,4 @@ loaded via a namespace (and not attached):
 > 
 > proc.time()
     user   system  elapsed 
- 770.920  314.588 1086.196 
+ 768.869  319.195 1062.430 
