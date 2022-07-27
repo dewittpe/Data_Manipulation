@@ -495,3 +495,2069 @@ dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+$benchmark
+Unit: milliseconds
+          expr        min         lq      mean    median        uq       max
+  recs_2009_df 2490.66306 3017.22184 3107.0633 3127.6679 3222.9184 3411.5082
+ recs_2009_tbl 1294.26884 1353.92955 1408.9507 1400.8922 1452.1899 1740.1094
+  recs_2009_dt   77.30041   89.65958  139.6864  103.1109  200.7024  252.6901
+ neval
+   100
+   100
+   100
+
+$profmem
+                    bytes
+recs_2009_df  372,792,784
+recs_2009_tbl  98,938,168
+recs_2009_dt  101,010,712
+
+There were 50 or more warnings (use warnings() to see the first 50)
+> benchmark(calls[c(1, 4, 7) + 1])
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 5686 Columns: 759
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): METROMICRO, UATYP10, CLIMATE_REGION_PUB, IECC_CLIMATE_PUB
+dbl (755): DOEID, REGIONC, DIVISION, TYPEHUQ, ZTYPEHUQ, CELLAR, ZCELLAR, BAS...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+$benchmark
+Unit: milliseconds
+          expr        min         lq       mean     median         uq      max
+  recs_2015_df 1182.83502 1370.26697 1471.87425 1457.52702 1555.58501 1974.117
+ recs_2015_tbl  973.79275 1024.55936 1071.69929 1060.86769 1101.14463 1282.933
+  recs_2015_dt   32.30355   35.78449   59.36801   37.65927   80.70381  266.115
+ neval
+   100
+   100
+   100
+
+$profmem
+                    bytes
+recs_2015_df  149,433,168
+recs_2015_tbl  41,039,336
+recs_2015_dt   25,726,896
+
+> benchmark(calls[c(1, 4, 7) + 2])
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 18496 Columns: 601
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (8): REGIONC, DIVISION, STATE_FIPS, state_postal, state_name, BA_clima...
+dbl (593): DOEID, HDD65, CDD65, HDD30YR_pub, CDD30YR_pub, TYPEHUQ, CELLAR, C...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+$benchmark
+Unit: milliseconds
+          expr        min         lq       mean     median         uq       max
+  recs_2020_df 2515.65917 2898.03189 3017.60680 2997.27861 3130.37852 3557.5259
+ recs_2020_tbl  916.22269  970.45844 1014.56370 1004.39660 1046.55475 1243.8276
+  recs_2020_dt   40.85272   47.08577   72.20686   49.09319   52.30709  305.9886
+ neval
+   100
+   100
+   100
+
+$profmem
+                    bytes
+recs_2020_df  442,583,600
+recs_2020_tbl  94,110,920
+recs_2020_dt   54,982,656
+
+> 
+> sessionInfo()
+R version 4.2.1 (2022-06-23)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] data.table_1.14.3 forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
+ [5] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.8     
+ [9] ggplot2_3.3.6     tidyverse_1.3.2  
+
+loaded via a namespace (and not attached):
+ [1] pillar_1.8.0         compiler_4.2.1       cellranger_1.1.0    
+ [4] dbplyr_2.2.1         tools_4.2.1          bit_4.0.4           
+ [7] lubridate_1.8.0      googledrive_2.0.0    jsonlite_1.8.0      
+[10] lifecycle_1.0.1      gargle_1.2.0         gtable_0.3.0        
+[13] pkgconfig_2.0.3      rlang_1.0.4          reprex_2.0.1        
+[16] DBI_1.1.3            cli_3.3.0            microbenchmark_1.4.9
+[19] parallel_4.2.1       haven_2.5.0          xml2_1.3.3          
+[22] withr_2.5.0          httr_1.4.3           generics_0.1.3      
+[25] vctrs_0.4.1          fs_1.5.2             hms_1.1.1           
+[28] bit64_4.0.5          googlesheets4_1.0.0  grid_4.2.1          
+[31] tidyselect_1.1.2     glue_1.6.2           R6_2.5.1            
+[34] fansi_1.0.3          readxl_1.4.0         profmem_0.6.0       
+[37] vroom_1.5.7          tzdb_0.3.0           modelr_0.1.8        
+[40] magrittr_2.0.3       backports_1.4.1      scales_1.2.0        
+[43] ellipsis_0.3.2       rvest_1.0.2          assertthat_0.2.1    
+[46] colorspace_2.0-3     utf8_1.2.2           stringi_1.7.8       
+[49] munsell_0.5.0        broom_1.0.0          crayon_1.5.1        
+> 
+> 
+> proc.time()
+    user   system  elapsed 
+1641.151  252.108 1151.151 

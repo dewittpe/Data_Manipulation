@@ -21,15 +21,8 @@ Type 'q()' to quit R.
 > #
 > # The three data sets
 > #                                       Rows  Columms
-> # ./000_data_sets/psps_2019.csv   14,174,975       18 
-> 
-> library(microbenchmark)
-> library(profmem)
-> library(readr)
-> library(data.table)
-> 
-> psps_2019_path <- 
-+   file.path(".", "000_data_sets", "PSPS", "psps_2019.csv")
+> # ./000_data_sets/psps_2019.csv   14,174,975       18
+> source('utilities.R')
 > 
 > base <- read.csv(psps_2019_path)
 > tidy <- read_csv(psps_2019_path)
@@ -107,47 +100,34 @@ tibble [14,174,975 × 3] (S3: tbl_df/tbl/data.frame)
 +   "BETOS_CD"                  = "character")
 > 
 > 
+> # calls for reading in the data
+> calls <-
++   alist(
++         base = read.csv(psps_2019_path, colClasses = column_classes),
++         tidy = read_csv(psps_2019_path, col_types = column_classes),
++         dt   = fread(psps_2019_path, colClasses = column_classes)
++   )
 > 
-> # read in the data 
-> baseR <- expression({
-+   psps_2019 <- read.csv(psps_2019_path, colClasses = column_classes)
-+ })
+> all(sapply(eval(calls$base), class) == sapply(eval(calls$dt), class))
+[1] TRUE
+> all(sapply(eval(calls$base), class) == sapply(eval(calls$tidy), class))
+[1] TRUE
 > 
-> tidyverse <- expression({
-+   psps_2019 <- read_csv(psps_2019_path, col_type = column_classes)
-+ })
 > 
-> data.table <- expression({
-+   psps_2019 <- fread(psps_2019_path, colClasses = column_classes)
-+ })
-> 
-> # benchmark
-> mb <- microbenchmark(eval(baseR), eval(tidyverse), eval(data.table), times = 5)
-> mb
+> benchmark(calls, times = 5)
+$benchmark
 Unit: seconds
-             expr       min        lq     mean    median        uq       max
-      eval(baseR) 29.788493 34.496885 35.16815 34.984974 37.783631 38.786775
-  eval(tidyverse) 15.112886 16.230345 17.08170 16.420467 16.963088 20.681733
- eval(data.table)  4.044297  4.851867  5.34850  5.372515  5.598346  6.875478
- neval
-     5
-     5
-     5
-> 
-> # memory use
-> mem <-
-+   list(
-+        baseR      = profmem::profmem(eval(baseR)),
-+        tidyverse  = profmem::profmem(eval(tidyverse)),
-+        data.table = profmem::profmem(eval(data.table))
-+        )
-> 
-> # total number of bytes allocated
-> # format via floats to avoid integer overflow
-> sapply(mem, profmem::total) |>
-+   sapply(formatC, format = "f", big.mark = ",", digits = 0)
-          baseR       tidyverse      data.table 
-"6,196,407,584" "1,871,104,816" "2,170,782,384" 
+ expr       min        lq      mean    median        uq       max neval
+ base 24.302933 24.932899 25.705730 25.266437 26.978334 27.048047     5
+ tidy 11.577383 12.857421 15.485896 16.000896 18.285766 18.708016     5
+   dt  3.400959  3.788858  3.851234  3.806618  4.078173  4.181563     5
+
+$profmem
+             bytes
+base 6,196,407,584
+tidy 1,871,104,816
+dt   1,335,866,664
+
 > 
 > sessionInfo()
 R version 4.2.1 (2022-06-23)
@@ -165,18 +145,30 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] data.table_1.14.3    readr_2.1.2          profmem_0.6.0       
-[4] microbenchmark_1.4.9
+ [1] data.table_1.14.3 forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
+ [5] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.8     
+ [9] ggplot2_3.3.6     tidyverse_1.3.2  
 
 loaded via a namespace (and not attached):
- [1] fansi_1.0.3      crayon_1.5.1     tzdb_0.3.0       utf8_1.2.2      
- [5] R6_2.5.1         lifecycle_1.0.1  magrittr_2.0.3   pillar_1.8.0    
- [9] vroom_1.5.7      rlang_1.0.4      cli_3.3.0        vctrs_0.4.1     
-[13] ellipsis_0.3.2   tools_4.2.1      bit64_4.0.5      glue_1.6.2      
-[17] purrr_0.3.4      bit_4.0.4        hms_1.1.1        parallel_4.2.1  
-[21] compiler_4.2.1   pkgconfig_2.0.3  tidyselect_1.1.2 tibble_3.1.8    
+ [1] pillar_1.8.0         compiler_4.2.1       cellranger_1.1.0    
+ [4] dbplyr_2.2.1         tools_4.2.1          bit_4.0.4           
+ [7] lubridate_1.8.0      googledrive_2.0.0    jsonlite_1.8.0      
+[10] lifecycle_1.0.1      gargle_1.2.0         gtable_0.3.0        
+[13] pkgconfig_2.0.3      rlang_1.0.4          reprex_2.0.1        
+[16] DBI_1.1.3            cli_3.3.0            microbenchmark_1.4.9
+[19] parallel_4.2.1       haven_2.5.0          xml2_1.3.3          
+[22] withr_2.5.0          httr_1.4.3           generics_0.1.3      
+[25] vctrs_0.4.1          fs_1.5.2             hms_1.1.1           
+[28] bit64_4.0.5          googlesheets4_1.0.0  grid_4.2.1          
+[31] tidyselect_1.1.2     glue_1.6.2           R6_2.5.1            
+[34] fansi_1.0.3          readxl_1.4.0         profmem_0.6.0       
+[37] vroom_1.5.7          tzdb_0.3.0           modelr_0.1.8        
+[40] magrittr_2.0.3       backports_1.4.1      scales_1.2.0        
+[43] ellipsis_0.3.2       rvest_1.0.2          assertthat_0.2.1    
+[46] colorspace_2.0-3     utf8_1.2.2           stringi_1.7.8       
+[49] munsell_0.5.0        broom_1.0.0          crayon_1.5.1        
 > 
 > 
 > proc.time()
    user  system elapsed 
-655.874  88.825 441.421 
+708.627  74.493 443.008 
