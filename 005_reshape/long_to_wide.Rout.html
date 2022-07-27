@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>~/DRUG/Data_Manipulation/005_reshape/long_to_wide.Rout.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim8.1_v2">
+<meta name="syntax" content="rout">
+<meta name="settings" content="number_lines,use_css,no_foldcolumn,expand_tabs,line_ids,prevent_copy=,use_input_for_pc=fallback">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { font-family: monospace; color: #ffffff; background-color: #000000; }
+body { font-family: monospace; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+.Special { color: #ffd7d7; }
+.routNormal { color: #00d700; }
+.routString { color: #5fffaf; }
+.routNumber { color: #ffaf00; }
+.LineNr { color: #ffff00; }
+.routDate { color: #d7af5f; }
+.routFloat { color: #ffaf00; }
+.Statement { color: #ffff00; }
+-->
+</style>
+
+<script>
+<!--
+
+/* function to open any folds containing a jumped-to line before jumping to it */
+function JumpToLine()
+{
+  var lineNum;
+  lineNum = window.location.hash;
+  lineNum = lineNum.substr(1); /* strip off '#' */
+
+  if (lineNum.indexOf('L') == -1) {
+    lineNum = 'L'+lineNum;
+  }
+  var lineElem = document.getElementById(lineNum);
+  /* Always jump to new location even if the line was hidden inside a fold, or
+   * we corrected the raw number to a line ID.
+   */
+  if (lineElem) {
+    lineElem.scrollIntoView(true);
+  }
+  return true;
+}
+if ('onhashchange' in window) {
+  window.onhashchange = JumpToLine;
+}
+
+-->
+</script>
+</head>
+<body onload='JumpToLine();'>
+<pre id='vimCodeElement'>
+<span id="L1" class="LineNr"> 1 </span>
+<span id="L2" class="LineNr"> 2 </span><span class="routNormal">R version </span><span class="routFloat">4.2</span><span class="routNormal">.1 (</span><span class="routDate">2022-06-23</span><span class="routNormal">) -- </span><span class="routString">&quot;Funny-Looking Kid&quot;</span>
+<span id="L3" class="LineNr"> 3 </span><span class="routNormal">Copyright (C) </span><span class="routNumber">2022</span><span class="routNormal"> The R Foundation for Statistical Computing</span>
+<span id="L4" class="LineNr"> 4 </span><span class="routNormal">Platform: x86_64-apple-darwin17.0 (</span><span class="routNumber">64</span><span class="routNormal">-bit)</span>
+<span id="L5" class="LineNr"> 5 </span>
+<span id="L6" class="LineNr"> 6 </span><span class="routNormal">R is free software and comes with ABSOLUTELY NO WARRANTY.</span>
+<span id="L7" class="LineNr"> 7 </span><span class="routNormal">You are welcome to redistribute it under certain conditions.</span>
+<span id="L8" class="LineNr"> 8 </span><span class="routNormal">Type 'license()' or 'licence()' for distribution details.</span>
+<span id="L9" class="LineNr"> 9 </span>
+<span id="L10" class="LineNr">10 </span><span class="routNormal">  Natural language support but running in an English locale</span>
+<span id="L11" class="LineNr">11 </span>
+<span id="L12" class="LineNr">12 </span><span class="routNormal">R is a collaborative project with many contributors.</span>
+<span id="L13" class="LineNr">13 </span><span class="routNormal">Type 'contributors()' for more information and</span>
+<span id="L14" class="LineNr">14 </span><span class="routNormal">'citation()' on how to cite R or R packages in publications.</span>
+<span id="L15" class="LineNr">15 </span>
+<span id="L16" class="LineNr">16 </span><span class="routNormal">Type 'demo()' for some demos, 'help()' for on-line help, or</span>
+<span id="L17" class="LineNr">17 </span><span class="routNormal">'help.start()' for an HTML browser interface to help.</span>
+<span id="L18" class="LineNr">18 </span><span class="routNormal">Type 'q()' to quit R.</span>
+<span id="L19" class="LineNr">19 </span>
+<span id="L20" class="LineNr">20 </span><span class="Statement">&gt;</span>
+<span id="L21" class="LineNr">21 </span><span class="Statement">&gt;</span> proc.time<span class="Special">()</span>
+<span id="L22" class="LineNr">22 </span><span class="routNormal">   user  system elapsed </span>
+<span id="L23" class="LineNr">23 </span><span class="routNormal">  </span><span class="routFloat">0.119</span><span class="routNormal">   </span><span class="routFloat">0.029</span><span class="routNormal">   </span><span class="routFloat">0.135</span><span class="routNormal"> </span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

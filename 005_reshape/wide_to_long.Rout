@@ -1,0 +1,141 @@
+
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> source('utilities.R')
+> 
+> recs_2009_df  <- read.csv(recs_2009_path)
+> recs_2009_tbl <- read_csv(recs_2009_path)
+Rows: 12083 Columns: 940
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr   (4): DOEID, METROMICRO, UR, IECC_Climate_Pub
+dbl (936): REGIONC, DIVISION, REPORTABLE_DOMAIN, TYPEHUQ, NWEIGHT, HDD65, CD...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Warning message:
+One or more parsing issues, see `problems()` for details 
+> recs_2009_dt  <- fread(recs_2009_path)
+> 
+> # "Variable Name" , "Variable Label"                       
+> # "DOEID"         , "Unique identifier for each respondent"
+> # "REGIONC"       , "Census Region"                        
+> # "NWEIGHT"       , "Final sample weight"                  
+> # "HDD65"         , "Heating degree days in 2009, base temperature 65F"
+> # "CDD65"         , "Cooling degree days in 2009, base temperature 65F"
+> # "HDD30YR"       , "Heating degree days, 30-year average 1981-2010, base 65F"
+> # "CDD30YR"       , "Cooling degree days, 30-year average 1981-2010, base 65F"
+> 
+> # base R, stats::reshape
+> reshape(data = recs_2009_df[1:10, c("DOEID", "REGIONC", "NWEIGHT", "HDD65", "HDD30YR", "CDD65", "CDD30YR")]
++         , direction = "long"
++         , idvar = c("DOEID", "REGIONC", "NWEIGHT")
++         , ids = recs_2020_dt[c("DOEID", "REGIONC", "NWEIGHT")]
++         , times = c("HDD65", "HDD30YR", "CDD65", "CDD30YR")
++         , timevar = "variable"
++         , varying = list(c("HDD65", "HDD30YR", "CDD65", "CDD30YR"))
++ ) |>
++ subset(x = _, DOEID == 1)
+                    DOEID REGIONC NWEIGHT variable HDD65
+1.2.2471.68.HDD65       1       2 2471.68    HDD65  4742
+1.2.2471.68.HDD30YR     1       2 2471.68  HDD30YR  4953
+1.2.2471.68.CDD65       1       2 2471.68    CDD65  1080
+1.2.2471.68.CDD30YR     1       2 2471.68  CDD30YR  1271
+> 
+> # tidyverse
+> recs_2009_tbl %>%
++   dplyr::select(.data$DOEID, .data$REGIONC, .data$NWEIGHT,
++                 .data$HDD65, .data$HDD30YR, .data$CDD65, .data$CDD30YR) %>%
++   tidyr::pivot_longer(cols = c("HDD65", "HDD30YR", "CDD65", "CDD30YR")) %>%
++   dplyr::filter(DOEID == "00001")
+# A tibble: 4 × 5
+  DOEID REGIONC NWEIGHT name    value
+  <chr>   <dbl>   <dbl> <chr>   <dbl>
+1 00001       2   2472. HDD65    4742
+2 00001       2   2472. HDD30YR  4953
+3 00001       2   2472. CDD65    1080
+4 00001       2   2472. CDD30YR  1271
+> 
+> # data.table
+> melt(recs_2009_dt
++      , id.vars = c("DOEID", "REGIONC", "NWEIGHT")
++      , measure.vars = c("HDD65", "HDD30YR", "CDD65", "CDD30YR"))[DOEID == 1]
+   DOEID REGIONC NWEIGHT variable value
+   <int>   <int>   <num>   <fctr> <int>
+1:     1       2 2471.68    HDD65  4742
+2:     1       2 2471.68  HDD30YR  4953
+3:     1       2 2471.68    CDD65  1080
+4:     1       2 2471.68  CDD30YR  1271
+> 
+> ################################################################################
+> calls <- alist(
++   base = {
++     reshape(data = recs_2009_df[1:10, c("DOEID", "REGIONC", "NWEIGHT", "HDD65", "HDD30YR", "CDD65", "CDD30YR")]
++             , direction = "long"
++             , idvar = c("DOEID", "REGIONC", "NWEIGHT")
++             , ids = recs_2020_dt[c("DOEID", "REGIONC", "NWEIGHT")]
++             , times = c("HDD65", "HDD30YR", "CDD65", "CDD30YR")
++             , timevar = "variable"
++             , varying = list(c("HDD65", "HDD30YR", "CDD65", "CDD30YR"))
++     )
++   }
++   ,
++   tidyverse = {
++     recs_2009_tbl %>%
++       dplyr::select(.data$DOEID, .data$REGIONC, .data$NWEIGHT,
++                     .data$HDD65, .data$HDD30YR, .data$CDD65, .data$CDD30YR) %>%
++       tidyr::pivot_longer(cols = c("HDD65", "HDD30YR", "CDD65", "CDD30YR"))
++   }
++   ,
++   dt1 = {
++     melt(recs_2009_dt
++          , id.vars = c("DOEID", "REGIONC", "NWEIGHT")
++          , measure.vars = c("HDD65", "HDD30YR", "CDD65", "CDD30YR"))
++   }
++   ,
++   dt2 = {
++     melt(recs_2009_dt[, c("DOEID", "REGIONC", "NWEIGHT", "HDD65", "HDD30YR", "CDD65", "CDD30YR")]
++          , id.vars = c("DOEID", "REGIONC", "NWEIGHT")
++          , measure.vars = c("HDD65", "HDD30YR", "CDD65", "CDD30YR"))
++   }
++ )
+> 
+> benchmark(calls)
+$benchmark
+Unit: microseconds
+      expr       min         lq       mean    median         uq       max neval
+      base  1300.260  1456.9635  1602.7381  1515.914  1550.0875 10268.572   100
+ tidyverse 10202.606 10781.0180 11547.7917 11039.734 11284.2855 21342.232   100
+       dt1   343.309   663.8855   775.6171   688.353   709.9980 10201.156   100
+       dt2   812.280   929.7400   958.0638   953.992   990.7505  1104.429   100
+
+$profmem
+              bytes
+base         34,344
+tidyverse 3,787,112
+dt1       1,214,840
+dt2       1,580,376
+
+> 
+> 
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  9.902   1.477   8.323 
