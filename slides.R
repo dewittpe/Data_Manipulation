@@ -94,6 +94,16 @@ mtcars |>
 2 + 2 # line to help my text editor indent correctly after the piping
 # */
 #'
+#'
+#' ## RStudio Name Change
+#' 
+#' 
+#' * RStudio changes name to Posit, expands focus to include Python and VS Code
+#' * RStudio officials say they're not forsaking R but seeking to expand their model of open source.
+#'
+#' * [Article from InfoWorld](https://www-infoworld-com.cdn.ampproject.org/v/s/www.infoworld.com/article/3668252/rstudio-changes-name-to-posit-expands-focus-to-include-python-and-vs-code.amp.html?amp_gsa=1&amp_js_v=a9&usqp=mq331AQIKAGwASCAAgM%3D#amp_tf=From%20%251%24s&aoh=16589579857049&csi=0&referrer=https%3A%2F%2Fwww.google.com&ampshare=https%3A%2F%2Fwww.infoworld.com%2Farticle%2F3668252%2Frstudio-changes-name-to-posit-expands-focus-to-include-python-and-vs-code.html)
+#'   posted on 27 July 2022
+#'
 #' # Data Manipulation
 #'
 #' ## Three Dialects
